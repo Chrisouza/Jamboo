@@ -1,0 +1,7 @@
+#FOLDERs
+venv/
+migrations/
+__pycache__/
+
+#FILEs
+db.sqlite3

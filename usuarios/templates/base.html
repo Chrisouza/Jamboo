@@ -1,0 +1,22 @@
+{% load static %} {% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projeto Jamboo</title>
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/usuarios.css' %}" />
+  </head>
+  <body>
+    <div>
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'registre' %}">Registre</a>
+    </div>
+    <h1>base de usuarios</h1>
+    <div class="container conteudo">
+      {% block conteudo %}
+      {% endblock %}
+  </div>
+  </body>
+</html>
