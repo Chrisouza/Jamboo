@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .forms import LoginForm, UserForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 def index(request):
     if request.user.is_authenticated:
@@ -11,13 +12,13 @@ def index(request):
     if request.method == "POST":
         if form.is_valid():
             username = request.POST.get('username') 
-            senha = request.POST.get('senha') 
+            senha = request.POST.get('senha')
             auth = authenticate(username=username, password=senha)
             if auth is not None:
                 login(request, auth)
                 return redirect('/usuarios/painel/')
             else:
-                pass
+                print('nao logou')
     context = {
         'form':form
     }
@@ -30,7 +31,10 @@ def registre(request):
     form = UserForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            form.save()
+            username = request.POST.get('username') 
+            password = request.POST.get('password')
+            email = request.POST.get('email')
+            User.objects.create_user(username=username, email=email, password=password)
             form = UserForm()
     context = {
         'form':form
@@ -40,5 +44,5 @@ def registre(request):
 def sair(request):
     if request.user.is_authenticated:
         logout(request)
-        return redirect('/usuarios/')
-    return redirect('/usuarios/')
+        return redirect('/usuarios/login/')
+    return redirect('/usuarios/login/')
