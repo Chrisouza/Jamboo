@@ -1,0 +1,25 @@
+{% extends 'arquivos/base.html' %}
+{% load django_bootstrap5 %}
+{% block conteudo%}
+<h1>Listagem de arquivos</h1>
+<table class="table table-striped">
+  <tr>
+    <th>Nome</th>
+    <th>Ultima Edição</th>
+    <th>Ultimo Editor</th>
+    <th>AÇÕES</th>
+  </tr>
+  {% for file in files %}
+  <tr>
+    <td>{{file.nome}}</td>
+    <td>{{file.ultima_edicao}}</td>
+    <td>{{file.nome_editor}}</td>
+    <td>
+      <a class="btn btn-success" href="{{file.path_salvo}}" download>BAIXAR</a>
+      <a class="btn btn-info" href="">EDITAR</a>
+      <a class="btn btn-danger" href="{{file.pk}}">EXCLUIR</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

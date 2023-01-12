@@ -1,6 +1,0 @@
-{% extends 'base.html'%} {% load django_bootstrap5 %} {% block conteudo%}
-<form action="{% url 'login' %}" method="post">
-  {% csrf_token %} {% bootstrap_form form %}
-  <button class="btn btn-primary" type="submit">logar</button>
-</form>
-{% endblock %}

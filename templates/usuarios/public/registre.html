@@ -1,4 +1,6 @@
-{% extends 'base.html'%} {% load django_bootstrap5 %} {% block conteudo%}
+{% extends 'usuarios/base.html' %}
+{% load django_bootstrap5 %}
+{% block conteudo %}
 <form action="{% url 'registre' %}" enctype="multipart/form-data" method="post">
   {% csrf_token %} {% bootstrap_form form %}
   <button class="btn btn-primary" type="submit">Registre</button>

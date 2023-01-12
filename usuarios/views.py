@@ -22,7 +22,7 @@ def index(request):
     context = {
         'form':form
     }
-    return render(request, 'public/login.html', context)
+    return render(request, 'usuarios/public/login.html', context)
 
 def registre(request):
     if request.user.is_authenticated:
@@ -39,7 +39,7 @@ def registre(request):
     context = {
         'form':form
     }
-    return render(request, 'public/registre.html', context)
+    return render(request, 'usuarios/public/registre.html', context)
 
 def sair(request):
     if request.user.is_authenticated:
