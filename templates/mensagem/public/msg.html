@@ -1,0 +1,11 @@
+{% extends 'mensagem/base.html' %}
+{% load django_bootstrap5 %}
+{% block conteudo%}
+
+{% if messages %}
+    {% if message in messages %}
+        {{message}}
+    {% endif %}
+{% endif %}
+
+{% endblock %}
