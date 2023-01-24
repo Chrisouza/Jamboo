@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block conteudo %}
+conteudo do registre account
+<form action="{% url 'registre-account' %}" method="post" autocomplete="off">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button class="btn btn-success" type="submit">Registrar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    
+    <h1>base templates</h1>
+    <nav>
+        <a class="btn btn-info" href="{% url 'index-account' %}">Inicio</a>
+        <a class="btn btn-info" href="{% url 'registre-account' %}">registre</a>
+        <a class="btn btn-info" href="{% url 'login-account' %}">login</a>
+    </nav>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger">{{message}} - {{message.type}}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="container">
+        {% block conteudo %}
+        {% endblock %}
+    </div>
+    
+</body>
+</html>
