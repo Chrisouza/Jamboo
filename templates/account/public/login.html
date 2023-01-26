@@ -2,7 +2,7 @@
 {% load django_bootstrap5 %}
 
 {% block conteudo %}
-conteudo do login account
+<h3>Login</h3>
 <form action="{% url 'login-account' %}" method="post" autocomplete="off">
     {% csrf_token %}
     {% bootstrap_form form %}

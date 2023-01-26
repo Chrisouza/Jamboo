@@ -2,7 +2,7 @@
 {% load django_bootstrap5 %}
 
 {% block conteudo %}
-conteudo do registre account
+<h3>Registre-se</h3>
 <form action="{% url 'registre-account' %}" method="post" autocomplete="off">
     {% csrf_token %}
     {% bootstrap_form form %}

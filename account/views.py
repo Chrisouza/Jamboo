@@ -8,31 +8,31 @@ from .forms import FormRegistre, FormLogin
 
 from django.contrib.auth.models import User
 from empresa.models import Empresa
+from .models import Foto
 
+#AREA ADMINISTRATIVA DO USUARIO
 def index(request):
-    context = {}
-    return render(request, 'account/public/home.html', context)
+    if request.user.is_authenticated:
+        foto_perfil = Foto.objects.get(id_usuario=request.user.pk)
+        context = {
+            'foto_perfil':foto_perfil
+        }
+        return render(request, 'account/public/home.html', context)
+    return redirect("/account/login/")
 
+#AREA DE LOGIN / REGISTRE / LOGOUT
 def registre(request):
     if not request.user.is_authenticated:
         form_registre = FormRegistre(request.POST or None)
         if request.method == "POST":
             if form_registre.is_valid():
-                empresa = request.POST.get('empresa')
-                ver_emp = Empresa.objects.filter(nome=empresa)
-                if not ver_emp:
-                    nome = request.POST.get('nome')
-                    username = request.POST.get('username')
-                    email = request.POST.get('email')
-                    senha = request.POST.get('senha')
-                    user = User.objects.create_user(first_name=nome, username=username, email=email, password=senha)
-                    emp = Empresa(adm_id=user.pk, nome=empresa)
-                    emp.save()
-                    messages.add_message(request, constants.SUCCESS, 'Dados cadastrados com sucesso.')
-                    return redirect('/account/')
-                else:
-                    messages.add_message(request, constants.INFO, 'Essa empresa ja esta cadastrada.')
-                    form_registre = FormRegistre(request.POST or None)
+                nome = request.POST.get('nome')
+                username = request.POST.get('username')
+                email = request.POST.get('email')
+                senha = request.POST.get('senha')
+                User.objects.create_user(first_name=nome, username=username, email=email, password=senha)
+                messages.add_message(request, constants.SUCCESS, 'Dados cadastrados com sucesso.')
+                return redirect('/account/')
         context = {
             'form':form_registre
         }
@@ -51,6 +51,7 @@ def logar(request):
                 if auth is not None:
                     login(request, auth)
                     messages.add_message(request, constants.INFO, "Login realizado com sucesso")
+                    return redirect('/account/')
         context = {
             'form':form_logar
         }
@@ -62,4 +63,4 @@ def deslogar(request):
     if request.user.is_authenticated:
         logout(request)
         messages.add_message(request, constants.INFO, "Deslogado com sucesso")
-    return redirect("/account/")
+    return redirect("/account/login/")

@@ -2,5 +2,34 @@
 {% load django_bootstrap5 %}
 
 {% block conteudo %}
-conteudo do index account
+<h3>Pagina inicial</h3>
+<table class="table table-striped">
+    {% if request.user.is_authenticated %}
+        <tr>
+            <td>
+                <img src="{{foto_perfil}}" alt="{{request.user}}" width="200" height="150" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn btn-info" href="{% url 'index-account' %}">Inicio</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn btn-info" href="{% url 'minhas-empresas' %}">Minhas empresas</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn btn-info" href="">Configurações</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn btn-info" href="{% url 'logout-account' %}">Deslogar</a>
+            </td>
+        </tr>
+    {% endif %}
+</table>
 {% endblock %}

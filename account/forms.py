@@ -6,7 +6,6 @@ class FormRegistre(forms.Form):
     email = forms.EmailField(label="E-mail:", help_text="Seu melhor e-mail", required=True)
     senha = forms.CharField(label="Senha:", widget=forms.PasswordInput, min_length=8,
                             help_text="minimo 8 caracteres", required=True)
-    empresa = forms.CharField(label="Nome de sua empresa")
 
 class FormLogin(forms.Form):
     username = forms.CharField(label="Nome de usuario:", min_length=6, required=True)
