@@ -7,16 +7,13 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import FormRegistre, FormLogin
 
 from django.contrib.auth.models import User
-from empresa.models import Empresa
 from .models import Foto
 
 #AREA ADMINISTRATIVA DO USUARIO
 def index(request):
     if request.user.is_authenticated:
         foto_perfil = Foto.objects.get(id_usuario=request.user.pk)
-        context = {
-            'foto_perfil':foto_perfil
-        }
+        context = { 'foto_perfil':foto_perfil }
         return render(request, 'account/public/home.html', context)
     return redirect("/account/login/")
 
@@ -30,8 +27,9 @@ def registre(request):
                 username = request.POST.get('username')
                 email = request.POST.get('email')
                 senha = request.POST.get('senha')
-                User.objects.create_user(first_name=nome, username=username, email=email, password=senha)
+                user = User.objects.create_user(first_name=nome, username=username, email=email, password=senha)
                 messages.add_message(request, constants.SUCCESS, 'Dados cadastrados com sucesso.')
+                Foto(id_usuario=user.pk, foto='usuarios/default.jpg').save()
                 return redirect('/account/')
         context = {
             'form':form_registre
@@ -63,4 +61,4 @@ def deslogar(request):
     if request.user.is_authenticated:
         logout(request)
         messages.add_message(request, constants.INFO, "Deslogado com sucesso")
-    return redirect("/account/login/")
+    return redirect("/")
