@@ -1,9 +1,11 @@
+from tkinter.ttk import Widget
 from django.db import models
+from django.forms import PasswordInput
 
 # Create your models here.
 class Foto(models.Model):
     id_usuario = models.IntegerField()
-    foto = models.ImageField(upload_to="usuarios/")
+    foto = models.ImageField(default="default.png", upload_to="usuarios/")
 
     class Meta:
         db_table = "foto"

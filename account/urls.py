@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     #AREA ADMINISTRATIVA DO USUARIO
     path('', views.index, name='index-account'),
+    path('configuracoes/', views.configuracoes, name='configuracoes-account'),
 
     #AREA DE LOGIN / REGISTRE / LOGOUT
     path('registre/', views.registre, name='registre-account'),

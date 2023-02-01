@@ -3,7 +3,7 @@
 
 {% block conteudo %}
 <h3>Nova Empresa</h3>
-
+<a href="{% url 'index-account' %}" class="btn btn-info">voltar</a>
 <form action="{% url 'nova-empresa' %}" method="post" autocomplete="off">
     {% csrf_token %}
     {% bootstrap_form form %}

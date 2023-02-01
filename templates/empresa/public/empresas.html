@@ -3,9 +3,13 @@
 
 {% block conteudo %}
 <h3>Minhas Empresas</h3>
+<a href="{% url 'index-account' %}" class="btn btn-info">voltar</a>
+
 <a href="{% url 'nova-empresa' %}" class="btn btn-info">Nova empresa</a>
 {% for empresa in empresas %}
-    <div class="alert alert-warning">{{empresa}}</div>
+    <div class="alert alert-warning">
+        <a href="{{empresa.id}}">{{empresa.nome}}</a>
+    </div>
 {% endfor %}
 
 {% endblock %}

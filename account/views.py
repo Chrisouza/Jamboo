@@ -1,10 +1,12 @@
+import os
+
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import FormRegistre, FormLogin
+from .forms import FormRegistre, FormLogin, FormFoto, FormSenhaUpdate
 
 from django.contrib.auth.models import User
 from .models import Foto
@@ -15,6 +17,34 @@ def index(request):
         foto_perfil = Foto.objects.get(id_usuario=request.user.pk)
         context = { 'foto_perfil':foto_perfil }
         return render(request, 'account/public/home.html', context)
+    return redirect("/account/login/")
+
+def configuracoes(request):
+    if request.user.is_authenticated:
+        old_foto = Foto.objects.get(id_usuario=request.user.pk)
+        user = User.objects.get(id=request.user.pk)
+        
+        form_foto = FormFoto(request.POST, request.FILES, instance=old_foto)
+        form_senha_update = FormSenhaUpdate(request.POST, instance=user)
+
+        if request.method == "POST":
+            if form_foto.is_valid():
+                image_path = old_foto.foto.path.split("/")[:-1]
+                image_path = "/".join(image_path)
+                image_path = f"{image_path}/usuarios/{old_foto.foto}"
+                #print(f"IMAGE_PATH -> {image_path}")
+                #if os.path.exists(image_path):
+                    #os.remove(image_path)
+                form_foto.save()
+
+            if form_senha_update.is_valid():
+                user = form_senha_update.save()
+                senha = request.POST.get('password')
+                user.set_password(senha)
+                user.save()
+
+        context = { 'foto_perfil':old_foto, "form_foto":form_foto, "form_senha_update":form_senha_update }
+        return render(request, 'account/public/configuracoes.html', context)
     return redirect("/account/login/")
 
 #AREA DE LOGIN / REGISTRE / LOGOUT

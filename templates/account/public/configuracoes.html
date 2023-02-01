@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block conteudo %}
+<h3>Pagina configuracoes</h3>
+
+<form action="{% url 'configuracoes-account' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form_foto}}
+    <img src="{{foto_perfil}}" alt="" width="100" height="100" /><br/>
+    <button type="submit">Alterar</button>
+</form>
+<hr />
+<form action="{% url 'configuracoes-account' %}" method="post">
+    {% csrf_token %}
+    {{form_senha_update}}
+    <button type="submit">Alterar</button>
+</form>
+
+{% endblock %}

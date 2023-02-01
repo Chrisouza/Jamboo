@@ -5,7 +5,7 @@ from django.utils import timezone
 class Arquivo(models.Model):
     id_empresa = models.IntegerField()
     id_editor = models.IntegerField()
-    file = models.FileField()
+    file = models.FileField(upload_to="arquivos/") #ARQUIVOS/<EMPRESA>/<TYPE>/FILE.EXT
     nome = models.CharField(max_length=255, default="")
     data_edicao = models.DateField(default=timezone.now)
     editando = models.BooleanField(default=False)
