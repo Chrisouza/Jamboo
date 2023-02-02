@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block conteudo %}
+<h3>Area de login</h3>
+<form action="{% url 'login-index' %}" method="post" autocomplete="off">
+    {% csrf_token %}
+    {% bootstrap_form form_login %}
+    <button class="btn btn-info" type="submit">Acessar area administrativa</button>
+</form>
+{% endblock %}

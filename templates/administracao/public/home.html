@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block conteudo %}
+
+<h3>Esse eh o site Administrativo</h3>
+<a href="{% url 'nova_empresa-administracao' %}" class="btn btn-warning">Nova empresa</a>
+
+{% if empresas %}
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>NOME</th>
+            <th>LOGINS</th>
+            <th>DATA_CADASTRO</th>
+            <th>ATIVO</th>
+            <th>ACOES</th>
+        </tr>
+        {% for empresa in empresas%}
+        <tr>
+            <td>{{empresa.id}}</td>
+            <td>{{empresa.nome}}</td>
+            <td></td>
+            <td>{{empresa.data_criada}}</td>
+            <td>
+                {% if empresa.ativo %}
+                    Ativo
+                    <a class="btn btn-info" href="">Desativar</a>
+                {% else %}
+                    Inativo
+                    <a class="btn btn-info" href="">Ativar</a>
+                {% endif %}
+            </td>
+            <td>
+                <a class="btn btn-success" href="{% url 'novo_usuario-administracao' %}">Adicionar Usuario</a>
+                <a class="btn btn-danger" href="excluir/{{empresa.id}}">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <div class="alert alert-danger">Não possue empresas cadastradas</div>
+{% endif %}
+
+{% endblock %}

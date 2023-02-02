@@ -1,5 +1,5 @@
 #FOLDERs
-venv/
+_venv/
 migrations/
 __pycache__/
 staticfiles/

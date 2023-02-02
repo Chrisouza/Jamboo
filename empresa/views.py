@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.contrib.messages import constants
 
 from .models import Empresa
-
 from .forms import FormNovaEmpresa
 
 # Create your views here.

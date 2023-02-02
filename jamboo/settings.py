@@ -44,9 +44,7 @@ INSTALLED_APPS = [
 
     'django_bootstrap5',
     'index',
-    'account',
-    'empresa',
-    'arquivo',
+    'administracao',
 ]
 
 MIDDLEWARE = [
