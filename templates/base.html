@@ -18,7 +18,7 @@
             {% if request.user.is_superuser %}
                 <a class="btn btn-info" href="{% url 'index-administracao' %}">Minha Conta</a>
             {% else %}
-                <a class="btn btn-info" href="">Minha Conta</a>
+                <a class="btn btn-info" href="{% url 'index-empresa' %}">Minha Conta</a>
             {% endif %}
             <a class="btn btn-info" href="{% url 'logout-index' %}">Sair</a>
         {% endif %}
