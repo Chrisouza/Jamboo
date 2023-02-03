@@ -3,5 +3,6 @@
 #rm -rf empresa/__pycache__/ empresa/migrations/
 #rm -rf jamboo/__pycache__/
 
+python manage.py makemigrations
 python manage.py makemigrations index administracao empresa
 python manage.py migrate
