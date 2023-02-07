@@ -43,9 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_bootstrap5',
-    'index',
+
     'administracao',
+    'arquivos',
     'empresa',
+    'index',
+    'jamboo',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +144,6 @@ MESSAGE_TAGS = {
     constants.INFO:'alert-info',
     constants.WARNING:'alert-warning'
 }
+
+
+FOLDERS = ['pdf', 'imagens', 'audios', 'videos', 'outros']

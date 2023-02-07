@@ -4,7 +4,7 @@
 {% block conteudo %}
 
 <h3>Esse eh o site Administrativo</h3>
-<a href="{% url 'nova_empresa-administracao' %}" class="btn btn-warning">Nova empresa</a>
+<a href="{% url 'nova_empresa-empresa' %}" class="btn btn-warning">Nova empresa</a>
 
 {% if empresas %}
     <table class="table table-striped">
@@ -33,7 +33,8 @@
             </td>
             <td>
                 <a class="btn btn-success" href="{% url 'novo_usuario-administracao' %}">Adicionar Usuario</a>
-                <a class="btn btn-danger" href="excluir/{{empresa.id}}">Excluir</a>
+                <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">Grenciar arquivos</a>
+                <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">Excluir</a>
             </td>
         </tr>
         {% endfor %}

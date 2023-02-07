@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block conteudo %}
+
+<h3>Esse eh o novo arquivo administrativo</h3>
+<form action="/arquivos/novo_arquivo/{{emp_id}}/" method="post" enctype="multipart/form-data" autocomplete="off">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit">Cadastrar</button>
+</form>
+
+{% endblock %}

@@ -1,11 +1,6 @@
 from django import forms
-from .models import Empresa, Login
-
-class FormNovaEmpresa(forms.ModelForm):
-    class Meta:
-        model = Empresa
-        fields = "__all__"
-        exclude = ['slug', "data_criada", 'ativo']
+from .models import Login
+from empresa.models import Empresa
 
 class FormNovoUsuario(forms.ModelForm):
     levels = (
@@ -13,6 +8,8 @@ class FormNovoUsuario(forms.ModelForm):
         ('normal', 'normal'),
         ('adm', 'administrador'),
     )
+    empresas = [(i.id, i.nome) for i in Empresa.objects.all()]
+    empresa = forms.CharField(widget=forms.Select(choices=empresas))
     username = forms.CharField(max_length=100)
     password = forms.CharField(max_length=100, widget=forms.PasswordInput)
     level = forms.CharField(widget=forms.Select(choices=levels))

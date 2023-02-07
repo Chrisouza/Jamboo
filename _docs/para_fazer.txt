@@ -1,6 +1,5 @@
 #Administração
 1 - Criar botao para adicionar arquivo para cada empresa ( Admin )
-#2 - Criar botao para adicionar niveis de acesso ( ADM )
 2 - Lista usuarios cadastrados de cada empresa ( ADMIN ( Max 2 ))
 3 - Opção para Ver/Apagar arquivos de cada empresa ( Admin )
 

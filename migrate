@@ -1,8 +1,9 @@
 #rm -rf administracao/__pycache__/ administracao/migrations/
-#rm -rf index/__pycache__/ index/migrations/
+#rm -rf arquivos/__pycache__/ arquivos/migrations/
 #rm -rf empresa/__pycache__/ empresa/migrations/
+#rm -rf index/__pycache__/ index/migrations/
 #rm -rf jamboo/__pycache__/
 
 python manage.py makemigrations
-python manage.py makemigrations index administracao empresa
+python manage.py makemigrations administracao arquivos empresa index jamboo
 python manage.py migrate

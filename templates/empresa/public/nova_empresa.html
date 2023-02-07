@@ -4,12 +4,9 @@
 {% block conteudo %}
 
 <h3>Esse eh o site Administrativo</h3>
-<a href="{% url 'index-administracao' %}" class="btn btn-warning">voltar</a>
-
-<form action="{% url 'nova_empresa-administracao' %}" method="post" autocomplete="off">
+<form action="{% url 'nova_empresa-empresa' %}" method="post" autocomplete="off">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button type="submit">Cadastrar</button>
 </form>
-
 {% endblock %}
