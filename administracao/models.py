@@ -1,8 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
+from empresa.models import Empresa
 
 class Login(models.Model):
-    user_id = models.IntegerField(default=0)
-    empresa = models.IntegerField(default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     level = models.CharField(max_length=100, default="")
 
     class Meta:
@@ -10,5 +12,3 @@ class Login(models.Model):
         verbose_name = "Login"
         verbose_name_plural = "Logins"
 
-    def __str__(self) -> str:
-        return self.empresa

@@ -147,3 +147,4 @@ MESSAGE_TAGS = {
 
 
 FOLDERS = ['pdf', 'imagens', 'audios', 'videos', 'outros']
+

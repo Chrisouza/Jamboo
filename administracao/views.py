@@ -8,8 +8,10 @@ from empresa.models import Empresa
 def index(request):
     if request.user.is_authenticated and request.user.is_superuser:
         empresas = Empresa.objects.all()
+        logins = Login.objects.all()
         context = {
-            "empresas": empresas
+            "empresas": empresas,
+            'logins':logins
         }
         return render(request, "administracao/public/home.html", context)
     return redirect("/")
@@ -19,12 +21,17 @@ def novo_usuario(request):
         form  = FormNovoUsuario(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
+                
                 username =  request.POST.get('username')
                 password =  request.POST.get('password')
                 empresa = request.POST.get('empresa')
                 level = request.POST.get('level')
+                
                 user = User.objects.create_user(username=username, password=password, email="")
-                Login.objects.create(user_id=user.pk, empresa=empresa, level=level)
+                emp = Empresa.objects.get(id=empresa)
+                
+                Login.objects.create(user=user, empresa=emp, level=level)
+                
                 return redirect("/administracao/")
         context = {
             'form':form

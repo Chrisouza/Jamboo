@@ -1,10 +1,10 @@
 from django.db import models
+from empresa.models import Empresa
 
 class Arquivo(models.Model):
-    empresa_id = models.IntegerField()
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     arquivo = models.FileField()
     nome = models.CharField(max_length=100, default="")
-    tipo = models.CharField(max_length=5, default="")
 
     class Meta:
         db_table = "arquivo"

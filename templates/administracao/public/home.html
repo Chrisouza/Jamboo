@@ -4,7 +4,9 @@
 {% block conteudo %}
 
 <h3>Esse eh o site Administrativo</h3>
+
 <a href="{% url 'nova_empresa-empresa' %}" class="btn btn-warning">Nova empresa</a>
+<a class="btn btn-success" href="{% url 'novo_usuario-administracao' %}">Criar Usuario</a>
 
 {% if empresas %}
     <table class="table table-striped">
@@ -20,10 +22,16 @@
         <tr>
             <td>{{empresa.id}}</td>
             <td>{{empresa.nome}}</td>
-            <td></td>
-            <td>{{empresa.data_criada}}</td>
             <td>
-                {% if empresa.ativo %}
+                {% for login in logins %}
+                    {% if login.empresa.id == empresa.id %}
+                        <span class="bg-info">{{login.user.username}}</span>
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{empresa.criada}}</td>
+            <td>
+                {% if empresa.ativa %}
                     Ativo
                     <a class="btn btn-info" href="">Desativar</a>
                 {% else %}
@@ -32,7 +40,6 @@
                 {% endif %}
             </td>
             <td>
-                <a class="btn btn-success" href="{% url 'novo_usuario-administracao' %}">Adicionar Usuario</a>
                 <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">Grenciar arquivos</a>
                 <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">Excluir</a>
             </td>
