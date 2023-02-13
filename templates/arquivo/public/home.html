@@ -5,16 +5,22 @@
 
 <h3>Listagem de arquivos da empresa <strong>{{empresa.nome}}</strong></h3>
 <a class="btn btn-success" href="/arquivos/novo_arquivo/{{emp_id}}/">Novo arquivo</a>
-<details>
-    <summary>PDF</summary>
-</details>
-<details>
-    <summary>Video</summary>
-</details>
-<details>
-    <summary>Audio</summary>
-</details>
-<details>
-    <summary>TXT</summary>
-</details>
+
+
+
+{% for arquivo in arquivos %}
+    {% for key, value in arquivo.items %}
+        <details>
+            <summary>{{key|upper}}:</summary>
+            {% for valor in value %}
+            <div class="alert alert-info">
+                {{ valor|upper }}</a>
+                <a class='btn btn-warning' href="/media/{{empresa.slug}}/{{key}}/{{valor}}" target="__blank">VER</a>
+                <a class='btn btn-danger' href="excluir/{{valor}}">EXCLUIR</a>
+            </div>
+            {% endfor %}
+        </details>
+    {% endfor %}
+{% endfor %}
+
 {% endblock %}

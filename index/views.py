@@ -1,8 +1,5 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
-
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-
 from .forms import FormLogin
 
 
@@ -23,12 +20,10 @@ def entrar(request):
                 else:
                     return redirect("/empresa/")
                         
-    context = {
-        'form_login':form_login
-    }
+    context = { 'form_login':form_login }
     return render(request, "index/public/login.html", context)
 
 def sair(request):
     if request.user.is_authenticated:
         logout(request)
-        return redirect("/")
+    return redirect("/")

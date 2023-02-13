@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import Login
-from django.contrib.auth.models import User
-from .forms import FormNovoUsuario
+
+from .models import Login, Nivel
 from empresa.models import Empresa
+from django.contrib.auth.models import User
+
+from .forms import FormNovoUsuario
+
 
 
 def index(request):
@@ -25,12 +28,13 @@ def novo_usuario(request):
                 username =  request.POST.get('username')
                 password =  request.POST.get('password')
                 empresa = request.POST.get('empresa')
-                level = request.POST.get('level')
-                
+                nivel = request.POST.get('nivel')
+
                 user = User.objects.create_user(username=username, password=password, email="")
                 emp = Empresa.objects.get(id=empresa)
+                nivel = Nivel.objects.get(id=nivel)
                 
-                Login.objects.create(user=user, empresa=emp, level=level)
+                Login.objects.create(user=user, empresa=emp, nivel=nivel)
                 
                 return redirect("/administracao/")
         context = {

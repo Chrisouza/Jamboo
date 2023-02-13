@@ -1,4 +1,3 @@
-import os
 import shutil
 
 from django.conf import settings
@@ -11,16 +10,14 @@ from django.contrib.auth.models import User
 
 from .forms import FormNovaEmpresa
 
+from .funcoes import cria_pasta
+
 
 
 def index(request):
     if request.user.is_authenticated and not request.user.is_superuser:
-        minha_empresa = Empresa.objects.get(
-            id=Login.objects.get(user_id=request.user.pk).empresa
-        )
-        context = {
-            "minha_empresa": minha_empresa
-        }
+        empresa = Empresa.objects.get(id=Login.objects.get(user=request.user).empresa.id)
+        context = { "empresa": empresa }
         return render(request, 'empresa/public/home.html', context)
     return redirect("/")
 
@@ -35,13 +32,11 @@ def nova_empresa(request):
                 telefone = request.POST.get("telefone")
                 emp = Empresa.objects.create(slug=slug, nome=nome, telefone=telefone)
                 if emp:
-                    os.mkdir(f"{settings.BASE_DIR}/media/{slug}")
+                    cria_pasta(f"media/{slug}")
                     for folder in settings.FOLDERS:
-                        os.mkdir(f"{settings.BASE_DIR}/media/{slug}/{folder}")
+                        cria_pasta(f"media/{slug}/{folder}")
                 return redirect("/administracao/")
-        context = {
-            'form':form
-        }
+        context = { 'form':form }
         return render(request, "empresa/public/nova_empresa.html", context)
     return redirect("/")
 
