@@ -1,7 +1,6 @@
 from django.db import models
 from empresa.models import Empresa
 from django.contrib.auth.models import User
-
 from django.utils import timezone
 
 class Arquivo(models.Model):
@@ -16,4 +15,4 @@ class Arquivo(models.Model):
         verbose_name_plural = "Arquivos"
 
     def __str__(self) -> str:
-        return f'{self.arquivo} | {self.editor} | {self.data_edicao}'
+        return f"{self.arquivo} | {self.editor} | {self.data_edicao}"
