@@ -1,5 +1,6 @@
 from django import forms
-from .models import Arquivo
+from django.utils.translation import gettext_lazy as _
 
-class FormAdicionaArquivo(forms.Form):
-    arquivo = forms.FileField()
+
+class FormNewFile(forms.Form):
+    file = forms.FileField(label=_("file"))

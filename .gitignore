@@ -4,5 +4,7 @@ venv/
 migrations/
 __pycache__/
 
+media/
+staticfiles/
+
 #FILEs
-db.sqlite3

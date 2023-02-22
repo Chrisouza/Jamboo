@@ -1,22 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
-from empresa.models import Empresa
+from empresa.models import Company
+from django.utils.translation import gettext_lazy as _
 
-class Nivel(models.Model):
-    nivel = models.CharField(max_length=100, default="")
+
+class Level(models.Model):
+    level = models.CharField(_("level"), max_length=100, default="")
 
     class Meta:
-        db_table = "nivel"
-        verbose_name = "Nivel"
-        verbose_name_plural = "Niveis"
+        db_table = "level"
+        verbose_name = "level"
+        verbose_name_plural = "levels"
 
     def __str__(self) -> str:
-        return self.nivel
+        return self.level
+
 
 class Login(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
-    nivel = models.ForeignKey(Nivel, on_delete=models.DO_NOTHING)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    level = models.ForeignKey(Level, on_delete=models.DO_NOTHING)
 
     class Meta:
         db_table = "login"
@@ -25,4 +28,3 @@ class Login(models.Model):
 
     def __str__(self):
         return f"{self.user.username}"
-

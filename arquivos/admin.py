@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Arquivo
+from .models import File
 
-admin.site.register(Arquivo)
+admin.site.register(File)

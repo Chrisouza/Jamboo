@@ -21,17 +21,17 @@
         {% for empresa in empresas%}
         <tr>
             <td>{{empresa.id}}</td>
-            <td>{{empresa.nome}}</td>
+            <td>{{empresa.name}}</td>
             <td>
                 {% for login in logins %}
-                    {% if login.empresa.id == empresa.id %}
+                    {% if login.company.id == empresa.id %}
                         <span class="bg-info">{{login.user.username}}</span>
                     {% endif %}
                 {% endfor %}
             </td>
-            <td>{{empresa.criada}}</td>
+            <td>{{empresa.created}}</td>
             <td>
-                {% if empresa.ativa %}
+                {% if empresa.active %}
                     Ativo
                     <a class="btn btn-info" href="">Desativar</a>
                 {% else %}

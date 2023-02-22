@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Login, Nivel
+from .models import Login, Level
 
 admin.site.register(Login)
-admin.site.register(Nivel)
+admin.site.register(Level)

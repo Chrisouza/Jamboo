@@ -1,8 +1,9 @@
 from django import forms
-from .models import Empresa
+from .models import Company
 
-class FormNovaEmpresa(forms.ModelForm):
+
+class FormNewCompany(forms.ModelForm):
     class Meta:
-        model = Empresa
+        model = Company
         fields = "__all__"
-        exclude = ["slug", "criada", "ativa"]
+        exclude = ["slug", "created", "active"]

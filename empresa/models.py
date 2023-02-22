@@ -1,18 +1,20 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
-class Empresa(models.Model):
-    slug = models.CharField(max_length=255, default="", unique=True)
-    nome = models.CharField(max_length=255, default="", unique=True)
-    telefone = models.IntegerField(default="", unique=True)
-    criada = models.DateTimeField(default=timezone.now)
-    ativa = models.BooleanField(default=True)
+
+class Company(models.Model):
+    slug = models.CharField(_('slug'), max_length=255, default="", unique=True)
+    name = models.CharField(_('name'), max_length=255, default="", unique=True)
+    phone = models.IntegerField(_('phone'), default="", unique=True)
+    created = models.DateTimeField(_('created'), default=timezone.now)
+    active = models.BooleanField(_('active'), default=True)
 
     class Meta:
-        db_table = "empresa"
-        verbose_name = "Empresa"
-        verbose_name_plural = "Empresas"
+        db_table = "company"
+        verbose_name = "Company"
+        verbose_name_plural = "companies"
         ordering = ["-id"]
 
     def __str__(self):
-        return self.nome
+        return self.name
