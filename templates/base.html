@@ -7,13 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'index/css/all.min.css' %}">
+    {% block css %}
+    {% endblock %}
 </head>
 <body>
-    
-    <h1>base templates</h1>
+    {% block menu %}
     <nav>
         {% if not request.user.is_authenticated %}
-            <a class="btn btn-info" href="{% url 'login-index' %}">login</a>
+            <!--<a class="btn btn-info" href="{% url 'login-index' %}">login</a>-->
         {% else %}
             {% if request.user.is_superuser %}
                 <a class="btn btn-info" href="{% url 'index-administracao' %}">Minha Conta</a>
@@ -23,8 +25,9 @@
             <a class="btn btn-danger" href="{% url 'logout-index' %}">Sair</a>
         {% endif %}
     </nav>
+    {% endblock %}
 
-    <div class="container">
+    <div class="conteudo">
         {% block conteudo %}
         {% endblock %}
     </div>

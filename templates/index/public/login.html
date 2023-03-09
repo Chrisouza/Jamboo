@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'index/css/index.css' %}">
+{% endblock %}
+
 {% block conteudo %}
-<h3>Area de login</h3>
-<form action="{% url 'login-index' %}" method="post" autocomplete="off">
-    {% csrf_token %}
-    {% bootstrap_form form_login %}
-    <button class="btn btn-info" type="submit">Acessar area administrativa</button>
-</form>
+<div class="form">
+    <div class="logo">
+        <img src="{% static 'index/images/logo.png' %}" alt="logo" />
+    </div>
+    <form action="{% url 'login-index' %}" method="post" autocomplete="off" name="form-login">
+        {% csrf_token %}
+        {% bootstrap_form form_login %}
+        <button class="btn btn-info" type="submit">Acessar area administrativa</button>
+    </form>
+</div>
 {% endblock %}

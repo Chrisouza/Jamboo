@@ -1,53 +1,62 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'adminsitracao/adminsitracao.css' %}">
+{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
 {% block conteudo %}
+{% include 'administracao/lateral-esquerda.html' %}
 
-<h3>Esse eh o site Administrativo</h3>
-
-<a href="{% url 'nova_empresa-empresa' %}" class="btn btn-warning">Nova empresa</a>
-<a class="btn btn-success" href="{% url 'novo_usuario-administracao' %}">Criar Usuario</a>
-
-{% if empresas %}
-    <table class="table table-striped">
-        <tr>
-            <th>ID</th>
-            <th>NOME</th>
-            <th>LOGINS</th>
-            <th>DATA_CADASTRO</th>
-            <th>ATIVO</th>
-            <th>ACOES</th>
-        </tr>
-        {% for empresa in empresas%}
-        <tr>
-            <td>{{empresa.id}}</td>
-            <td>{{empresa.name}}</td>
-            <td>
-                {% for login in logins %}
-                    {% if login.company.id == empresa.id %}
-                        <span class="bg-info">{{login.user.username}}</span>
-                    {% endif %}
+<div class="lateral-direita">
+    <div class="ultimas-empresas">
+        {% if empresas %}
+            <h2>Ultimas empresas cadastradas</h2>
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>NOME</th>
+                    <th>LOGINS</th>
+                    <th>DATA_CADASTRO</th>
+                    <th>ATIVO</th>
+                    <th>ACOES</th>
+                </tr>
+                {% for empresa in empresas%}
+                <tr>
+                    <td>{{empresa.id}}</td>
+                    <td>{{empresa.name}}</td>
+                    <td>
+                        {% for login in logins %}
+                            {% if login.company.id == empresa.id %}
+                                <span class="bg-info">{{login.user.username}}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{empresa.created}}</td>
+                    <td>
+                        {% if empresa.active %}
+                            Ativo
+                            <a class="btn btn-info" href="">Desativar</a>
+                        {% else %}
+                            Inativo
+                            <a class="btn btn-info" href="">Ativar</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">Grenciar arquivos</a>
+                        <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">Excluir</a>
+                    </td>
+                </tr>
                 {% endfor %}
-            </td>
-            <td>{{empresa.created}}</td>
-            <td>
-                {% if empresa.active %}
-                    Ativo
-                    <a class="btn btn-info" href="">Desativar</a>
-                {% else %}
-                    Inativo
-                    <a class="btn btn-info" href="">Ativar</a>
-                {% endif %}
-            </td>
-            <td>
-                <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">Grenciar arquivos</a>
-                <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">Excluir</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-{% else %}
-    <div class="alert alert-danger">Não possue empresas cadastradas</div>
-{% endif %}
+            </table>
+        {% else %}
+            <div class="alert alert-danger">Não possue empresas cadastradas</div>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}

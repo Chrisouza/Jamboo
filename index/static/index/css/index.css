@@ -1,0 +1,15 @@
+div.form{
+    width: 50%;
+    margin:0px auto;
+    border:solid #000 1px;
+    border-radius:10px;
+    padding:2%;
+    box-shadow:0px 0px 5px #000;
+    margin-top:10%;
+}
+div.form div.logo img{
+    width: 200px;
+    height:200px;
+    border:solid 1px #000;
+    margin:0px auto;
+}

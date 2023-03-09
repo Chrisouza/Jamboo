@@ -1,0 +1,30 @@
+<div class="lateral-esquerda">
+    <!--Links main-->
+    <details>
+        <summary>
+            <i class="fa-solid fa-house"></i>Dashboard
+        </summary>
+        <div class="links">
+            <a href="{% url 'index-administracao' %}">DashBoard</a>
+            <a href="{% url 'logout-index' %}">Sair</a>
+        </div>
+    </details>
+    <!--Links de Empresa-->
+    <details>
+        <summary>
+            <i class="fa-solid fa-building"></i>Empresa
+        </summary>
+        <div class="links">
+            <a href="{% url 'nova_empresa-empresa' %}">Nova Empresa</a>
+        </div>
+    </details>
+    <!--Links de Usuario-->
+    <details>
+        <summary>
+            <i class="fa-solid fa-user"></i>Usuario
+        </summary>
+        <div class="links">
+            <a href="{% url 'novo_usuario-administracao' %}">Novo Usuario</a>
+        </div>
+    </details>
+</div>
