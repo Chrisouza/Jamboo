@@ -1,0 +1,36 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'index/css/all.min.css' %}">
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+    {% block menu %}
+    <nav>
+        {% if not request.user.is_authenticated %}
+            <!--<a class="btn btn-info" href="{% url 'login-index' %}">login</a>-->
+        {% else %}
+            {% if request.user.is_superuser %}
+                <a class="btn btn-info" href="{% url 'index-administracao' %}">Minha Conta</a>
+            {% else %}
+                <a class="btn btn-info" href="{% url 'index-empresa' %}">Minha Conta</a>
+            {% endif %}
+            <a class="btn btn-danger" href="{% url 'logout-index' %}">Sair</a>
+        {% endif %}
+    </nav>
+    {% endblock %}
+
+    <div class="conteudo">
+        {% block conteudo %}
+        {% endblock %}
+    </div>
+    
+</body>
+</html>

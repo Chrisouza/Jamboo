@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block conteudo %}
+
+<h3>Listagem de arquivos da empresa <strong>{{empresa.nome}}</strong></h3>
+
+
+{% if level != "normal" %}
+    <a class="btn btn-success" href="/arquivos/novo_arquivo/{{emp_id}}/">Novo arquivo</a>
+{% endif %}
+
+{% for arquivo in arquivos %}
+    {% for key, value in arquivo.items %}
+        <details>
+            <summary>{{key|upper}}:</summary>
+            {% for valor in value %}
+            <div class="alert alert-info">
+                {{ valor|upper }}</a>
+                {% if level != "normal" %}
+                    <a class='btn btn-warning' href="/media/{{empresa.slug}}/{{key}}/{{valor}}" target="__blank">VER</a>
+                    <a class='btn btn-danger' href="excluir/{{valor}}">EXCLUIR</a>
+                {% else %}
+                    <a class='btn btn-warning' href="/media/{{empresa.slug}}/{{key}}/{{valor}}" target="__blank">VER</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </details>
+    {% endfor %}
+{% endfor %}
+
+{% endblock %}

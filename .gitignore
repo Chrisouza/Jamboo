@@ -1,0 +1,10 @@
+#FOLDERs
+_venv/
+venv/
+migrations/
+__pycache__/
+
+media/
+staticfiles/
+
+#FILEs
