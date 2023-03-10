@@ -6,7 +6,14 @@ from .forms import FormLogin
 def index(request):
     return render(request, "index/public/home.html")
 
+
 def entrar(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect("/administracao/")
+        else:
+            return redirect("/empresa/")
+
     form_login = FormLogin(request.POST or None)
     if request.method == "POST":
         if form_login.is_valid():
@@ -18,9 +25,10 @@ def entrar(request):
                 if auth.is_superuser:
                     return redirect("/administracao/")
                 else:
-                    return redirect("/empresa/")       
-    context = { "form_login":form_login }
+                    return redirect("/empresa/")
+    context = {"form_login": form_login}
     return render(request, "index/public/login.html", context)
+
 
 def sair(request):
     if request.user.is_authenticated:

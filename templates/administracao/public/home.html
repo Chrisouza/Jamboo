@@ -22,7 +22,7 @@
                     <th>NOME</th>
                     <th>LOGINS</th>
                     <th>DATA_CADASTRO</th>
-                    <th>ATIVO</th>
+                    <th>STATUS</th>
                     <th>ACOES</th>
                 </tr>
                 {% for empresa in empresas%}
@@ -39,16 +39,18 @@
                     <td>{{empresa.created}}</td>
                     <td>
                         {% if empresa.active %}
-                            Ativo
-                            <a class="btn btn-info" href="">Desativar</a>
+                            <span class="bg-success badge">Ativo</span>
                         {% else %}
-                            Inativo
-                            <a class="btn btn-info" href="">Ativar</a>
+                        <span class="bg-danger badge">Inativo</span>
                         {% endif %}
                     </td>
                     <td>
-                        <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">Grenciar arquivos</a>
-                        <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">Excluir</a>
+                        <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">
+                            <i class="fa-solid fa-file-import"></i>
+                        </a>
+                        <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}

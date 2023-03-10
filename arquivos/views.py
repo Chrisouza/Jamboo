@@ -8,18 +8,12 @@ from .funcoes import apaga_arquivo, verifica_tipo_de_arquivo, read_files, upload
 
 def index(request, id):
     if request.user.is_authenticated:
-        try:
-            level = Login.objects.get(user=request.user.pk)
-        except:
-            print("NAO CONSEGUIU ENCONTRAR O USUARIO LOGADO")
-            return False
         empresa = Company.objects.get(id=id)
         arquivos = read_files(slug=empresa.slug)
         context = {
             "emp_id": id,
             "empresa": empresa,
-            "arquivos": arquivos,
-            "level": level.level.level,
+            "arquivos": arquivos
         }
         return render(request, "arquivo/public/home.html", context)
     return redirect("/")

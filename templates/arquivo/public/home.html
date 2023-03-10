@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'adminsitracao/adminsitracao.css' %}">
+{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
 {% block conteudo %}
+{% include 'administracao/lateral-esquerda.html' %}
 
-<h3>Listagem de arquivos da empresa <strong>{{empresa.nome}}</strong></h3>
-
-
-{% if level != "normal" %}
-    <a class="btn btn-success" href="/arquivos/novo_arquivo/{{emp_id}}/">Novo arquivo</a>
-{% endif %}
+<div class="lateral-direita">
+    asdsad
+</div>
 
 {% for arquivo in arquivos %}
     {% for key, value in arquivo.items %}

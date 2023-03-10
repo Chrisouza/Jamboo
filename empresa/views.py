@@ -43,8 +43,9 @@ def excluir_empresa(request, id):
         for login in logins:
             User.objects.get(id=login.user).delete()
             login.delete()
-        emp = Company.objects.get(id=id).delete()
+        emp = Company.objects.get(id=id)
         shutil.rmtree(f"{settings.BASE_DIR}/media/{emp.slug}",
                       ignore_errors=True)
+        emp.delete()
         return redirect("/administracao/")
     return redirect("/")

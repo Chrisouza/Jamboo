@@ -21,15 +21,18 @@ div.lateral-esquerda{
     width:12%;
     border:1px #000 solid;
 }
+    div.lateral-esquerda details span {
+        font-weight: bold;
+    }
     div.lateral-esquerda i{
         margin-right:5%;
     }
     div.lateral-esquerda a{
         display:block;
         width:100%;
-        background-color:cyan;
         margin-bottom:2%;
         padding-left:20%;
+        text-decoration:none;
     }
 
 
@@ -43,4 +46,9 @@ details {
     min-height: 40px;
     line-height:40px;
     padding-left:4%;
+}
+
+badge{
+    border-radius:15px;
+    padding: 5px;
 }
