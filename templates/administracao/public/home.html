@@ -3,62 +3,58 @@
 {% load django_bootstrap5 %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'adminsitracao/adminsitracao.css' %}">
+<link rel="stylesheet" href="{% static 'adminsitracao/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'adminsitracao/js/administracao.js' %}"></script>
 {% endblock %}
 
-{% block menu %}
-{% endblock %}
-
-{% block conteudo %}
-{% include 'administracao/lateral-esquerda.html' %}
-
-<div class="lateral-direita">
-    <div class="ultimas-empresas">
-        {% if empresas %}
-            <h2>Ultimas empresas cadastradas</h2>
-            <table class="table table-striped">
-                <tr>
-                    <th>ID</th>
-                    <th>NOME</th>
-                    <th>LOGINS</th>
-                    <th>DATA_CADASTRO</th>
-                    <th>STATUS</th>
-                    <th>ACOES</th>
-                </tr>
-                {% for empresa in empresas%}
-                <tr>
-                    <td>{{empresa.id}}</td>
-                    <td>{{empresa.name}}</td>
-                    <td>
-                        {% for login in logins %}
-                            {% if login.company.id == empresa.id %}
-                                <span class="bg-info">{{login.user.username}}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                    <td>{{empresa.created}}</td>
-                    <td>
-                        {% if empresa.active %}
-                            <span class="bg-success badge">Ativo</span>
-                        {% else %}
-                        <span class="bg-danger badge">Inativo</span>
+{% block ld %}
+<div class="ultimas-empresas">
+    {% if empresas %}
+        <h3>Ultimas empresas cadastradas</h3>
+        <table class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th>NOME</th>
+                <th>LOGINS</th>
+                <th>DATA_CADASTRO</th>
+                <th>STATUS</th>
+                <th>ACOES</th>
+            </tr>
+            {% for empresa in empresas%}
+            <tr>
+                <td>{{empresa.id}}</td>
+                <td>{{empresa.name}}</td>
+                <td>
+                    {% for login in logins %}
+                        {% if login.company.id == empresa.id %}
+                            <span class="bg-info">{{login.user.username}}</span>
                         {% endif %}
-                    </td>
-                    <td>
-                        <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">
-                            <i class="fa-solid fa-file-import"></i>
-                        </a>
-                        <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-        {% else %}
-            <div class="alert alert-danger">Não possue empresas cadastradas</div>
-        {% endif %}
-    </div>
+                    {% endfor %}
+                </td>
+                <td>{{empresa.created}}</td>
+                <td>
+                    {% if empresa.active %}
+                        <span class="bg-success badge">Ativo</span>
+                    {% else %}
+                    <span class="bg-danger badge">Inativo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">
+                        <i class="fa-solid fa-file-import"></i>
+                    </a>
+                    <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="alert alert-danger">Não possue empresas cadastradas</div>
+    {% endif %}
 </div>
 
 {% endblock %}

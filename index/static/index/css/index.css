@@ -1,20 +1,28 @@
 div.form{
-    width: 50%;
+    width: 30%;
     border:solid #f19103 1px;
-    border-radius:10px;
-    box-shadow:0px 0px 5px #f19103;
+    border-radius:5px;
     margin:0px auto;
     padding:2%;
     margin-top:10%;
 }
 div.form div.logo img{
-    width: 60%;
+    width: 90%;
     height:200px;
     margin-bottom:3%;
-    margin-left:20%;
+    margin-left:5%;
 }
 div.form form button {
     display:block;
     width:100%;
     height:60px;
+    font-weight: bold;
+}
+
+/*** BOTOES DO SITE ***/
+button.botao{
+    background-color:#c27706;
+}
+button.botao:hover{
+    background-color:#f19103;
 }

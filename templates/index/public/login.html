@@ -2,11 +2,10 @@
 {% load static %}
 {% load django_bootstrap5 %}
 
-{% block css %}
-<link rel="stylesheet" href="{% static 'index/css/index.css' %}">
+{% block le %}
 {% endblock %}
 
-{% block conteudo %}
+{% block ld %}
 <div class="form">
     <div class="logo">
         <img src="{% static 'index/images/logo.png' %}" alt="logo" />
@@ -14,7 +13,7 @@
     <form action="{% url 'login-index' %}" method="post" autocomplete="off" name="form-login">
         {% csrf_token %}
         {% bootstrap_form form_login %}
-        <button class="btn btn-info" type="submit">Acessar area administrativa</button>
+        <button class="btn botao" type="submit">Acessar area administrativa</button>
     </form>
 </div>
 {% endblock %}

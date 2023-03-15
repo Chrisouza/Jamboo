@@ -1,0 +1,44 @@
+body {
+    overflow:hidden;
+}
+/****************************/
+div.le,
+div.ld{
+    display: block;
+    float: left;
+    height:100vh;
+    padding:0.5%;
+}
+
+div.le{
+    width: 15%;
+}
+div.le details summary {
+    display: block;
+    height:40px;
+    line-height: 40px;
+    margin-bottom:2%;
+    border:solid 1px #f19103;
+    padding-left:5%;
+    font-weight: bold;
+}
+div.le details summary:hover {
+    background-color:#c27706;
+}
+    div.le details a {
+        display:block;
+        width:100%;
+        height:40px;
+        line-height:40px;
+        margin-bottom:2%;
+        text-decoration: none;
+        padding-left:20%;
+        font-weight: bold;
+    }
+        div.le details a:hover {
+            background-color:#f19103;
+        }
+
+div.ld{
+    width: 85%;
+}
