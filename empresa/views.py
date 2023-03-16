@@ -41,8 +41,7 @@ def excluir_empresa(request, id):
     if request.user.is_authenticated and request.user.is_superuser:
         logins = Login.objects.filter(company=id)
         for login in logins:
-            User.objects.get(id=login.user).delete()
-            login.delete()
+            User.objects.get(username=login.user.username).delete()
         emp = Company.objects.get(id=id)
         shutil.rmtree(f"{settings.BASE_DIR}/media/{emp.slug}",
                       ignore_errors=True)
