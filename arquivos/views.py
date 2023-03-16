@@ -42,14 +42,13 @@ def novo_arquivo(request, id):
 
 def excluir_arquivo(request, id_emp, nome_arquivo):
     if request.user.is_authenticated:
-        level = Login.objects.get(user=request.user)
-        print(level.level)
         emp = Company.objects.get(id=id_emp)
         arq = File.objects.filter(
             file__contains=nome_arquivo,
             company=id_emp
         )
+        slug = arq[0].file.split("/")[-2]
         if arq is not None:
-            apaga_arquivo(path=f"media/{emp.slug}/audios/{nome_arquivo}")
+            apaga_arquivo(path=f"media/{emp.slug}/{slug}/{nome_arquivo}")
             arq.delete()
     return redirect(f"/arquivos/{id_emp}/")
