@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
 
-{% block conteudo %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'adminsitracao/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'adminsitracao/js/administracao.js' %}"></script>
+{% endblock %}
 
+{% block ld %}
 <h3>Esse eh o novo arquivo administrativo</h3>
 <form action="/arquivos/novo_arquivo/{{emp_id}}/" method="post" enctype="multipart/form-data" autocomplete="off">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <button type="submit">Cadastrar</button>
+    <button class="btn botao" type="submit">Cadastrar</button>
 </form>
-
 {% endblock %}

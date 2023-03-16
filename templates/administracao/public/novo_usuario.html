@@ -3,22 +3,19 @@
 {% load django_bootstrap5 %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'adminsitracao/adminsitracao.css' %}">
+<link rel="stylesheet" href="{% static 'adminsitracao/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'adminsitracao/js/administracao.js' %}"></script>
 {% endblock %}
 
-{% block menu %}
-{% endblock %}
 
-{% block conteudo %}
-
-{% include 'administracao/lateral-esquerda.html' %}
-
+{% block ld %}
 <div class="lateral-direita">
     <form action="{% url 'novo_usuario-administracao' %}" method="post" autocomplete="off">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <button type="submit">Cadastrar</button>
+        <button class="btn botao" type="submit">Cadastrar</button>
     </form>
 </div>
-
 {% endblock %}

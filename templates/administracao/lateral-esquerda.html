@@ -19,9 +19,6 @@
         <div class="links">
             <a href="{% url 'nova_empresa-empresa' %}">Nova Empresa</a>
             <a href="{% url 'novo_usuario-administracao' %}">Novo Usuario</a>
-            {% if level != "normal" %}
-                <a href="/arquivos/novo_arquivo/{{emp_id}}/">Novo arquivo</a>
-            {% endif %}
         </div>
     </details>
 </div>

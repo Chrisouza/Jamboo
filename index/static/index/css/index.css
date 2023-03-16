@@ -20,9 +20,9 @@ div.form form button {
 }
 
 /*** BOTOES DO SITE ***/
-button.botao{
+.botao{
     background-color:#c27706;
 }
-button.botao:hover{
+.botao:hover{
     background-color:#f19103;
 }

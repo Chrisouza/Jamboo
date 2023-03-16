@@ -3,18 +3,16 @@
 {% load django_bootstrap5 %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'adminsitracao/adminsitracao.css' %}">
+<link rel="stylesheet" href="{% static 'adminsitracao/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'adminsitracao/js/administracao.js' %}"></script>
 {% endblock %}
 
-{% block menu %}
-{% endblock %}
-
-{% block conteudo %}
-{% include 'administracao/lateral-esquerda.html' %}
-
-<div class="lateral-direita">
-    asdsad
-</div>
+{% block ld %}
+{% if level != "normal" %}
+    <a class="btn botao" href="/arquivos/novo_arquivo/{{emp_id}}/">Novo arquivo</a>
+{% endif %}
 
 {% for arquivo in arquivos %}
     {% for key, value in arquivo.items %}
@@ -34,5 +32,4 @@
         </details>
     {% endfor %}
 {% endfor %}
-
 {% endblock %}
