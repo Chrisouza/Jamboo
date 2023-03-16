@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
 
-{% block conteudo %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'adminsitracao/css/administracao.css' %}">
+{% endblock %}
+
+{% block ld %}
 <h3>index da empresa <strong>{{empresa.nome}}</strong></h3>
 <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">Grenciar arquivos</a>
 {% endblock %}

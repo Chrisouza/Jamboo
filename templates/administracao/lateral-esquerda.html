@@ -10,6 +10,8 @@
             <a href="{% url 'logout-index' %}">Sair</a>
         </div>
     </details>
+
+    {% if request.user.is_superuser %}
     <!--Links de Empresa-->
     <details>
         <summary>
@@ -21,4 +23,5 @@
             <a href="{% url 'novo_usuario-administracao' %}">Novo Usuario</a>
         </div>
     </details>
+    {% endif %}
 </div>
