@@ -13,23 +13,61 @@
 {% if level != "normal" %}
     <a class="btn botao" href="/arquivos/novo_arquivo/{{emp_id}}/">Novo arquivo</a>
 {% endif %}
+<hr />
 
-{% for arquivo in arquivos %}
-    {% for key, value in arquivo.items %}
-        <details>
-            <summary>{{key|upper}}:</summary>
-            {% for valor in value %}
-            <div class="alert alert-info">
-                {{ valor|upper }}</a>
-                {% if level != "normal" %}
-                    <a class='btn btn-warning' href="/media/{{empresa.slug}}/{{key}}/{{valor}}" target="__blank">VER</a>
-                    <a class='btn btn-danger' href="excluir/{{valor}}">EXCLUIR</a>
-                {% else %}
-                    <a class='btn btn-warning' href="/media/{{empresa.slug}}/{{key}}/{{valor}}" target="__blank">VER</a>
-                {% endif %}
-            </div>
-            {% endfor %}
-        </details>
+
+<!--*************************************-->
+<details>
+    <summary>{{"audios" | upper}}</summary>
+    {% for arquivo in arquivos %}
+        {% if arquivo.type == "audios" %}
+            <audio src="{{arquivo.file}}" controls></audio>
+        {% endif %}
     {% endfor %}
-{% endfor %}
+</details>
+
+<details>
+    <summary>{{"imagens" | upper}}</summary>
+    {% for arquivo in arquivos %}
+        {% if arquivo.type == "imagens" %}
+            <a href="{{arquivo.file}}" target="__blank">
+                <img style="width:200px; height:200px" src="{{arquivo.file}}" />
+            </a>
+        {% endif %}
+    {% endfor %}
+</details>
+
+<details>
+    <summary>{{"pdf" | upper}}</summary>
+    {% for arquivo in arquivos %}
+        {% if arquivo.type == "pdf" %}
+            <a href="{{arquivo.file}}" target="__blank">
+                <img style="width:200px; height:200px" src="{{arquivo.file}}" />
+            </a>
+        {% endif %}
+    {% endfor %}
+</details>
+
+<details>
+    <summary>{{"videos" | upper}}</summary>
+    {% for arquivo in arquivos %}
+        {% if arquivo.type == "videos" %}
+            <video width="400" height="300" src="{{arquivo.file}}" controls></video>
+        {% endif %}
+    {% endfor %}
+</details>
+
+
+<details>
+    <summary>{{"outros" | upper}}</summary>
+    {% for arquivo in arquivos %}
+        {% if arquivo.type == "outros" %}
+            <a href="{{arquivo.file}}" target="__blank">
+                <img style="width:200px; height:200px" src="{{arquivo.file}}" />
+            </a>
+        {% endif %}
+    {% endfor %}
+</details>
+<!--*************************************-->
+
 {% endblock %}

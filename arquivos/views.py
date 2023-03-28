@@ -1,15 +1,14 @@
 from django.shortcuts import render, redirect
-from empresa.models import Company
-from .models import File
-from administracao.models import Login
-from .forms import FormNewFile
-from .funcoes import apaga_arquivo, verifica_tipo_de_arquivo, read_files, upload_function
+from empresa.models import Empresa, Arquivo
+from .forms import FormNovoArquivo
+from .funcoes import apaga_arquivo, verifica_tipo_de_arquivo, upload_function
 
 
 def index(request, id):
     if request.user.is_authenticated:
-        empresa = Company.objects.get(id=id)
-        arquivos = read_files(slug=empresa.slug)
+        empresa = Empresa.objects.get(id=id)
+        # arquivos = read_files(slug=empresa.slug)
+        arquivos = Arquivo.objects.filter(company=id).order_by('type')
         context = {
             "emp_id": id,
             "empresa": empresa,
@@ -21,18 +20,19 @@ def index(request, id):
 
 def novo_arquivo(request, id):
     if request.user.is_authenticated:
-        form = FormNewFile()
+        form = FormNovoArquivo()
         if request.method == "POST":
-            emp = Company.objects.get(id=id)
+            emp = Empresa.objects.get(id=id)
             arquivo = request.FILES.get("file")
             slug = emp.slug
             tipo = arquivo.name.split(".")[-1]
             tipo = verifica_tipo_de_arquivo(tipo)
             path = upload_function(arquivo, slug, tipo)
-            File.objects.create(
+            Arquivo.objects.create(
                 company=emp,
                 file=path,
-                editor=request.user
+                editor=request.user,
+                type=tipo
             )
             return redirect(f"/arquivos/{id}/")
         context = {"emp_id": id, "form": form}
@@ -42,8 +42,8 @@ def novo_arquivo(request, id):
 
 def excluir_arquivo(request, id_emp, nome_arquivo):
     if request.user.is_authenticated:
-        emp = Company.objects.get(id=id_emp)
-        arq = File.objects.filter(
+        emp = Empresa.objects.get(id=id_emp)
+        arq = Arquivo.objects.filter(
             file__contains=nome_arquivo,
             company=id_emp
         )

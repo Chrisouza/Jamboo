@@ -8,6 +8,7 @@ div.ld{
     float: left;
     height:100vh;
     padding:0.5%;
+    overflow: auto;
 }
 
 div.le{
