@@ -21,15 +21,15 @@ def novo_usuario(request):
         form = FormNovoUsuario(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
-                username = request.POST.get("username")
-                password = request.POST.get("password")
-                empresa = request.POST.get("company")
-                nivel = request.POST.get("level")
+                usuario = request.POST.get("usuario")
+                senha = request.POST.get("senha")
+                empresa = request.POST.get("empresa")
+                nivel = request.POST.get("nivel")
                 user = User.objects.create_user(
-                    username=username, password=password, email="")
+                    username=usuario, password=senha, email="")
                 emp = Empresa.objects.get(id=empresa)
                 nivel = Nivel.objects.get(id=nivel)
-                Login.objects.create(user=user, company=emp, level=nivel)
+                Login.objects.create(usuario=user, empresa=emp, nivel=nivel)
                 return redirect("/administracao/")
         context = {"form": form}
         return render(request, "administracao/public/novo_usuario.html", context)

@@ -21,15 +21,13 @@ def nova_empresa(request):
         form = FormNovaEmpresa(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
-                nome = request.POST.get("name")
+                nome = request.POST.get("nome")
                 slug = nome.replace(" ", "-")
-                telefone = request.POST.get("phone")
+                telefone = request.POST.get("telefone")
                 emp = Empresa.objects.create(
-                    slug=slug, name=nome, phone=telefone)
+                    slug=slug, nome=nome, telefone=telefone)
                 if emp:
                     cria_pasta(f"media/{slug}")
-                    for folder in settings.FOLDERS:
-                        cria_pasta(f"media/{slug}/{folder}")
                 return redirect("/administracao/")
         context = {"form": form}
         return render(request, "empresa/public/nova_empresa.html", context)
@@ -38,9 +36,9 @@ def nova_empresa(request):
 
 def excluir_empresa(request, id):
     if request.user.is_authenticated and request.user.is_superuser:
-        logins = Login.objects.filter(company=id)
+        logins = Login.objects.filter(empresa=id)
         for login in logins:
-            User.objects.get(username=login.user.username).delete()
+            User.objects.get(username=login.usuario.username).delete()
         emp = Empresa.objects.get(id=id)
         shutil.rmtree(f"{settings.BASE_DIR}/media/{emp.slug}",
                       ignore_errors=True)

@@ -7,21 +7,10 @@
         </summary>
         <div class="links">
             <a href="{% url 'index-administracao' %}">Dashboard</a>
+            {% if request.user.is_superuser %}
+                <a href="{% url 'nova_empresa-empresa' %}">Nova Empresa</a>
+            {% endif %}
             <a href="{% url 'logout-index' %}">Sair</a>
         </div>
     </details>
-
-    {% if request.user.is_superuser %}
-    <!--Links de Empresa-->
-    <details>
-        <summary>
-            <i class="fa-solid fa-building"></i>
-            <span>Empresa</span>
-        </summary>
-        <div class="links">
-            <a href="{% url 'nova_empresa-empresa' %}">Nova Empresa</a>
-            <a href="{% url 'novo_usuario-administracao' %}">Novo Usuario</a>
-        </div>
-    </details>
-    {% endif %}
 </div>

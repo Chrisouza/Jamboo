@@ -9,3 +9,4 @@ class FormNovoUsuario(forms.ModelForm):
     class Meta:
         model = Login
         fields = "__all__"
+        exclude = ["usuario"]

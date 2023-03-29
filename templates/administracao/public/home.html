@@ -42,6 +42,12 @@
                     {% endif %}
                 </td>
                 <td>
+                    <a class="btn btn-success" href="{% url 'novo_usuario-administracao' %}">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </a>
+                    <a class="btn btn-warning" href="">
+                        <i class="fa-solid fa-folder-plus"></i>
+                    </a>
                     <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">
                         <i class="fa-solid fa-file-import"></i>
                     </a>

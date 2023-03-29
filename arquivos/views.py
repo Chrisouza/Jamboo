@@ -8,7 +8,7 @@ def index(request, id):
     if request.user.is_authenticated:
         empresa = Empresa.objects.get(id=id)
         # arquivos = read_files(slug=empresa.slug)
-        arquivos = Arquivo.objects.filter(company=id).order_by('type')
+        arquivos = Arquivo.objects.filter(empresa=id).order_by('extensao')
         context = {
             "emp_id": id,
             "empresa": empresa,
@@ -29,10 +29,10 @@ def novo_arquivo(request, id):
             tipo = verifica_tipo_de_arquivo(tipo)
             path = upload_function(arquivo, slug, tipo)
             Arquivo.objects.create(
-                company=emp,
+                empresa=emp,
                 file=path,
                 editor=request.user,
-                type=tipo
+                extensao=tipo
             )
             return redirect(f"/arquivos/{id}/")
         context = {"emp_id": id, "form": form}
@@ -45,7 +45,7 @@ def excluir_arquivo(request, id_emp, nome_arquivo):
         emp = Empresa.objects.get(id=id_emp)
         arq = Arquivo.objects.filter(
             file__contains=nome_arquivo,
-            company=id_emp
+            empresa=id_emp
         )
         slug = arq[0].file.split("/")[-2]
         if arq is not None:

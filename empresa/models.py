@@ -28,7 +28,7 @@ class Nivel(models.Model):
         verbose_name_plural = "Niveis"
 
     def __str__(self) -> str:
-        return self.level
+        return self.nivel
 
 
 class Login(models.Model):
