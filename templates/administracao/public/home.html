@@ -28,31 +28,36 @@
                 <td>{{empresa.name}}</td>
                 <td>
                     {% for login in logins %}
-                        {% if login.company.id == empresa.id %}
-                            <span class="bg-info">{{login.user.username}}</span>
+                        {% if login.empresa.id == empresa.id %}
+                            <span class="bg-info">{{login.usuario.username}}</span>
                         {% endif %}
                     {% endfor %}
                 </td>
-                <td>{{empresa.created}}</td>
+                <td>{{empresa.criado}}</td>
                 <td>
-                    {% if empresa.active %}
+                    {% if empresa.ativo %}
                         <span class="bg-success badge">Ativo</span>
                     {% else %}
                     <span class="bg-danger badge">Inativo</span>
                     {% endif %}
                 </td>
                 <td>
-                    <a class="btn btn-success" href="{% url 'novo_usuario-administracao' %}">
-                        <i class="fa-solid fa-user-plus"></i>
+                    <a class="btn btn-warning" href="">
+                        <i class="fa-solid fa-user-gear"></i>
+                        Gerenciar usuarios
                     </a>
                     <a class="btn btn-warning" href="">
                         <i class="fa-solid fa-folder-plus"></i>
+                        Gerenciar Projetos
                     </a>
+                    <!--Vai pra dentro de gerenciar projetos-->
                     <a class="btn btn-info" href="/arquivos/{{empresa.id}}/">
                         <i class="fa-solid fa-file-import"></i>
+                        Gerenciar Arquivos
                     </a>
                     <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">
                         <i class="fa-solid fa-trash-can"></i>
+                        Apagar tudo da empresa
                     </a>
                 </td>
             </tr>

@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'index',
     'jamboo',
     'projeto',
-
 ]
 
 MIDDLEWARE = [
