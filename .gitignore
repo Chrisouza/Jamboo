@@ -2,6 +2,7 @@
 _venv/
 venv/
 migrations/
+.vscode/
 __pycache__/
 
 media/
