@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'adminsitracao/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'adminsitracao/js/administracao.js' %}"></script>
+{% endblock %}
+
+
+{% block ld %}
+<h1>Projetos {{slug}}</h1>
+<!--Vai pra dentro de gerenciar usuarios-->
+<a href="novo/">Novo Projeto</a>
+
+
+{% for projeto in projetos %}
+    {{projeto}}
+{% endfor %}
+
+{% endblock %}

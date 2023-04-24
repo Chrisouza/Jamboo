@@ -17,22 +17,14 @@
             <tr>
                 <th>ID</th>
                 <th>NOME</th>
-                <th>LOGINS</th>
-                <th>DATA_CADASTRO</th>
+                <th>DATA DO CADASTRO</th>
                 <th>STATUS</th>
                 <th>ACOES</th>
             </tr>
             {% for empresa in empresas%}
             <tr>
                 <td>{{empresa.id}}</td>
-                <td>{{empresa.name}}</td>
-                <td>
-                    {% for login in logins %}
-                        {% if login.empresa.id == empresa.id %}
-                            <span class="bg-info">{{login.usuario.username}}</span>
-                        {% endif %}
-                    {% endfor %}
-                </td>
+                <td>{{empresa.nome}}</td>
                 <td>{{empresa.criado}}</td>
                 <td>
                     {% if empresa.ativo %}
@@ -42,11 +34,11 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a class="btn btn-warning" href="">
+                    <a class="btn btn-warning" href="usuarios/{{empresa.slug}}">
                         <i class="fa-solid fa-user-gear"></i>
                         Gerenciar usuarios
                     </a>
-                    <a class="btn btn-warning" href="">
+                    <a class="btn btn-warning" href="projetos/{{empresa.slug}}">
                         <i class="fa-solid fa-folder-plus"></i>
                         Gerenciar Projetos
                     </a>

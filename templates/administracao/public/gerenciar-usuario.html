@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'adminsitracao/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'adminsitracao/js/administracao.js' %}"></script>
+{% endblock %}
+
+
+{% block ld %}
+<h1>Usuarios {{slug}}</h1>
+<!--Vai pra dentro de gerenciar usuarios-->
+<a href="novo/">Novo usuario</a>
+
+{% for login in logins %}
+    {{login}}
+{% endfor %}
+
+{% endblock %}

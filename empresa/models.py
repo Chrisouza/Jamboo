@@ -46,13 +46,17 @@ class Login(models.Model):
 
 
 class Projeto(models.Model):
-    nome = models.CharField(max_length=255, default="")
+    slug = models.CharField(max_length=255, default="", unique=True)
+    nome = models.CharField(max_length=255, default="", unique=True)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, default="")
 
     class Meta:
         db_table = "projeto"
         verbose_name = "Projeto"
         verbose_name_plural = "Projetos"
+
+    def __str__(self):
+        return f"{self.nome}"
 
 
 class Arquivo(models.Model):

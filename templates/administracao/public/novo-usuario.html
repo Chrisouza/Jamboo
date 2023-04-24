@@ -11,11 +11,9 @@
 
 
 {% block ld %}
-<div class="lateral-direita">
-    <form action="{% url 'novo_usuario-administracao' %}" method="post" autocomplete="off">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <button class="btn botao" type="submit">Cadastrar</button>
-    </form>
-</div>
+<form action="/administracao/usuarios/{{slug}}/novo/" method="post" autocomplete="off">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button class="btn botao" type="submit">Cadastrar</button>
+</form>
 {% endblock %}

@@ -9,9 +9,6 @@
             <a href="{% url 'index-administracao' %}">Dashboard</a>
             {% if request.user.is_superuser %}
                 <a href="{% url 'nova_empresa-empresa' %}">Nova Empresa</a>
-                
-                <!--Vai pra dentro de gerenciar usuarios-->
-                <a href="{% url 'novo_usuario-administracao' %}">Novo usuario</a>
             {% endif %}
             <a href="{% url 'logout-index' %}">Sair</a>
         </div>

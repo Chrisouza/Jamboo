@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'adminsitracao/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'adminsitracao/js/administracao.js' %}"></script>
+{% endblock %}
+
+
+{% block ld %}
+<form action="/administracao/projetos/{{slug}}/novo/" method="post" autocomplete="off">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button class="btn botao" type="submit">Cadastrar</button>
+</form>
+{% endblock %}

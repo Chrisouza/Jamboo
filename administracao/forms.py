@@ -1,5 +1,5 @@
 from django import forms
-from empresa.models import Login
+from empresa.models import Login, Projeto
 
 
 class FormNovoUsuario(forms.ModelForm):
@@ -9,4 +9,11 @@ class FormNovoUsuario(forms.ModelForm):
     class Meta:
         model = Login
         fields = "__all__"
-        exclude = ["usuario"]
+        exclude = ["usuario", "empresa"]
+
+
+class FormNovoProjeto(forms.ModelForm):
+    class Meta:
+        model = Projeto
+        fields = "__all__"
+        exclude = ["empresa", "slug"]
