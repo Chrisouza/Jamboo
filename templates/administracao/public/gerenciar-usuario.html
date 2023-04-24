@@ -16,7 +16,11 @@
 <a href="novo/">Novo usuario</a>
 
 {% for login in logins %}
-    {{login}}
+    <br />
+    <span>{{login}}</span>
+    <a href="" class="btn btn-danger">
+        <i class="fa-solid fa-trash-can"></i>
+    </a>
 {% endfor %}
 
 {% endblock %}

@@ -11,18 +11,13 @@
 
 
 {% block ld %}
-<h1>Projetos {{slug}}</h1>
-<!--Vai pra dentro de gerenciar usuarios-->
-<a href="novo/">Novo Projeto</a>
 
-
-{% for projeto in projetos %}
-    <br/>
-    <span>{{projeto}}</span>
-    <a href="" class="btn btn-danger">
-        <i class="fa-solid fa-trash-can"></i>
-    </a>
-{% endfor %}
-    
+    <h1>Arquivos {{slug}}</h1>
+    {% for projeto in projetos %}
+        <div>
+            <span>{{projeto}}</span>
+            <a href="{{projeto.slug}}/novo/" class="btn btn-success">+</a>
+        </div>
+    {% endfor %}
 
 {% endblock %}

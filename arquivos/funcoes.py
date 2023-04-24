@@ -23,7 +23,7 @@ def verifica_tipo_de_arquivo(tipo):
     return tipo
 
 
-def cria_pasta():
+def cria_data():
     hoje = datetime.datetime.now()
     dia = hoje.day
     mes = hoje.month
@@ -31,20 +31,17 @@ def cria_pasta():
     return f"{dia}-{mes}-{ano}"
 
 
-def upload_function(arquivo, slug, tipo):
-    data = cria_pasta()
-    if not os.path.exists(f"{settings.BASE_DIR}/media/{slug}/{tipo}/{data}"):
-        os.chdir(f"{settings.BASE_DIR}/media/{slug}/{tipo}")
-        os.mkdir(data)
-        os.chdir(settings.BASE_DIR)
+def upload_function(arquivo, extensao, slug, projeto):
+    data = cria_data()
 
     name_id = uuid.uuid4().hex
     new_name = arquivo.name.replace(" ", "-").lower()
     new_name = f"{data}_{name_id}_{new_name}"
-    with open(f"{settings.BASE_DIR}/media/{slug}/{tipo}/{data}/{new_name}", "wb+") as destination:
+    
+    with open(f"{settings.BASE_DIR}/media/{slug}/{projeto}/{extensao}/{new_name}", "wb+") as destination:
         for chunk in arquivo.chunks():
             destination.write(chunk)
-    return f"/media/{slug}/{tipo}/{data}/{new_name}"
+    return f"/media/{slug}/{projeto}/{extensao}/{new_name}"
 
 
 def read_files(slug):

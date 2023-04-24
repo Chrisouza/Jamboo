@@ -1,16 +1,8 @@
 <div class="lateral-esquerda">
     <!--Links main-->
-    <details>
-        <summary>
-            <i class="fa-solid fa-house"></i>
-            <span>Dashboard</span>
-        </summary>
-        <div class="links">
-            <a href="{% url 'index-administracao' %}">Dashboard</a>
-            {% if request.user.is_superuser %}
-                <a href="{% url 'nova_empresa-empresa' %}">Nova Empresa</a>
-            {% endif %}
-            <a href="{% url 'logout-index' %}">Sair</a>
-        </div>
-    </details>
+    <a href="{% url 'index-administracao' %}">Dashboard</a>
+    {% if request.user.is_superuser %}
+        <a href="{% url 'nova_empresa-empresa' %}">Nova Empresa</a>
+    {% endif %}
+    <a href="{% url 'logout-index' %}">Sair</a>
 </div>
