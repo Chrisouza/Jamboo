@@ -14,7 +14,7 @@ div.ld{
 div.le{
     width: 15%;
 }
-div.le details summary {
+div.le a {
     display: block;
     height:40px;
     line-height: 40px;

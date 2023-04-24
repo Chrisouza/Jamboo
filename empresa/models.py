@@ -61,8 +61,8 @@ class Projeto(models.Model):
 
 class Arquivo(models.Model):
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
-    file = models.CharField(max_length=255, default="")
-    editor = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    file = models.FileField()
+    editor = models.ForeignKey(User, on_delete=models.CASCADE)
     edicao = models.DateTimeField(default=timezone.now)
     extensao = models.CharField(max_length=10, default="")
 

@@ -1,5 +1,5 @@
 from django import forms
-from empresa.models import Login, Projeto
+from empresa.models import Login, Projeto, Arquivo
 
 
 class FormNovoUsuario(forms.ModelForm):
@@ -17,3 +17,10 @@ class FormNovoProjeto(forms.ModelForm):
         model = Projeto
         fields = "__all__"
         exclude = ["empresa", "slug"]
+
+
+class FormNovoArquivo(forms.ModelForm):
+    class Meta:
+        model = Arquivo
+        fields = "__all__"
+        exclude = ["empresa", "editor", "edicao", "extensao"]
