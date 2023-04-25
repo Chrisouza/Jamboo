@@ -15,12 +15,16 @@
 <!--Vai pra dentro de gerenciar usuarios-->
 <a href="novo/">Novo usuario</a>
 
+{% if logins %}
 {% for login in logins %}
     <br />
     <span>{{login}}</span>
-    <a href="" class="btn btn-danger">
+    <a href="{{login.usuario.id}}/" class="btn btn-danger">
         <i class="fa-solid fa-trash-can"></i>
     </a>
 {% endfor %}
+{% else %}
+<div class="alert alert-danger">Nenhum usuario cadastrado para essa empresa</div>
+{% endif %}
 
 {% endblock %}
