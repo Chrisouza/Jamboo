@@ -5,7 +5,8 @@ import uuid
 
 
 def apaga_arquivo(path):
-    path = os.path.join(settings.BASE_DIR, path)
+    path = f"{settings.BASE_DIR}{path}"
+    print(path)
     os.remove(path)
 
 
@@ -37,7 +38,7 @@ def upload_function(arquivo, extensao, slug, projeto):
     name_id = uuid.uuid4().hex
     new_name = arquivo.name.replace(" ", "-").lower()
     new_name = f"{data}_{name_id}_{new_name}"
-    
+
     with open(f"{settings.BASE_DIR}/media/{slug}/{projeto}/{extensao}/{new_name}", "wb+") as destination:
         for chunk in arquivo.chunks():
             destination.write(chunk)
