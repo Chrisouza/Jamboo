@@ -11,6 +11,15 @@
 
 
 {% block ld %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
+
+
 <h1>Usuarios {{slug}}</h1>
 <!--Vai pra dentro de gerenciar usuarios-->
 <a href="novo/">Novo usuario</a>

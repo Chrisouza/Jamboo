@@ -10,6 +10,14 @@
 {% endblock %}
 
 {% block ld %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
+
 <div class="ultimas-empresas">
     {% if empresas %}
         <h3>Ultimas empresas cadastradas</h3>

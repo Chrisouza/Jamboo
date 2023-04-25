@@ -12,6 +12,13 @@
 
 {% block ld %}
 
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
+
     <h1>Arquivos {{slug}}</h1>
     {% if projetos %}
     {% for projeto in projetos %}

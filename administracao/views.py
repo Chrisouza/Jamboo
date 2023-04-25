@@ -7,6 +7,7 @@ from empresa.funcoes import cria_pasta, cria_pasta_arquivos
 from arquivos.funcoes import verifica_tipo_de_arquivo, upload_function, apaga_arquivo
 from django.contrib.auth.models import User
 from .forms import FormNovoArquivo, FormNovoUsuario, FormNovoProjeto
+from django.contrib import messages
 
 
 def index(request):
@@ -43,6 +44,8 @@ def novo_usuario(request, slug):
                 emp = Empresa.objects.get(slug=slug)
                 nivel = Nivel.objects.get(id=nivel)
                 Login.objects.create(usuario=user, empresa=emp, nivel=nivel)
+                messages.add_message(
+                    request, messages.SUCCESS, "Usuario cadastrado com sucesso!")
                 return redirect(f"/administracao/usuarios/{slug}/")
         context = {"form": form, "slug": slug}
         return render(request, "administracao/public/novo-usuario.html", context)
@@ -52,6 +55,8 @@ def novo_usuario(request, slug):
 def remove_usuario(request, slug, usuario):
     if request.user.is_authenticated:
         User.objects.get(id=usuario).delete()
+        messages.add_message(
+            request, messages.SUCCESS, "Usuario removido com sucesso!")
         return redirect(f"/administracao/usuarios/{slug}/")
 
 ##########################################################
@@ -80,6 +85,8 @@ def novo_projeto(request, slug):
                     slug=slug_projeto, nome=nome, empresa=emp)
                 cria_pasta(f"media/{slug}/{slug_projeto}")
                 cria_pasta_arquivos(slug=slug, projeto=slug_projeto)
+                messages.add_message(
+                    request, messages.SUCCESS, "Projeto cadastrado com sucesso!")
                 return redirect(f"/administracao/projetos/{slug}/")
         context = {"form": form, "slug": slug}
         return render(request, "administracao/public/novo-projeto.html", context)
@@ -92,6 +99,8 @@ def remove_projeto(request, slug, projeto):
         shutil.rmtree(f"{settings.BASE_DIR}/media/{slug}/{projeto.slug}",
                       ignore_errors=True)
         projeto.delete()
+        messages.add_message(
+            request, messages.SUCCESS, "Projeto deletado com sucesso!")
         return redirect(f"/administracao/projetos/{slug}/")
 
 ##########################################################
@@ -122,6 +131,8 @@ def novo_arquivo(request, slug, projeto):
             projeto = Projeto.objects.get(slug=projeto)
             Arquivo.objects.create(
                 empresa=emp, file=path, editor=editor, extensao=extensao, projeto=projeto)
+            messages.add_message(
+                request, messages.SUCCESS, "Arquivo cadastrado com sucesso!")
             return redirect(f"/administracao/arquivos/{slug}/")
         context = {"form": form, "slug": slug, "projeto": projeto}
         return render(request, "administracao/public/novo-arquivo.html", context)
@@ -134,4 +145,6 @@ def excluir_arquivo(request, slug, projeto, id_file):
         if arq is not None:
             apaga_arquivo(path=f"{arq.file}")
             arq.delete()
+            messages.add_message(
+                request, messages.SUCCESS, "Arquivo apagado com sucesso!")
     return redirect(f"/")

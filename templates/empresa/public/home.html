@@ -7,7 +7,14 @@
 {% endblock %}
 
 {% block ld %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
 <h3>index da empresa <strong>{{empresa.nome}}</strong></h3>
+
+
 
 <a class="btn btn-warning" href="/administracao/usuarios/{{empresa.slug}}">
     <i class="fa-solid fa-user-gear"></i>
