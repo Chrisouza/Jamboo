@@ -15,41 +15,36 @@
     <h1>Arquivos {{slug}}</h1>
     {% if projetos %}
     {% for projeto in projetos %}
-        <div>
-            <span>{{projeto}}</span>
-            <a href="{{projeto.slug}}/novo/" class="btn btn-success">+</a>
-        </div>
-        {% for arquivo in arquivos %}
-            {% if arquivo.projeto.id == projeto.id %}
 
-                {% if arquivo.extensao == "pdf" %}
-                    <a href="{{arquivo.file}}" target="__blank">
-                        <img src="{% static 'index/images/pdf.png' %}" width="200" height="200" alt=""/>
-                    </a>
-                {% endif %}
-                {% if arquivo.extensao == "imagens" %}
-                    <a href="{{arquivo.file}}" target="__blank">
-                        <img src="{{arquivo.file}}" width="200" height="200" alt=""/>
-                    </a>
-                {% endif %}
-                {% if arquivo.extensao == "audios" %}
-                    <a href="{{arquivo.file}}" target="__blank">
-                        <img src="{% static 'index/images/audio.png' %}" width="200" height="200" alt=""/>
-                    </a>
-                {% endif %}
-                {% if arquivo.extensao == "videos" %}
-                    <a href="{{arquivo.file}}" target="__blank">
-                        <img src="{% static 'index/images/video.png' %}" width="200" height="200" alt=""/>
-                    </a>
-                {% endif %}
-                {% if arquivo.extensao == "outros" %}
-                    <a href="{{arquivo.file}}" target="__blank">
-                        <img src="{% static 'index/images/outros.png' %}" width="200" height="200" alt=""/>
-                    </a>
-                {% endif %}
+        <details>
+            <summary>{{projeto}} <a href="{{projeto.slug}}/novo/" class="btn btn-success">+</a></summary>
+            {% for arquivo in arquivos %}
+                {% if arquivo.projeto.id == projeto.id %}
 
-            {% endif %}
+                    <div>
+                        {% if arquivo.extensao == "pdf" %}
+                                <img src="{% static 'index/images/pdf.png' %}" width="200" height="200" alt=""/>
+                        {% endif %}
+                        {% if arquivo.extensao == "imagens" %}
+                            <img src="{{arquivo.file}}" width="200" height="200" alt=""/>
+                        {% endif %}
+                        {% if arquivo.extensao == "audios" %}
+                            <img src="{% static 'index/images/audio.png' %}" width="200" height="200" alt=""/>
+                        {% endif %}
+                        {% if arquivo.extensao == "videos" %}
+                            <img src="{% static 'index/images/video.png' %}" width="200" height="200" alt=""/>
+                        {% endif %}
+                        {% if arquivo.extensao == "outros" %}
+                            <img src="{% static 'index/images/outros.png' %}" width="200" height="200" alt=""/>
+                        {% endif %}
+                    </div>
+                    <a href="{{arquivo.file}}" target="__blank">VER</a>
+                    <a href="{{projeto}}/excluir/{{arquivo.id}}/">Excluir</a>
+
+                {% endif %}
         {% endfor %}
+        </details>
+
     {% endfor %} 
     {% else %}
     <div class="alert alert-danger">Necessario ter projeto para adicionar arquivo</div>

@@ -128,15 +128,10 @@ def novo_arquivo(request, slug, projeto):
     return redirect("/")
 
 
-def excluir_arquivo(request, id_emp, nome_arquivo):
+def excluir_arquivo(request, slug, projeto, id_file):
     if request.user.is_authenticated:
-        emp = Empresa.objects.get(id=id_emp)
-        arq = Arquivo.objects.filter(
-            file__contains=nome_arquivo,
-            empresa=id_emp
-        )
-        slug = arq[0].file.split("/")[-2]
+        arq = Arquivo.objects.get(id=id_file)
         if arq is not None:
-            apaga_arquivo(path=f"media/{emp.slug}/{slug}/{nome_arquivo}")
+            apaga_arquivo(path=f"{arq.file}")
             arq.delete()
-    return redirect(f"/arquivos/{id_emp}/")
+    return redirect(f"/")

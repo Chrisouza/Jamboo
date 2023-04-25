@@ -16,4 +16,5 @@ urlpatterns = [
     # gernecia arquivos
     path("arquivos/<str:slug>/", views.gerenciar_arquivos),
     path("arquivos/<str:slug>/<str:projeto>/novo/", views.novo_arquivo),
+    path("arquivos/<str:slug>/<str:projeto>/excluir/<int:id_file>/", views.excluir_arquivo),
 ]
