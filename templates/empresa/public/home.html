@@ -8,5 +8,20 @@
 
 {% block ld %}
 <h3>index da empresa <strong>{{empresa.nome}}</strong></h3>
-<a class="btn btn-info" href="/arquivos/{{empresa.id}}/">Grenciar arquivos</a>
+
+<a class="btn btn-warning" href="/administracao/usuarios/{{empresa.slug}}">
+    <i class="fa-solid fa-user-gear"></i>
+    Gerenciar usuarios
+</a>
+
+<a class="btn btn-warning" href="/administracao/projetos/{{empresa.slug}}">
+    <i class="fa-solid fa-folder-plus"></i>
+    Gerenciar Projetos
+</a>
+
+<!--Vai pra dentro de gerenciar projetos-->
+<a class="btn btn-info" href="/administracao/arquivos/{{empresa.slug}}/">
+    <i class="fa-solid fa-file-import"></i>
+    Gerenciar Arquivos
+</a>
 {% endblock %}

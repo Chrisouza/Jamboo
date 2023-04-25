@@ -9,8 +9,8 @@ from .funcoes import cria_pasta
 
 def index(request):
     if request.user.is_authenticated and not request.user.is_superuser:
-        empresa = Empresa.objects.get(
-            id=Login.objects.get(user=request.user).company.id)
+        usuario = Login.objects.get(usuario=request.user)
+        empresa = Empresa.objects.get(id=usuario.empresa.id)
         context = {"empresa": empresa}
         return render(request, "empresa/public/home.html", context)
     return redirect("/")
