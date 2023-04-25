@@ -10,11 +10,17 @@
 {% endblock %}
 
 {% block ld %}
+
 <div class="form">
     <div class="logo">
         <img src="{% static 'index/images/logo.png' %}" alt="logo" />
     </div>
     <form action="{% url 'login-index' %}" method="post" autocomplete="off" name="form-login">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}}">{{message}}</div>
+            {% endfor %}
+        {% endif %}
         {% csrf_token %}
         {% bootstrap_form form_login %}
         <button class="btn botao" type="submit">Acessar area administrativa</button>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import FormLogin
+from django.contrib import messages
 
 
 def entrar(request):
@@ -18,6 +19,8 @@ def entrar(request):
             auth = authenticate(username=usuario, password=senha)
             if auth is not None:
                 login(request, auth)
+                messages.add_message(request, messages.INFO,
+                                     "Login realizado com sucesso!")
                 if auth.is_superuser:
                     return redirect("/administracao/")
                 else:
@@ -29,4 +32,6 @@ def entrar(request):
 def sair(request):
     if request.user.is_authenticated:
         logout(request)
+        messages.add_message(request, messages.WARNING,
+                             "Logout realizado com sucesso!")
     return redirect("/")
