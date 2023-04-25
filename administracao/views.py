@@ -22,7 +22,7 @@ def index(request):
 
 
 def gerenciar_usuarios(request, slug):
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated:
         logins = Login.objects.filter(
             empresa=Empresa.objects.get(slug=slug).id)
         context = {"slug": slug, "logins": logins}
@@ -31,7 +31,7 @@ def gerenciar_usuarios(request, slug):
 
 
 def novo_usuario(request, slug):
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated:
         form = FormNovoUsuario(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
@@ -50,7 +50,7 @@ def novo_usuario(request, slug):
 
 
 def remove_usuario(request, slug, usuario):
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated:
         User.objects.get(id=usuario).delete()
         return redirect(f"/administracao/usuarios/{slug}/")
 
@@ -60,7 +60,7 @@ def remove_usuario(request, slug, usuario):
 
 
 def gerenciar_projetos(request, slug):
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated:
         projetos = Projeto.objects.filter(
             empresa=Empresa.objects.get(slug=slug).id)
         context = {"slug": slug, "projetos": projetos}
@@ -69,7 +69,7 @@ def gerenciar_projetos(request, slug):
 
 
 def novo_projeto(request, slug):
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated:
         form = FormNovoProjeto(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
@@ -87,7 +87,7 @@ def novo_projeto(request, slug):
 
 
 def remove_projeto(request, slug, projeto):
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated:
         projeto = Projeto.objects.get(id=projeto)
         shutil.rmtree(f"{settings.BASE_DIR}/media/{slug}/{projeto.slug}",
                       ignore_errors=True)
@@ -100,7 +100,7 @@ def remove_projeto(request, slug, projeto):
 
 
 def gerenciar_arquivos(request, slug):
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated:
         projetos = Projeto.objects.filter(
             empresa=Empresa.objects.get(slug=slug).id)
         arquivos = Arquivo.objects.all()
@@ -110,7 +110,7 @@ def gerenciar_arquivos(request, slug):
 
 
 def novo_arquivo(request, slug, projeto):
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated:
         form = FormNovoArquivo(request.FILES)
         if request.method == "POST":
             emp = Empresa.objects.get(slug=slug)
