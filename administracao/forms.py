@@ -23,4 +23,4 @@ class FormNovoArquivo(forms.ModelForm):
     class Meta:
         model = Arquivo
         fields = "__all__"
-        exclude = ["empresa", "editor", "edicao", "extensao"]
+        exclude = ["empresa", "editor", "edicao", "extensao", "projeto"]

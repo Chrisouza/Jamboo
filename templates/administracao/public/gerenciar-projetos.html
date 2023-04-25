@@ -15,14 +15,17 @@
 <!--Vai pra dentro de gerenciar usuarios-->
 <a href="novo/">Novo Projeto</a>
 
-
+{% if projetos %}
 {% for projeto in projetos %}
     <br/>
     <span>{{projeto}}</span>
-    <a href="" class="btn btn-danger">
+    <a href="{{projeto.id}}" class="btn btn-danger">
         <i class="fa-solid fa-trash-can"></i>
     </a>
 {% endfor %}
+{% else %}
+    <div class="alert alert-danger">Nenhum projeto cadastrado para essa empresa</div>
+{% endif %}
     
 
 {% endblock %}

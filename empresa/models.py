@@ -65,6 +65,7 @@ class Arquivo(models.Model):
     editor = models.ForeignKey(User, on_delete=models.CASCADE)
     edicao = models.DateTimeField(default=timezone.now)
     extensao = models.CharField(max_length=10, default="")
+    projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "arquivo"
