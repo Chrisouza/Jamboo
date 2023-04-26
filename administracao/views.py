@@ -112,7 +112,7 @@ def gerenciar_arquivos(request, slug):
     if request.user.is_authenticated:
         projetos = Projeto.objects.filter(
             empresa=Empresa.objects.get(slug=slug).id)
-        arquivos = Arquivo.objects.all()
+        arquivos = Arquivo.objects.all().order_by("-id")
         context = {"slug": slug, "projetos": projetos, "arquivos": arquivos}
         return render(request, "administracao/public/gerenciar-arquivos.html", context)
     return redirect("/")
@@ -124,13 +124,14 @@ def novo_arquivo(request, slug, projeto):
         if request.method == "POST":
             emp = Empresa.objects.get(slug=slug)
             file = request.FILES.get("file")
+            descricao = request.POST.get('descricao')
             editor = request.user
             extensao = file.name.split(".")[-1]
             extensao = verifica_tipo_de_arquivo(extensao)
             path = upload_function(file, extensao, slug, projeto)
             projeto = Projeto.objects.get(slug=projeto)
             Arquivo.objects.create(
-                empresa=emp, file=path, editor=editor, extensao=extensao, projeto=projeto)
+                empresa=emp, file=path, descricao=descricao, editor=editor, extensao=extensao, projeto=projeto)
             messages.add_message(
                 request, messages.SUCCESS, "Arquivo cadastrado com sucesso!")
             return redirect(f"/administracao/arquivos/{slug}/")

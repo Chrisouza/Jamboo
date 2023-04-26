@@ -47,7 +47,7 @@
                             <img src="{% static 'index/images/outros.png' %}" width="200" height="200" alt=""/>
                         {% endif %}
                         <div class="card-body">
-                            <p class="card-text">Texto do arquivo</p>
+                            <p class="card-text">{{arquivo.descricao}}</p>
                             <a class="btn btn-success card-link" href="{{arquivo.file}}" target="__blank">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
