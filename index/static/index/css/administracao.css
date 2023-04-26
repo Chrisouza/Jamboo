@@ -1,0 +1,50 @@
+div.le,
+div.ld{
+    display:inline-block;
+    height: 100vh;
+    padding:0.5%;
+    overflow: auto;
+}
+
+div.le{
+    width: 15%;
+    border-radius:10px;
+    margin-left:1%;
+}
+div.le div.logo {
+    margin-bottom: 5%;
+}
+div.le a {
+    display: block;
+    height:40px;
+    line-height: 40px;
+    margin-bottom:2%;
+    padding-left:5%;
+    font-weight: bold;
+    color:#f19103;
+    text-decoration:none;
+}
+div.le a:hover{
+    background-color:#999;
+}
+
+div.ld{
+    width: 83%;
+    background-color:#fff;
+}
+
+div.ld summary.item-projeto{
+    display: block;
+    width: 100%;
+    padding:0.5%;
+}
+
+div.ld details summary.item-projeto a{
+    margin-left:10%;
+}
+div.ld details div.item-arquivo {
+    padding:0.5%;
+}
+div.ld details div.item-arquivo img{
+    width: 100%;
+}

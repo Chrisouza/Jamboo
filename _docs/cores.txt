@@ -1,2 +1,4 @@
-botao -> #c27706;
-botao:hover -> #f19103;
+botao -> #c27706; (escuro)
+botao:hover -> #f19103;(claro)
+
+fundo -> #000000

@@ -3,10 +3,10 @@
 {% load django_bootstrap5 %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'adminsitracao/css/administracao.css' %}">
+<link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
 {% endblock %}
 {% block js %}
-<script src="{% static 'adminsitracao/js/administracao.js' %}"></script>
+<script src="{% static 'index/js/administracao.js' %}"></script>
 {% endblock %}
 
 
@@ -21,16 +21,30 @@
 
 <h1>Projetos {{slug}}</h1>
 <!--Vai pra dentro de gerenciar usuarios-->
-<a href="novo/">Novo Projeto</a>
+<a class="botao btn" href="novo/">Novo Projeto</a>
+<hr/>
 
 {% if projetos %}
+<table class="table table-striped">
+    <tr>
+        <th>#</th>
+        <th>Login</th>
+        <th>Acoes</th>
+    </tr>
 {% for projeto in projetos %}
-    <br/>
-    <span>{{projeto}}</span>
-    <a href="{{projeto.id}}" class="btn btn-danger">
-        <i class="fa-solid fa-trash-can"></i>
-    </a>
+    <tr>
+        <td>{{projeto.id}}</td>
+        <td>
+            <span>{{projeto}}</span>
+        </td>
+        <td>
+            <a href="{{projeto.id}}" class="btn btn-danger">
+                <i class="fa-solid fa-trash-can"></i>Excluir
+            </a>
+        </td>
+    </tr>
 {% endfor %}
+</table>
 {% else %}
     <div class="alert alert-danger">Nenhum projeto cadastrado para essa empresa</div>
 {% endif %}

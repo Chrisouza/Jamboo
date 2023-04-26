@@ -3,10 +3,10 @@
 {% load django_bootstrap5 %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'adminsitracao/css/administracao.css' %}">
+<link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
 {% endblock %}
 {% block js %}
-<script src="{% static 'adminsitracao/js/administracao.js' %}"></script>
+<script src="{% static 'index/js/administracao.js' %}"></script>
 {% endblock %}
 
 
@@ -22,16 +22,31 @@
 
 <h1>Usuarios {{slug}}</h1>
 <!--Vai pra dentro de gerenciar usuarios-->
-<a href="novo/">Novo usuario</a>
+<a class="botao btn" href="novo/">Novo usuario</a>
+<hr />
 
 {% if logins %}
+<table class="table table-striped">
+    <tr>
+        <th>#</th>
+        <th>Login</th>
+        <th>Acoes</th>
+    </tr>
 {% for login in logins %}
-    <br />
-    <span>{{login}}</span>
-    <a href="{{login.usuario.id}}/" class="btn btn-danger">
-        <i class="fa-solid fa-trash-can"></i>
-    </a>
+    <tr>
+        <td>{{login.id}}</td>
+        <td>
+            <span>{{login}}</span>
+        </td>
+        <td>
+            <a href="{{login.usuario.id}}/" class="btn btn-danger">
+                <i class="fa-solid fa-trash-can"></i>Excluir
+            </a>
+        </td>
+    </tr>
 {% endfor %}
+</table>
+
 {% else %}
 <div class="alert alert-danger">Nenhum usuario cadastrado para essa empresa</div>
 {% endif %}

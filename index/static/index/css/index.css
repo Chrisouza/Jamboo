@@ -1,4 +1,9 @@
-div.form{
+body{
+    background-color:#ccc;
+    overflow:hidden;
+}
+
+div.form-login{
     width: 30%;
     border:solid #f19103 1px;
     border-radius:5px;
@@ -6,13 +11,13 @@ div.form{
     padding:2%;
     margin-top:10%;
 }
-div.form div.logo img{
+div.form-login div.logo img{
     width: 90%;
     height:200px;
     margin-bottom:3%;
     margin-left:5%;
 }
-div.form form button {
+div.form-login form button {
     display:block;
     width:100%;
     height:60px;

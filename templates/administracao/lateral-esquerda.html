@@ -1,8 +1,21 @@
+{% load static %}
 <div class="lateral-esquerda">
+    <div class="logo">
+        <img src="{% static 'index/images/logo.png' %}" width="100%" height="100" alt="">
+    </div>
     <!--Links main-->
-    <a href="{% url 'index-administracao' %}">Dashboard</a>
+    <a href="{% url 'index-administracao' %}">
+        <i class="fa-solid fa-house"></i>
+        <span>Dashboard</span>
+    </a>
     {% if request.user.is_superuser %}
-        <a href="{% url 'nova_empresa-empresa' %}">Nova Empresa</a>
+        <a href="{% url 'nova_empresa-empresa' %}">
+            <i class="fa-solid fa-building"></i>
+            <span>Nova Empresa</span>
+        </a>
     {% endif %}
-    <a href="{% url 'logout-index' %}">Sair</a>
+    <a href="{% url 'logout-index' %}">
+        <i class="fa-solid fa-person-running"></i>
+        <span>Sair</span>
+    </a>
 </div>
