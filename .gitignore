@@ -9,4 +9,3 @@ media/
 staticfiles/
 
 #FILEs
-db.sqlite3
