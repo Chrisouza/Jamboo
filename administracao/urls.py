@@ -3,6 +3,12 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index-administracao"),
+
+    # gerencia niveis
+    path("niveis/", views.gerenciar_niveis),
+    path("niveis/novo/", views.novo_nivel),
+    path("niveis/excluir/<int:nivel>/", views.excluir_nivel),
+
     # gerencia usuarios
     path("usuarios/<str:slug>/", views.gerenciar_usuarios),
     path("usuarios/<str:slug>/novo/", views.novo_usuario),
@@ -16,5 +22,6 @@ urlpatterns = [
     # gernecia arquivos
     path("arquivos/<str:slug>/", views.gerenciar_arquivos),
     path("arquivos/<str:slug>/<str:projeto>/novo/", views.novo_arquivo),
-    path("arquivos/<str:slug>/<str:projeto>/excluir/<int:id_file>/", views.excluir_arquivo),
+    path("arquivos/<str:slug>/<str:projeto>/excluir/<int:id_file>/",
+         views.excluir_arquivo),
 ]

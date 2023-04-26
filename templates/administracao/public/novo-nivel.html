@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'index/js/administracao.js' %}"></script>
+{% endblock %}
+
+
+{% block ld %}
+<form action="/administracao/niveis/novo/" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button class="btn botao" type="submit">Cadastrar nivel</button>
+</form>
+{% endblock %}

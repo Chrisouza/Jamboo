@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'index/js/administracao.js' %}"></script>
+{% endblock %}
+
+
+{% block ld %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
+
+<h1>Niveis de acesso</h1>
+<!--Vai pra dentro de gerenciar usuarios-->
+<a class="botao btn" href="novo/">Novo Nivel</a>
+<hr/>
+
+{% if niveis %}
+<table class="table table-striped">
+    <tr>
+        <th>#</th>
+        <th>Nivel</th>
+        <th>Acoes</th>
+    </tr>
+{% for nivel in niveis %}
+    <tr>
+        <td>{{nivel.id}}</td>
+        <td>
+            <span>{{nivel}}</span>
+        </td>
+        <td>
+            <a href="/administracao/niveis/excluir/{{nivel.id}}" class="btn btn-danger">
+                <i class="fa-solid fa-trash-can"></i>Excluir
+            </a>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+{% else %}
+    <div class="alert alert-danger">Nenhum nivel de acesso cadastrado</div>
+{% endif %}
+    
+
+{% endblock %}

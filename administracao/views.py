@@ -1,3 +1,4 @@
+from doctest import REPORT_ONLY_FIRST_FAILURE
 import shutil
 from django.conf import settings
 
@@ -6,7 +7,7 @@ from empresa.models import Login, Nivel, Empresa, Projeto, Arquivo
 from empresa.funcoes import cria_pasta, cria_pasta_arquivos
 from arquivos.funcoes import verifica_tipo_de_arquivo, upload_function, apaga_arquivo
 from django.contrib.auth.models import User
-from .forms import FormNovoArquivo, FormNovoUsuario, FormNovoProjeto
+from .forms import FormNovoArquivo, FormNovoNivel, FormNovoUsuario, FormNovoProjeto
 from django.contrib import messages
 
 
@@ -16,6 +17,40 @@ def index(request):
         context = {"empresas": empresas}
         return render(request, "administracao/public/home.html", context)
     return redirect("/")
+
+##########################################################
+############## GERENCIAMENTO DE NIVEIS ###################
+##########################################################
+
+
+def gerenciar_niveis(request):
+    if request.user.is_authenticated:
+        niveis = Nivel.objects.all()
+        context = {"niveis": niveis}
+        return render(request, "administracao/public/gerenciar-niveis.html", context)
+
+
+def novo_nivel(request):
+    if request.user.is_authenticated:
+        form = FormNovoNivel(request.POST or None)
+        if request.method == "POST":
+            if form.is_valid():
+                nivel = request.POST.get("nivel")
+                Nivel.objects.create(nivel=nivel)
+                messages.add_message(
+                    request, messages.SUCCESS, "Nivel cadastrado com sucesso!")
+                return redirect(f"/administracao/niveis/")
+        context = {"form": form}
+        return render(request, "administracao/public/novo-nivel.html", context)
+    return redirect("/")
+
+
+def excluir_nivel(request, nivel):
+    if request.user.is_authenticated:
+        Nivel.objects.get(id=nivel).delete()
+        messages.add_message(
+            request, messages.SUCCESS, "Nivel removido com sucesso!")
+        return redirect(f"/administracao/niveis/")
 
 ##########################################################
 ############## GERENCIAMENTO DE USUARIOS #################
