@@ -55,7 +55,30 @@ def nova_empresa(request):
                     cria_pasta(f"media/{slug_da_empresa}")
                 return redirect("/administracao/")
         context = {"form": form}
-        return render(request, "empresa/public/nova_empresa.html", context)
+        return render(request, "empresa/public/nova-empresa.html", context)
+    return redirect("/")
+
+
+def editar_empresa(request, id):
+    if request.user.is_authenticated and request.user.is_superuser:
+        if request.method == "POST":
+            cnpj = request.POST.get("cnpj")
+            nome_da_empresa = request.POST.get("nome_da_empresa")
+            nome_do_responsavel = request.POST.get("nome_do_responsavel")
+            telefone = request.POST.get("cnpj")
+
+            dados = Empresa.objects.filter(id=id)
+            dados.update(
+                cnpj=cnpj,
+                nome_da_empresa=nome_da_empresa,
+                nome_do_responsavel=nome_do_responsavel,
+                telefone=telefone
+            )
+        empresa = Empresa.objects.get(id=id)
+        context = {
+            "empresa": empresa
+        }
+        return render(request, "empresa/public/editar-empresa.html", context)
     return redirect("/")
 
 

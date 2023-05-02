@@ -32,7 +32,7 @@
             {% for empresa in empresas%}
             <tr>
                 <td>{{empresa.id}}</td>
-                <td>{{empresa.nome}}</td>
+                <td>{{empresa.nome_da_empresa}}</td>
                 <td>{{empresa.criado}}</td>
                 <td>
                     {% if empresa.ativo %}
@@ -54,6 +54,10 @@
                     <a class="btn btn-info" href="arquivos/{{empresa.slug_da_empresa}}/">
                         <i class="fa-solid fa-file-import"></i>
                         Gerenciar Arquivos
+                    </a>
+                    <a class="btn btn-danger" href="/empresa/editar/{{empresa.id}}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Editar Informacoes da empresa
                     </a>
                     <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">
                         <i class="fa-solid fa-trash-can"></i>
