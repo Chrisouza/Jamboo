@@ -4,6 +4,9 @@ from .forms import FormLogin
 from django.contrib import messages
 
 
+def alterar_senha(request):
+    pass
+
 def entrar(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:

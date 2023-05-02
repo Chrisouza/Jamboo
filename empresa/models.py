@@ -4,8 +4,13 @@ from django.contrib.auth.models import User
 
 
 class Empresa(models.Model):
-    slug = models.CharField(max_length=255, default="", unique=True)
-    nome = models.CharField(max_length=255, default="", unique=True)
+    cnpj = models.IntegerField(
+        "CNPJ da empresa", default="", unique=True)
+    slug_da_empresa = models.CharField(max_length=255, default="", unique=True)
+    nome_da_empresa = models.CharField(
+        "Nome da empresa", max_length=255, default="", unique=True)
+    nome_do_responsavel = models.CharField(
+        max_length=255, default="", unique=True)
     telefone = models.IntegerField(default="", unique=True)
     criado = models.DateTimeField(default=timezone.now)
     ativo = models.BooleanField(default=True)
@@ -16,11 +21,11 @@ class Empresa(models.Model):
         verbose_name_plural = "Empresas"
 
     def __str__(self):
-        return self.nome
+        return self.nome_da_empresa
 
 
 class Nivel(models.Model):
-    nivel = models.CharField(max_length=100, default="")
+    nome_do_nivel = models.CharField(max_length=100, default="")
 
     class Meta:
         db_table = "nivel"
@@ -28,13 +33,14 @@ class Nivel(models.Model):
         verbose_name_plural = "Niveis"
 
     def __str__(self) -> str:
-        return self.nivel
+        return self.nome_do_nivel
 
 
 class Login(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     nivel = models.ForeignKey(Nivel, on_delete=models.DO_NOTHING)
+    primeiro_acesso = models.BooleanField(default=False)
 
     class Meta:
         db_table = "login"
@@ -46,8 +52,8 @@ class Login(models.Model):
 
 
 class Projeto(models.Model):
-    slug = models.CharField(max_length=255, default="", unique=True)
-    nome = models.CharField(max_length=255, default="", unique=True)
+    slug_do_projeto = models.CharField(max_length=255, default="", unique=True)
+    nome_do_projeto = models.CharField(max_length=255, default="", unique=True)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, default="")
 
     class Meta:
@@ -56,7 +62,7 @@ class Projeto(models.Model):
         verbose_name_plural = "Projetos"
 
     def __str__(self):
-        return f"{self.nome}"
+        return self.nome_do_projeto
 
 
 class Arquivo(models.Model):

@@ -3,7 +3,12 @@ from .models import Empresa
 
 
 class FormNovaEmpresa(forms.ModelForm):
+    administrador = forms.CharField(label="Login administrador")
+    email = forms.EmailField()
+    senha = forms.CharField(label="Senha temporaria",
+                            widget=forms.PasswordInput)
+
     class Meta:
         model = Empresa
         fields = "__all__"
-        exclude = ["slug", "criado", "ativo"]
+        exclude = ["slug_da_empresa", "criado", "ativo"]

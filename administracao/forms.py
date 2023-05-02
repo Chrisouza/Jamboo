@@ -4,19 +4,20 @@ from empresa.models import Login, Nivel, Projeto, Arquivo
 
 class FormNovoUsuario(forms.ModelForm):
     usuario = forms.CharField(max_length=100)
+    email = forms.EmailField(max_length=100)
     senha = forms.CharField(max_length=100, widget=forms.PasswordInput)
 
     class Meta:
         model = Login
         fields = "__all__"
-        exclude = ["usuario", "empresa"]
+        exclude = ["usuario", "empresa", "primeiro_acesso"]
 
 
 class FormNovoProjeto(forms.ModelForm):
     class Meta:
         model = Projeto
         fields = "__all__"
-        exclude = ["empresa", "slug"]
+        exclude = ["empresa", "slug_do_projeto"]
 
 
 class FormNovoArquivo(forms.ModelForm):

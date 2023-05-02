@@ -29,10 +29,10 @@
         {% for projeto in projetos %}
             <tr>
                 <td>{{projeto.id}}</td>
-                <td>{{projeto.nome}}</td>
+                <td>{{projeto.nome_do_projeto}}</td>
                 <td>
-                    <a href="{{projeto.slug}}/novo/" class="btn btn-success">+ Adicionar arquivo</a>
-                    <a href="{{projeto.slug}}/ver/" class="btn btn-info">Ver arquivos</a>
+                    <a href="{{projeto.slug_do_projeto}}/novo/" class="btn btn-success">+ Adicionar arquivo</a>
+                    <a href="{{projeto.slug_do_projeto}}/ver/" class="btn btn-info">Ver arquivos</a>
                 </td>
             </tr>
         {% endfor %}
