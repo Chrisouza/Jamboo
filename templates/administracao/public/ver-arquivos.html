@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'index/js/administracao.js' %}"></script>
+{% endblock %}
+
+
+{% block ld %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
+
+{% for arquivo in arquivos %}
+    <div class="card item-arquivo" style="width: 18rem;">
+            {% if arquivo.extensao == "pdf" %}
+            <img class="card-img-top" src="{% static 'index/images/pdf.png' %}" alt=""/>
+            {% endif %}
+            {% if arquivo.extensao == "imagens" %}
+                <img src="{{arquivo.file}}" width="200" height="200" alt=""/>
+            {% endif %}
+            {% if arquivo.extensao == "audios" %}
+                <img src="{% static 'index/images/audio.png' %}" width="200" height="200" alt=""/>
+            {% endif %}
+            {% if arquivo.extensao == "videos" %}
+                <img src="{% static 'index/images/video.png' %}" width="200" height="200" alt=""/>
+            {% endif %}
+            {% if arquivo.extensao == "outros" %}
+                <img src="{% static 'index/images/outros.png' %}" width="200" height="200" alt=""/>
+            {% endif %}
+            <div class="card-body">
+                <p class="card-text">{{arquivo.descricao}}</p>
+                <a class="btn btn-success card-link" href="{{arquivo.file}}" target="__blank">
+                    <i class="fa-solid fa-eye"></i>
+                </a>
+                <a class="btn btn-danger card-link" href="/administracao/arquivos/{{slug}}/{{projeto}}/excluir/{{arquivo.id}}/">
+                    <i class="fa-solid fa-trash-can"></i>Excluir
+                </a>
+            </div>
+            
+        </div>
+{% endfor %}
+
+{% endblock %}

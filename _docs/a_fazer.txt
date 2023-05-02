@@ -1,3 +1,0 @@
-1 - criar pasta por data de upload em cada pasta de tipo de arquivo
-2 - organizer aquivos no front por tipo e data ( a pessoa escolhe med)
-3 - modelo de arquivamento -> /media /empresa /(images-audio) /projeto_nome /15-03-1993 /arquivo.jpg

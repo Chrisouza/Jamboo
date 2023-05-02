@@ -175,6 +175,15 @@ def novo_arquivo(request, slug, projeto):
     return redirect("/")
 
 
+def ver_arquivos(request, slug, projeto):
+    if request.user.is_authenticated:
+        projeto = Projeto.objects.get(slug=projeto)
+        arquivos = Arquivo.objects.filter(projeto=projeto.id)
+        context = {"slug": slug, "arquivos": arquivos, "projeto": projeto}
+        return render(request, "administracao/public/ver-arquivos.html", context)
+    return redirect("/")
+
+
 def excluir_arquivo(request, slug, projeto, id_file):
     if request.user.is_authenticated:
         arq = Arquivo.objects.get(id=id_file)

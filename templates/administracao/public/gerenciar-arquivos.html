@@ -18,52 +18,27 @@
     {% endfor %}
 {% endif %}
 
-
     <h1>Arquivos {{slug}}</h1>
     {% if projetos %}
-    {% for projeto in projetos %}
-
-        <details>
-            <summary class="item-projeto">
-                Projeto:<strong>{{projeto}}</strong>
-                <a href="{{projeto.slug}}/novo/" class="btn btn-success">+ Adicionar arquivo</a>
-            </summary>
-            {% for arquivo in arquivos %}
-                <div class="card item-arquivo" style="width: 18rem;">
-                {% if arquivo.projeto.id == projeto.id %}
-                        {% if arquivo.extensao == "pdf" %}
-                        <img class="card-img-top" src="{% static 'index/images/pdf.png' %}" alt=""/>
-                        {% endif %}
-                        {% if arquivo.extensao == "imagens" %}
-                            <img src="{{arquivo.file}}" width="200" height="200" alt=""/>
-                        {% endif %}
-                        {% if arquivo.extensao == "audios" %}
-                            <img src="{% static 'index/images/audio.png' %}" width="200" height="200" alt=""/>
-                        {% endif %}
-                        {% if arquivo.extensao == "videos" %}
-                            <img src="{% static 'index/images/video.png' %}" width="200" height="200" alt=""/>
-                        {% endif %}
-                        {% if arquivo.extensao == "outros" %}
-                            <img src="{% static 'index/images/outros.png' %}" width="200" height="200" alt=""/>
-                        {% endif %}
-                        <div class="card-body">
-                            <p class="card-text">{{arquivo.descricao}}</p>
-                            <a class="btn btn-success card-link" href="{{arquivo.file}}" target="__blank">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                            <a class="btn btn-danger card-link" href="{{projeto}}/excluir/{{arquivo.id}}/">
-                                <i class="fa-solid fa-trash-can"></i>Excluir
-                            </a>
-                        </div>
-                        
-                    </div>
-                {% endif %}
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>Acoes</th>
+            </tr>
+        {% for projeto in projetos %}
+            <tr>
+                <td>{{projeto.id}}</td>
+                <td>{{projeto.nome}}</td>
+                <td>
+                    <a href="{{projeto.slug}}/novo/" class="btn btn-success">+ Adicionar arquivo</a>
+                    <a href="{{projeto.slug}}/ver/" class="btn btn-info">Ver arquivos</a>
+                </td>
+            </tr>
         {% endfor %}
-        </details>
-
-    {% endfor %} 
+        </table>
     {% else %}
-    <div class="alert alert-danger">Necessario ter projeto para adicionar arquivo</div>
+        <div class="alert alert-danger">Necessario ter projeto para adicionar arquivo</div>
     {% endif %}
 
 {% endblock %}

@@ -1,4 +1,0 @@
-botao -> #c27706; (escuro)
-botao:hover -> #f19103;(claro)
-
-fundo -> #000000
