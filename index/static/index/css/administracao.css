@@ -39,13 +39,14 @@ div.ld summary.item-projeto{
     padding:0.5%;
 }
 
-div.ld details summary.item-projeto a{
-    margin-left:10%;
-}
-div.ld details div.item-arquivo {
+div.ld div.item-arquivo {
     padding:0.5%;
     float:left;
+    margin-right:0.5%;
 }
-div.ld details div.item-arquivo img{
+div.ld div.item-projeto a{
+    margin-left:10%;
+}
+div.ld div.item-arquivo img{
     width: 100%;
 }
