@@ -139,7 +139,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # informacoes de envio de email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.mail.yahoo.com"
 EMAIL_HOST_USER = "rcsc3w@yahoo.com.br"
 EMAIL_HOST_PASSWORD = "Ri@@150393"
 EMAIL_POST = 467
+EMAIL_USE_TLS = True
