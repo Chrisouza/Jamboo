@@ -8,14 +8,14 @@
 
 {% block ld %}
 
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
 <form action="" method="post" autocomplete="off">
     {% csrf_token %}
-    
-    <label for="cnpj">CNPJ:</label>
-    <input class="form form-control" type="text" name="cnpj" id="cnpj" value="{{empresa.cnpj}}">
-
-    <label for="cnpj">Nome da empresa:</label>
-    <input class="form form-control" type="text" name="nome_da_empresa" id="nome_da_empresa" value="{{empresa.nome_da_empresa}}">
 
     <label for="cnpj">Nome do Responsavel:</label>
     <input class="form form-control" type="text" name="nome_do_responsavel" id="nome_do_responsavel" value="{{empresa.nome_do_responsavel}}">

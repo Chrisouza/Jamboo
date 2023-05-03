@@ -12,3 +12,7 @@ class FormNovaEmpresa(forms.ModelForm):
         model = Empresa
         fields = "__all__"
         exclude = ["slug_da_empresa", "criado", "ativo"]
+        widgets = {
+            "cnpj": forms.TextInput(attrs={"id": "cnpj"}),
+            "telefone": forms.TextInput(attrs={"id": "telefone"})
+        }

@@ -4,14 +4,12 @@ from django.contrib.auth.models import User
 
 
 class Empresa(models.Model):
-    cnpj = models.IntegerField(
-        "CNPJ da empresa", default="", unique=True)
+    cnpj = models.CharField(max_length=18, default="", unique=True)
     slug_da_empresa = models.CharField(max_length=255, default="", unique=True)
-    nome_da_empresa = models.CharField(
-        "Nome da empresa", max_length=255, default="", unique=True)
+    nome_da_empresa = models.CharField(max_length=255, default="", unique=True)
     nome_do_responsavel = models.CharField(
         max_length=255, default="", unique=True)
-    telefone = models.IntegerField(default="", unique=True)
+    telefone = models.CharField(max_length=14, default="", unique=True)
     criado = models.DateTimeField(default=timezone.now)
     ativo = models.BooleanField(default=True)
 

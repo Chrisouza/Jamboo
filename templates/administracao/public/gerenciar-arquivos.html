@@ -24,12 +24,14 @@
             <tr>
                 <th>#</th>
                 <th>Nome</th>
+                <th>Total de arquivos</th>
                 <th>Acoes</th>
             </tr>
         {% for projeto in projetos %}
             <tr>
                 <td>{{projeto.id}}</td>
                 <td>{{projeto.nome_do_projeto}}</td>
+                <td>{{arquivos|length}}</td>
                 <td>
                     <a href="{{projeto.slug_do_projeto}}/novo/" class="btn btn-success">+ Adicionar arquivo</a>
                     <a href="{{projeto.slug_do_projeto}}/ver/" class="btn btn-info">Ver arquivos</a>

@@ -5,6 +5,7 @@ from empresa.models import Login, Empresa, Nivel
 from django.contrib.auth.models import User
 from .forms import FormNovaEmpresa
 from .funcoes import cria_pasta
+from django.contrib import messages
 
 
 def index(request):
@@ -60,20 +61,18 @@ def nova_empresa(request):
 
 
 def editar_empresa(request, id):
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated:
         if request.method == "POST":
-            cnpj = request.POST.get("cnpj")
-            nome_da_empresa = request.POST.get("nome_da_empresa")
             nome_do_responsavel = request.POST.get("nome_do_responsavel")
-            telefone = request.POST.get("cnpj")
+            telefone = request.POST.get("telefone")
 
             dados = Empresa.objects.filter(id=id)
             dados.update(
-                cnpj=cnpj,
-                nome_da_empresa=nome_da_empresa,
                 nome_do_responsavel=nome_do_responsavel,
                 telefone=telefone
             )
+            messages.add_message(request, messages.SUCCESS,
+                                 "Dados atualizados com sucesso!")
         empresa = Empresa.objects.get(id=id)
         context = {
             "empresa": empresa

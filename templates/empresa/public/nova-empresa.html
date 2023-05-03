@@ -8,6 +8,12 @@
 
 {% block ld %}
 
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
 <form action="{% url 'nova_empresa-empresa' %}" method="post" autocomplete="off">
     {% csrf_token %}
     {% bootstrap_form form %}
