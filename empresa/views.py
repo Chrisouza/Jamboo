@@ -52,6 +52,10 @@ def nova_empresa(request):
                     nivel=Nivel.objects.get(id=1)
                 )
 
+                corpo = f"Os dados de login e senha do adminsitrador foram enviados para o e-mail:{email}"
+                corpo += f"Login: {usuario_administrador} - Senha: {senha}"
+                form.send_email(destinatario=email, corpo=corpo)
+
                 if emp:
                     cria_pasta(f"media/{slug_da_empresa}")
                 return redirect("/administracao/")
