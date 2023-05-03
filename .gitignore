@@ -10,3 +10,4 @@ staticfiles/
 
 #FILEs
 db.sqlite3
+.env

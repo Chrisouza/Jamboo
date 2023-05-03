@@ -18,7 +18,7 @@ class FormNovaEmpresa(forms.ModelForm):
             "telefone": forms.TextInput(attrs={"id": "telefone"})
         }
 
-    def envia_email(assunto, destinatario, corpo):
-        # send_mail("Subject", "Message.", "from@example.com", ["john@example.com", "jane@example.com"])
-        mail = send_mail(assunto, corpo, "rcsc3w@yahoo.com.br", [destinatario])
-        mail.send()
+    def envia_email(self, destinatario, corpo):
+        # mail = send_mail(assunto, corpo, "rcsc3w@yahoo.com.br", [destinatario])
+        assunto = 'Dados de acesso ao sistema'
+        send_mail(assunto, corpo, "rcsc3w@yahoo.com.br", [destinatario])
