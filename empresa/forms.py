@@ -1,6 +1,6 @@
 from django import forms
 from .models import Empresa
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 
 
 class FormNovaEmpresa(forms.ModelForm):
@@ -18,14 +18,7 @@ class FormNovaEmpresa(forms.ModelForm):
             "telefone": forms.TextInput(attrs={"id": "telefone"})
         }
 
-    def send_email(assunto, destinatario, corpo):
-        mail = EmailMessage(
-            object=assunto,
-            from_email="rcsc3w@yahoo.com.br",
-            to=[destinatario,],
-            body=corpo,
-            headers={
-                "Replay": "rcsc3w@yahoo.com.br"
-            }
-        )
+    def envia_email(assunto, destinatario, corpo):
+        # send_mail("Subject", "Message.", "from@example.com", ["john@example.com", "jane@example.com"])
+        mail = send_mail(assunto, corpo, "rcsc3w@yahoo.com.br", [destinatario])
         mail.send()
