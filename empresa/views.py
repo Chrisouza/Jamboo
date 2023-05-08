@@ -55,9 +55,9 @@ def nova_empresa(request):
                 ##################################
                 # AREA DO ENVIO DE EMAIL
                 ##################################
-                corpo = f"Os dados de login e senha do adminsitradorsoa:"
-                corpo += f"Login: {usuario_administrador} - Senha: {senha}"
-                form.envia_email(destinatario=email, corpo=corpo)
+                #corpo = f"Os dados de login e senha do adminsitradorsoa:"
+                #corpo += f"Login: {usuario_administrador} - Senha: {senha}"
+                #form.envia_email(destinatario=email, corpo=corpo)
 
                 if emp:
                     cria_pasta(f"media/{slug_da_empresa}")
