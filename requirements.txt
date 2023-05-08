@@ -4,3 +4,4 @@ pillow
 sqlparse
 django-environ
 django_smtp_ssl
+gunicorn
