@@ -8,7 +8,7 @@ from empresa.funcoes import cria_pasta, cria_pasta_arquivos
 from arquivos.funcoes import verifica_tipo_de_arquivo, upload_function, apaga_arquivo
 from django.contrib.auth.models import User
 from .forms import FormNovoArquivo, FormNovoNivel, FormNovoUsuario, FormNovoProjeto
-from django.contrib import messages
+from index.mensagens import *
 
 
 def index(request):
@@ -16,6 +16,7 @@ def index(request):
         empresas = Empresa.objects.all()
         context = {"empresas": empresas}
         return render(request, "administracao/public/home.html", context)
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 ##########################################################
@@ -28,6 +29,7 @@ def gerenciar_niveis(request):
         niveis = Nivel.objects.all()
         context = {"niveis": niveis}
         return render(request, "administracao/public/gerenciar-niveis.html", context)
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
@@ -38,19 +40,24 @@ def novo_nivel(request):
             if form.is_valid():
                 nivel = request.POST.get("nome_do_nivel")
                 Nivel.objects.create(nome_do_nivel=nivel)
-                messages.add_message(request, messages.SUCCESS, "Nivel cadastrado com sucesso!")
+                sucesso(request, msg="Nivel cadastrado com sucesso!")
                 return redirect(f"/administracao/niveis/")
         context = {"form": form}
         return render(request, "administracao/public/novo-nivel.html", context)
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
 def excluir_nivel(request, nivel):
     if request.user.is_authenticated and request.user.is_superuser:
-        Nivel.objects.get(id=nivel).delete()
-        messages.add_message(
-            request, messages.SUCCESS, "Nivel removido com sucesso!")
-        return redirect(f"/administracao/niveis/")
+        try:
+            Nivel.objects.get(id=nivel).delete()
+            sucesso(request, msg="Nivel removido com sucesso!")
+        except:
+            warning(request, msg="Nao pode apagar esse nivel, pois existe usuarios nele!")
+        finally:
+            return redirect(f"/administracao/niveis/")
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect(f"/")
 
 ##########################################################
@@ -64,6 +71,7 @@ def gerenciar_usuarios(request, slug):
             empresa=Empresa.objects.get(slug_da_empresa=slug).id)
         context = {"slug": slug, "logins": logins}
         return render(request, "administracao/public/gerenciar-usuario.html", context)
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
@@ -87,13 +95,14 @@ def novo_usuario(request, slug):
                     emp = Empresa.objects.get(slug_da_empresa=slug)
 
                     nivel = Nivel.objects.get(id=nivel)
-                    Login.objects.create(usuario=user, empresa=emp, nivel=nivel)
+                    Login.objects.create(
+                        usuario=user, empresa=emp, nivel=nivel)
 
-                    messages.add_message(
-                        request, messages.SUCCESS, "Usuario cadastrado com sucesso!")
+                    sucesso(request, msg="Usuario cadastrado com sucesso!")
                     return redirect(f"/administracao/usuarios/{slug}/")
             context = {"form": form, "slug": slug}
             return render(request, "administracao/public/novo-usuario.html", context)
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
@@ -105,9 +114,9 @@ def remove_usuario(request, slug, usuario):
             pass
         if request.user.is_superuser or nivel.nivel.id == 1:
             User.objects.get(id=usuario).delete()
-            messages.add_message(
-                request, messages.SUCCESS, "Usuario removido com sucesso!")
+            sucesso(request, msg="Usuario removido com sucesso!")
             return redirect(f"/administracao/usuarios/{slug}/")
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect(f"/")
 
 ##########################################################
@@ -146,11 +155,11 @@ def novo_projeto(request, slug):
                         slug_do_projeto=slug_do_projeto, nome_do_projeto=nome_do_projeto, empresa=emp)
                     cria_pasta(f"media/{slug}/{slug_do_projeto}")
                     cria_pasta_arquivos(slug=slug, projeto=slug_do_projeto)
-                    messages.add_message(
-                        request, messages.SUCCESS, "Projeto cadastrado com sucesso!")
+                    sucesso(request, msg="Projeto cadastrado com sucesso!")
                     return redirect(f"/administracao/projetos/{slug}/")
             context = {"form": form, "slug": slug}
             return render(request, "administracao/public/novo-projeto.html", context)
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
@@ -163,11 +172,11 @@ def remove_projeto(request, slug, projeto):
         if request.user.is_superuser or nivel.nivel.id == 1:
             projeto = Projeto.objects.get(id=projeto)
             shutil.rmtree(f"{settings.BASE_DIR}/media/{slug}/{projeto.slug_do_projeto}",
-                        ignore_errors=True)
+                          ignore_errors=True)
             projeto.delete()
-            messages.add_message(
-                request, messages.SUCCESS, "Projeto deletado com sucesso!")
+            sucesso(request, msg="Projeto deletado com sucesso!")
             return redirect(f"/administracao/projetos/{slug}/")
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 ##########################################################
@@ -182,6 +191,7 @@ def gerenciar_arquivos(request, slug):
         arquivos = Arquivo.objects.all().order_by("-id")
         context = {"slug": slug, "projetos": projetos, "arquivos": arquivos}
         return render(request, "administracao/public/gerenciar-arquivos.html", context)
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
@@ -199,11 +209,11 @@ def novo_arquivo(request, slug, projeto):
             projeto = Projeto.objects.get(slug_do_projeto=projeto)
             Arquivo.objects.create(
                 empresa=emp, file=path, descricao=descricao, editor=editor, extensao=extensao, projeto=projeto)
-            messages.add_message(
-                request, messages.SUCCESS, "Arquivo cadastrado com sucesso!")
+            sucesso(request, msg="Arquivo cadastrado com sucesso!")
             return redirect(f"/administracao/arquivos/{slug}/")
         context = {"form": form, "slug": slug, "projeto": projeto}
         return render(request, "administracao/public/novo-arquivo.html", context)
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
@@ -213,6 +223,7 @@ def ver_arquivos(request, slug, projeto):
         arquivos = Arquivo.objects.filter(projeto=projeto.id)
         context = {"slug": slug, "arquivos": arquivos, "projeto": projeto}
         return render(request, "administracao/public/ver-arquivos.html", context)
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
@@ -222,6 +233,6 @@ def excluir_arquivo(request, slug, projeto, id_file):
         if arq is not None:
             apaga_arquivo(path=f"{arq.file}")
             arq.delete()
-            messages.add_message(
-                request, messages.SUCCESS, "Arquivo apagado com sucesso!")
+            sucesso(request, msg="Arquivo apagado com sucesso!")
+    info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect(f"/")

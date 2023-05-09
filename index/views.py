@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import FormLogin
-from django.contrib import messages
+from .mensagens import *
 
 
 def alterar_senha(request):
@@ -23,7 +23,7 @@ def entrar(request):
             auth = authenticate(username=usuario, password=senha)
             if auth is not None:
                 login(request, auth)
-                messages.add_message(request, messages.INFO, "Login realizado com sucesso!")
+                sucesso(request, msg="Login realizado com sucesso!")
                 return redirect("/")
     context = {"form_login": form_login}
     return render(request, "index/public/login.html", context)
@@ -32,6 +32,5 @@ def entrar(request):
 def sair(request):
     if request.user.is_authenticated:
         logout(request)
-        messages.add_message(request, messages.WARNING,
-                             "Logout realizado com sucesso!")
+        info(request, msg="Logout realizado com sucesso!")
     return redirect("/")

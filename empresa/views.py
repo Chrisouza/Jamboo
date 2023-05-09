@@ -16,6 +16,8 @@ def index(request):
         empresa = Empresa.objects.get(id=usuario.empresa.id)
         context = {"empresa": empresa}
         return render(request, "empresa/public/home.html", context)
+    messages.add_message(request, messages.WARNING,
+                         "Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
@@ -69,6 +71,8 @@ def nova_empresa(request):
                 return redirect("/administracao/")
         context = {"form": form}
         return render(request, "empresa/public/nova-empresa.html", context)
+    messages.add_message(request, messages.WARNING,
+                         "Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
@@ -94,6 +98,8 @@ def editar_empresa(request, id):
                 "empresa": empresa
             }
             return render(request, "empresa/public/editar-empresa.html", context)
+    messages.add_message(request, messages.WARNING,
+                         "Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
 
 
@@ -107,4 +113,6 @@ def excluir_empresa(request, id):
                       ignore_errors=True)
         emp.delete()
         return redirect("/administracao/")
+    messages.add_message(request, messages.WARNING,
+                             "Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
