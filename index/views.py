@@ -7,6 +7,7 @@ from django.contrib import messages
 def alterar_senha(request):
     pass
 
+
 def entrar(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
@@ -22,12 +23,8 @@ def entrar(request):
             auth = authenticate(username=usuario, password=senha)
             if auth is not None:
                 login(request, auth)
-                messages.add_message(request, messages.INFO,
-                                     "Login realizado com sucesso!")
-                if auth.is_superuser:
-                    return redirect("/administracao/")
-                else:
-                    return redirect("/empresa/")
+                messages.add_message(request, messages.INFO, "Login realizado com sucesso!")
+                return redirect("/")
     context = {"form_login": form_login}
     return render(request, "index/public/login.html", context)
 

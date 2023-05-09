@@ -7,6 +7,8 @@ from .forms import FormNovaEmpresa
 from .funcoes import cria_pasta
 from django.contrib import messages
 
+# SO ACESSA ESSA INDEX SE NAO FOR SUPER USUARIO
+
 
 def index(request):
     if request.user.is_authenticated and not request.user.is_superuser:
@@ -55,9 +57,9 @@ def nova_empresa(request):
                 ##################################
                 # AREA DO ENVIO DE EMAIL
                 ##################################
-                #corpo = f"Os dados de login e senha do adminsitradorsoa:"
-                #corpo += f"Login: {usuario_administrador} - Senha: {senha}"
-                #form.envia_email(destinatario=email, corpo=corpo)
+                # corpo = f"Os dados de login e senha do adminsitradorsoa:"
+                # corpo += f"Login: {usuario_administrador} - Senha: {senha}"
+                # form.envia_email(destinatario=email, corpo=corpo)
 
                 if emp:
                     cria_pasta(f"media/{slug_da_empresa}")
@@ -72,22 +74,26 @@ def nova_empresa(request):
 
 def editar_empresa(request, id):
     if request.user.is_authenticated:
-        if request.method == "POST":
-            nome_do_responsavel = request.POST.get("nome_do_responsavel")
-            telefone = request.POST.get("telefone")
-
-            dados = Empresa.objects.filter(id=id)
-            dados.update(
-                nome_do_responsavel=nome_do_responsavel,
-                telefone=telefone
-            )
-            messages.add_message(request, messages.SUCCESS,
-                                 "Dados atualizados com sucesso!")
-        empresa = Empresa.objects.get(id=id)
-        context = {
-            "empresa": empresa
-        }
-        return render(request, "empresa/public/editar-empresa.html", context)
+        try:
+            nivel = Login.objects.get(usuario=request.user.id)
+        except:
+            pass
+        if request.user.is_superuser or nivel.nivel.id == 1:
+            if request.method == "POST":
+                nome_do_responsavel = request.POST.get("nome_do_responsavel")
+                telefone = request.POST.get("telefone")
+                dados = Empresa.objects.filter(id=id)
+                dados.update(
+                    nome_do_responsavel=nome_do_responsavel,
+                    telefone=telefone
+                )
+                messages.add_message(request, messages.SUCCESS,
+                                     "Dados atualizados com sucesso!")
+            empresa = Empresa.objects.get(id=id)
+            context = {
+                "empresa": empresa
+            }
+            return render(request, "empresa/public/editar-empresa.html", context)
     return redirect("/")
 
 

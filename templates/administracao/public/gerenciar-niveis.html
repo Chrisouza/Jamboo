@@ -37,11 +37,13 @@
         <td>
             <span>{{nivel}}</span>
         </td>
+        {% if not nivel.id == 1 %}
         <td>
             <a href="/administracao/niveis/excluir/{{nivel.id}}" class="btn btn-danger">
                 <i class="fa-solid fa-trash-can"></i>Excluir
             </a>
         </td>
+        {% endif %}
     </tr>
 {% endfor %}
 </table>
