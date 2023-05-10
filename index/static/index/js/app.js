@@ -3,7 +3,7 @@ $(document).ready(function(){
     $("#telefone").on("blur",function(){
       if(this.value.length == 10 ){
         $("#telefone").mask("(00) 0000-0000");
-      } else if(this.value.length == 11) {
+      } else if(this.value.length >= 11) {
         $("#telefone").mask("(00) 0 0000-0000");
       }
     });

@@ -15,7 +15,7 @@ class FormNovaEmpresa(forms.ModelForm):
         exclude = ["slug_da_empresa", "criado", "ativo"]
         widgets = {
             "cnpj": forms.TextInput(attrs={"id": "cnpj"}),
-            "telefone": forms.TextInput(attrs={"id": "telefone"})
+            "telefone": forms.TextInput(attrs={"id": "telefone", "maxlength": 11})
         }
 
     def envia_email(self, destinatario, corpo):
