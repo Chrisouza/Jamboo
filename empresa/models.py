@@ -25,6 +25,7 @@ class Empresa(models.Model):
 
 class Nivel(models.Model):
     nome_do_nivel = models.CharField(max_length=100, default="")
+    descricao = models.TextField(max_length=255, default="")
 
     class Meta:
         db_table = "nivel"

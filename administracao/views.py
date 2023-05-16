@@ -50,7 +50,8 @@ def novo_nivel(request):
         if request.method == "POST":
             if form.is_valid():
                 nivel = request.POST.get("nome_do_nivel")
-                Nivel.objects.create(nome_do_nivel=nivel)
+                descricao = request.POST.get("descricao")
+                Nivel.objects.create(nome_do_nivel=nivel, descricao=descricao)
                 sucesso(request, msg="Nivel cadastrado com sucesso!")
                 Notificacoes.objects.create(
                     descricao="Novo nivel de acesso adicionado!")
