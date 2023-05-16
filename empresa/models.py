@@ -84,7 +84,7 @@ class Arquivo(models.Model):
 
 class Notificacoes(models.Model):
     descricao = models.TextField(default="")
-    data = models.DateField(default=timezone.now)
+    data = models.DateTimeField(default=timezone.now)
     lida = models.BooleanField(default=False)
 
     class Meta:
