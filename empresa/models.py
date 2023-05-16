@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import Widget
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -79,3 +80,17 @@ class Arquivo(models.Model):
 
     def __str__(self) -> str:
         return f"{self.file} | {self.editor} | {self.edicao}"
+
+
+class Notificacoes(models.Model):
+    descricao = models.TextField(default="")
+    data = models.DateField(default=timezone.now)
+    lida = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "notificacoes"
+        verbose_name = "Notificacao"
+        verbose_name_plural = "Notificacoes"
+
+    def __str__(self) -> str:
+        return f"{self.descricao} | {self.data}"

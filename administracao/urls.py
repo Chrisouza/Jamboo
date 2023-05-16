@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index-administracao"),
+    path("notificacoes/", views.notificacoes),
 
     # gerencia niveis
     path("niveis/", views.gerenciar_niveis),

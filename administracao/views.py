@@ -3,7 +3,7 @@ import shutil
 from django.conf import settings
 
 from django.shortcuts import render, redirect
-from empresa.models import Login, Nivel, Empresa, Projeto, Arquivo
+from empresa.models import Login, Nivel, Empresa, Notificacoes, Projeto, Arquivo
 from empresa.funcoes import cria_pasta, cria_pasta_arquivos
 from arquivos.funcoes import verifica_tipo_de_arquivo, upload_function, apaga_arquivo
 from django.contrib.auth.models import User
@@ -18,6 +18,17 @@ def index(request):
         return render(request, "administracao/public/home.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
+
+
+def notificacoes(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        notificacoes = Notificacoes.objects.all()
+        context = {
+            "notificacoes": notificacoes
+        }
+        return render(request, "administracao/public/notificacoes.html", context)
+    return redirect("/")
+
 
 ##########################################################
 ############## GERENCIAMENTO DE NIVEIS ###################
@@ -41,6 +52,8 @@ def novo_nivel(request):
                 nivel = request.POST.get("nome_do_nivel")
                 Nivel.objects.create(nome_do_nivel=nivel)
                 sucesso(request, msg="Nivel cadastrado com sucesso!")
+                Notificacoes.objects.create(
+                    descricao="Novo nivel de acesso adicionado!")
                 return redirect(f"/administracao/niveis/")
         context = {"form": form}
         return render(request, "administracao/public/novo-nivel.html", context)
@@ -54,7 +67,8 @@ def excluir_nivel(request, nivel):
             Nivel.objects.get(id=nivel).delete()
             sucesso(request, msg="Nivel removido com sucesso!")
         except:
-            warning(request, msg="Nao pode apagar esse nivel, pois existe usuarios nele!")
+            warning(
+                request, msg="Nao pode apagar esse nivel, pois existe usuarios nele!")
         finally:
             return redirect(f"/administracao/niveis/")
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")

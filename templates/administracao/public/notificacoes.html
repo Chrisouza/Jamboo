@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
+{% endblock %}
+{% block js %}
+<script src="{% static 'index/js/administracao.js' %}"></script>
+{% endblock %}
+
+
+{% block ld %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
+{% if notificacoes %}
+<table class="table table-striped">
+    <tr>
+        <th>#</th>
+        <th>Descricao</th>
+        <th>Data</th>
+    </tr>
+    {% for notificacao in notificacoes %}
+        <tr>
+            <td>{{notificacao.id}}</td>
+            <td>{{notificacao.descricao}}</td>
+            <td>{{notificacao.data}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% else %}
+<div class="alert alert-danger">Sem notificacoes</div>
+{% endif %}
+    
+
+{% endblock %}

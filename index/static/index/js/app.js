@@ -7,13 +7,7 @@ $(document).ready(function(){
         $("#telefone").mask("(00) 0 0000-0000");
       }
     });
-    //if($("#telefone").value.length > 11){
-    
-    //} else {
-    //  $("#telefone").mask("(00) 0000-0000");
-    //}
     gera_senha()
-
 });
 
 function gera_senha() { 
