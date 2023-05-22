@@ -11,10 +11,16 @@ from .forms import FormNovoArquivo, FormNovoNivel, FormNovoUsuario, FormNovoProj
 from index.mensagens import *
 
 
+def pega_notificacoes():
+    notificacoes = Notificacoes.objects.all()
+    return notificacoes
+
+
 def index(request):
     if request.user.is_authenticated and request.user.is_superuser:
         empresas = Empresa.objects.all()
-        context = {"empresas": empresas}
+        notificacoes = pega_notificacoes()
+        context = {"empresas": empresas, "notificacoes": notificacoes}
         return render(request, "administracao/public/home.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -22,10 +28,8 @@ def index(request):
 
 def notificacoes(request):
     if request.user.is_authenticated and request.user.is_superuser:
-        notificacoes = Notificacoes.objects.all()
-        context = {
-            "notificacoes": notificacoes
-        }
+        notificacoes = pega_notificacoes()
+        context = {"notificacoes": notificacoes}
         return render(request, "administracao/public/notificacoes.html", context)
     return redirect("/")
 
@@ -38,7 +42,8 @@ def notificacoes(request):
 def gerenciar_niveis(request):
     if request.user.is_authenticated and request.user.is_superuser:
         niveis = Nivel.objects.all()
-        context = {"niveis": niveis}
+        notificacoes = pega_notificacoes()
+        context = {"niveis": niveis, "notificacoes": notificacoes}
         return render(request, "administracao/public/gerenciar-niveis.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -46,6 +51,7 @@ def gerenciar_niveis(request):
 
 def novo_nivel(request):
     if request.user.is_authenticated and request.user.is_superuser:
+        notificacoes = pega_notificacoes()
         form = FormNovoNivel(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
@@ -56,7 +62,7 @@ def novo_nivel(request):
                 Notificacoes.objects.create(
                     descricao="Novo nivel de acesso adicionado!")
                 return redirect(f"/administracao/niveis/")
-        context = {"form": form}
+        context = {"form": form, "notificacoes": notificacoes}
         return render(request, "administracao/public/novo-nivel.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -82,9 +88,11 @@ def excluir_nivel(request, nivel):
 
 def gerenciar_usuarios(request, slug):
     if request.user.is_authenticated:
+        notificacoes = pega_notificacoes()
         logins = Login.objects.filter(
             empresa=Empresa.objects.get(slug_da_empresa=slug).id)
-        context = {"slug": slug, "logins": logins}
+        context = {"slug": slug, "logins": logins,
+                   "notificacoes": notificacoes}
         return render(request, "administracao/public/gerenciar-usuario.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -97,6 +105,7 @@ def novo_usuario(request, slug):
         except:
             pass
         if request.user.is_superuser or nivel.nivel.id == 1:
+            notificacoes = pega_notificacoes()
             form = FormNovoUsuario(request.POST or None)
             if request.method == "POST":
                 if form.is_valid():
@@ -115,7 +124,8 @@ def novo_usuario(request, slug):
 
                     sucesso(request, msg="Usuario cadastrado com sucesso!")
                     return redirect(f"/administracao/usuarios/{slug}/")
-            context = {"form": form, "slug": slug}
+            context = {"form": form, "slug": slug,
+                       "notificacoes": notificacoes}
             return render(request, "administracao/public/novo-usuario.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -146,9 +156,11 @@ def gerenciar_projetos(request, slug):
         except:
             pass
         if request.user.is_superuser or nivel.nivel.id == 1:
+            notificacoes = pega_notificacoes()
             projetos = Projeto.objects.filter(
                 empresa=Empresa.objects.get(slug_da_empresa=slug).id)
-            context = {"slug": slug, "projetos": projetos}
+            context = {"slug": slug, "projetos": projetos,
+                       "notificacoes": notificacoes}
             return render(request, "administracao/public/gerenciar-projetos.html", context)
     return redirect("/")
 
@@ -160,6 +172,7 @@ def novo_projeto(request, slug):
         except:
             pass
         if request.user.is_superuser or nivel.nivel.id == 1:
+            notificacoes = pega_notificacoes()
             form = FormNovoProjeto(request.POST or None)
             if request.method == "POST":
                 if form.is_valid():
@@ -172,7 +185,8 @@ def novo_projeto(request, slug):
                     cria_pasta_arquivos(slug=slug, projeto=slug_do_projeto)
                     sucesso(request, msg="Projeto cadastrado com sucesso!")
                     return redirect(f"/administracao/projetos/{slug}/")
-            context = {"form": form, "slug": slug}
+            context = {"form": form, "slug": slug,
+                       "notificacoes": notificacoes}
             return render(request, "administracao/public/novo-projeto.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -201,10 +215,12 @@ def remove_projeto(request, slug, projeto):
 
 def gerenciar_arquivos(request, slug):
     if request.user.is_authenticated:
+        notificacoes = pega_notificacoes()
         projetos = Projeto.objects.filter(
             empresa=Empresa.objects.get(slug_da_empresa=slug).id)
         arquivos = Arquivo.objects.all().order_by("-id")
-        context = {"slug": slug, "projetos": projetos, "arquivos": arquivos}
+        context = {"slug": slug, "projetos": projetos,
+                   "arquivos": arquivos, "notificacoes": notificacoes}
         return render(request, "administracao/public/gerenciar-arquivos.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -212,6 +228,7 @@ def gerenciar_arquivos(request, slug):
 
 def novo_arquivo(request, slug, projeto):
     if request.user.is_authenticated:
+        notificacoes = pega_notificacoes()
         form = FormNovoArquivo(request.FILES)
         if request.method == "POST":
             emp = Empresa.objects.get(slug_da_empresa=slug)
@@ -226,7 +243,8 @@ def novo_arquivo(request, slug, projeto):
                 empresa=emp, file=path, descricao=descricao, editor=editor, extensao=extensao, projeto=projeto)
             sucesso(request, msg="Arquivo cadastrado com sucesso!")
             return redirect(f"/administracao/arquivos/{slug}/")
-        context = {"form": form, "slug": slug, "projeto": projeto}
+        context = {"form": form, "slug": slug,
+                   "projeto": projeto, "notificacoes": notificacoes}
         return render(request, "administracao/public/novo-arquivo.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -234,9 +252,11 @@ def novo_arquivo(request, slug, projeto):
 
 def ver_arquivos(request, slug, projeto):
     if request.user.is_authenticated:
+        notificacoes = pega_notificacoes()
         projeto = Projeto.objects.get(slug_do_projeto=projeto)
         arquivos = Arquivo.objects.filter(projeto=projeto.id)
-        context = {"slug": slug, "arquivos": arquivos, "projeto": projeto}
+        context = {"slug": slug, "arquivos": arquivos,
+                   "projeto": projeto, "notificacoes": notificacoes}
         return render(request, "administracao/public/ver-arquivos.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")

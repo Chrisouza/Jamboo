@@ -44,26 +44,21 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a class="btn btn-warning" href="usuarios/{{empresa.slug_da_empresa}}">
+                    <a class="btn btn-warning" href="usuarios/{{empresa.slug_da_empresa}}" alt="Gerenciar usuarios">
                         <i class="fa-solid fa-user-gear"></i>
-                        Gerenciar usuarios
                     </a>
-                    <a class="btn btn-warning" href="projetos/{{empresa.slug_da_empresa}}">
+                    <a class="btn btn-warning" href="projetos/{{empresa.slug_da_empresa}}" alt="Gerenciar Projetos">
                         <i class="fa-solid fa-folder-plus"></i>
-                        Gerenciar Projetos
                     </a>
                     <!--Vai pra dentro de gerenciar projetos-->
-                    <a class="btn btn-info" href="arquivos/{{empresa.slug_da_empresa}}/">
+                    <a class="btn btn-info" href="arquivos/{{empresa.slug_da_empresa}}/" alt="Gerenciar Arquivos">
                         <i class="fa-solid fa-file-import"></i>
-                        Gerenciar Arquivos
                     </a>
-                    <a class="btn btn-danger" href="/empresa/editar/{{empresa.id}}">
+                    <a class="btn btn-danger" href="/empresa/editar/{{empresa.id}}" alt="Editar empresa">
                         <i class="fa-solid fa-pen-to-square"></i>
-                        Editar empresa
                     </a>
-                    <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}">
+                    <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}" alt="Excluir">
                         <i class="fa-solid fa-trash-can"></i>
-                        Excluir
                     </a>
                 </td>
             </tr>

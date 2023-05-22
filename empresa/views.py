@@ -1,20 +1,24 @@
 import shutil
 from django.conf import settings
 from django.shortcuts import render, redirect
-from empresa.models import Login, Empresa, Nivel
+from empresa.models import Login, Empresa, Nivel, Notificacoes
 from django.contrib.auth.models import User
 from .forms import FormNovaEmpresa
 from .funcoes import cria_pasta
 from django.contrib import messages
 
-# SO ACESSA ESSA INDEX SE NAO FOR SUPER USUARIO
 
+def pega_notificacoes():
+    notificacoes = Notificacoes.objects.all()
+    return notificacoes
 
+# SO ACESSA ESSA INDEX SE NAO FOR SUPER USUARIo
 def index(request):
     if request.user.is_authenticated and not request.user.is_superuser:
+        notificacoes = pega_notificacoes()
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
-        context = {"empresa": empresa}
+        context = {"empresa": empresa, "notificacoes": notificacoes}
         return render(request, "empresa/public/home.html", context)
     messages.add_message(request, messages.WARNING,
                          "Voce nao tem permissao para acessar essa pagina!")
@@ -23,6 +27,7 @@ def index(request):
 
 def nova_empresa(request):
     if request.user.is_authenticated and request.user.is_superuser:
+        notificacoes = pega_notificacoes()
         form = FormNovaEmpresa(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
@@ -69,7 +74,7 @@ def nova_empresa(request):
                                      "Empresa criada com sucesso!")
                 # messages.add_message(request, messages.INFO, "Um e-mail foi enviado para o administrador!")
                 return redirect("/administracao/")
-        context = {"form": form}
+        context = {"form": form, "notificacoes": notificacoes}
         return render(request, "empresa/public/nova-empresa.html", context)
     messages.add_message(request, messages.WARNING,
                          "Voce nao tem permissao para acessar essa pagina!")
@@ -83,6 +88,7 @@ def editar_empresa(request, id):
         except:
             pass
         if request.user.is_superuser or nivel.nivel.id == 1:
+            notificacoes = pega_notificacoes()
             if request.method == "POST":
                 nome_do_responsavel = request.POST.get("nome_do_responsavel")
                 telefone = request.POST.get("telefone")
@@ -94,9 +100,7 @@ def editar_empresa(request, id):
                 messages.add_message(request, messages.SUCCESS,
                                      "Dados atualizados com sucesso!")
             empresa = Empresa.objects.get(id=id)
-            context = {
-                "empresa": empresa
-            }
+            context = {"empresa": empresa, "notificacoes": notificacoes}
             return render(request, "empresa/public/editar-empresa.html", context)
     messages.add_message(request, messages.WARNING,
                          "Voce nao tem permissao para acessar essa pagina!")
