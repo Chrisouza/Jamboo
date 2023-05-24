@@ -38,26 +38,39 @@
                 <td>{{empresa.criado}}</td>
                 <td>
                     {% if empresa.ativo %}
-                        <span class="bg-success badge">Ativo</span>
+                        <!--ativo-->
+                        <a class="btn btn-success" href="/empresa/ativar/{{empresa.id}}/desativar/"
+                            data-toggle="tooltip" data-placement="top" title="Ativa/Desativar empresa">
+                            <i class="fa-solid fa-lock-open"></i>
+                        </a>
                     {% else %}
-                    <span class="bg-danger badge">Inativo</span>
+                        <!--inativo-->
+                        <a class="btn btn-danger" href="/empresa/ativar/{{empresa.id}}/ativar/"
+                            data-toggle="tooltip" data-placement="top" title="Ativa/Desativar empresa">
+                            <i class="fa-solid fa-lock"></i>
+                        </a>
                     {% endif %}
                 </td>
                 <td>
-                    <a class="btn btn-warning" href="usuarios/{{empresa.slug_da_empresa}}" alt="Gerenciar usuarios">
+                    <a class="btn btn-warning" href="usuarios/{{empresa.slug_da_empresa}}"
+                        data-toggle="tooltip" data-placement="top" title="Gerenciar usuarios">
                         <i class="fa-solid fa-user-gear"></i>
                     </a>
-                    <a class="btn btn-warning" href="projetos/{{empresa.slug_da_empresa}}" alt="Gerenciar Projetos">
+                    <a class="btn btn-warning" href="projetos/{{empresa.slug_da_empresa}}"
+                        data-toggle="tooltip" data-placement="top" title="Gerenciar Projetos">
                         <i class="fa-solid fa-folder-plus"></i>
                     </a>
                     <!--Vai pra dentro de gerenciar projetos-->
-                    <a class="btn btn-info" href="arquivos/{{empresa.slug_da_empresa}}/" alt="Gerenciar Arquivos">
+                    <a class="btn btn-info" href="arquivos/{{empresa.slug_da_empresa}}/"
+                        data-toggle="tooltip" data-placement="top" title="Gerenciar Arquivos">
                         <i class="fa-solid fa-file-import"></i>
                     </a>
-                    <a class="btn btn-danger" href="/empresa/editar/{{empresa.id}}" alt="Editar empresa">
+                    <a class="btn btn-danger" href="/empresa/editar/{{empresa.id}}"
+                        data-toggle="tooltip" data-placement="top" title="Editar empresa">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
-                    <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}" alt="Excluir">
+                    <a class="btn btn-danger" href="/empresa/excluir/{{empresa.id}}"
+                    data-toggle="tooltip" data-placement="top" title="Excluir empresa">
                         <i class="fa-solid fa-trash-can"></i>
                     </a>
                 </td>

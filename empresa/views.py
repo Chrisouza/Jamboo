@@ -1,10 +1,11 @@
 import shutil
 from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from empresa.models import Login, Empresa, Nivel, Notificacoes
 from django.contrib.auth.models import User
 from .forms import FormNovaEmpresa
-from .funcoes import cria_pasta
+from .funcoes import cria_pasta, gera_hash
 from django.contrib import messages
 
 
@@ -13,6 +14,8 @@ def pega_notificacoes():
     return notificacoes
 
 # SO ACESSA ESSA INDEX SE NAO FOR SUPER USUARIo
+
+
 def index(request):
     if request.user.is_authenticated and not request.user.is_superuser:
         notificacoes = pega_notificacoes()
@@ -55,10 +58,12 @@ def nova_empresa(request):
                     telefone=telefone
                 )
 
-                login = Login.objects.create(
+                pasta = gera_hash(text=emp.id)
+                Login.objects.create(
                     usuario=user,
                     empresa=emp,
-                    nivel=Nivel.objects.get(id=1)
+                    nivel=Nivel.objects.get(id=1),
+                    pasta=pasta
                 )
 
                 ##################################
@@ -69,7 +74,7 @@ def nova_empresa(request):
                 # form.envia_email(destinatario=email, corpo=corpo)
 
                 if emp:
-                    cria_pasta(f"media/{slug_da_empresa}")
+                    cria_pasta(f"media/{pasta}")
                 messages.add_message(request, messages.SUCCESS,
                                      "Empresa criada com sucesso!")
                 # messages.add_message(request, messages.INFO, "Um e-mail foi enviado para o administrador!")
@@ -110,13 +115,33 @@ def editar_empresa(request, id):
 def excluir_empresa(request, id):
     if request.user.is_authenticated and request.user.is_superuser:
         logins = Login.objects.filter(empresa=id)
+        try:
+            shutil.rmtree(
+                f"{settings.BASE_DIR}/media/{logins[0].pasta}", ignore_errors=True)
+        except:
+            pass
         for login in logins:
             User.objects.get(username=login.usuario.username).delete()
         emp = Empresa.objects.get(id=id)
-        shutil.rmtree(f"{settings.BASE_DIR}/media/{emp.slug_da_empresa}",
-                      ignore_errors=True)
         emp.delete()
         return redirect("/administracao/")
     messages.add_message(request, messages.WARNING,
-                             "Voce nao tem permissao para acessar essa pagina!")
+                         "Voce nao tem permissao para acessar essa pagina!")
+    return redirect("/")
+
+##########################################################
+############# ATIVAR/DESATIVAR EMPRESA ###################
+##########################################################
+
+
+def ativar(request, id, acao):
+    if request.user.is_authenticated and request.user.is_superuser:
+        if acao == "ativar":
+            empresa = Empresa.objects.filter(id=id)
+            empresa.update(ativo=True)
+        elif acao == "desativar":
+            empresa = Empresa.objects.filter(id=id)
+            empresa.update(ativo=False)
+        else:
+            return redirect("/")
     return redirect("/")

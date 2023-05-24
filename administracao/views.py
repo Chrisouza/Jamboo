@@ -1,7 +1,6 @@
-from doctest import REPORT_ONLY_FIRST_FAILURE
+import logging
 import shutil
 from django.conf import settings
-
 from django.shortcuts import render, redirect
 from empresa.models import Login, Nivel, Empresa, Notificacoes, Projeto, Arquivo
 from empresa.funcoes import cria_pasta, cria_pasta_arquivos
@@ -152,10 +151,10 @@ def remove_usuario(request, slug, usuario):
 def gerenciar_projetos(request, slug):
     if request.user.is_authenticated:
         try:
-            nivel = Login.objects.get(usuario=request.user.id)
+            login = Login.objects.get(usuario=request.user.id)
         except:
             pass
-        if request.user.is_superuser or nivel.nivel.id == 1:
+        if request.user.is_superuser or login.nivel.id == 1:
             notificacoes = pega_notificacoes()
             projetos = Projeto.objects.filter(
                 empresa=Empresa.objects.get(slug_da_empresa=slug).id)
@@ -168,10 +167,11 @@ def gerenciar_projetos(request, slug):
 def novo_projeto(request, slug):
     if request.user.is_authenticated:
         try:
-            nivel = Login.objects.get(usuario=request.user.id)
+            login = Login.objects.get(usuario=request.user.id)
         except:
-            pass
-        if request.user.is_superuser or nivel.nivel.id == 1:
+            login = None
+        if request.user.is_superuser or login.nivel.id == 1:
+            print(login)
             notificacoes = pega_notificacoes()
             form = FormNovoProjeto(request.POST or None)
             if request.method == "POST":
@@ -181,7 +181,7 @@ def novo_projeto(request, slug):
                     emp = Empresa.objects.get(slug_da_empresa=slug)
                     Projeto.objects.create(
                         slug_do_projeto=slug_do_projeto, nome_do_projeto=nome_do_projeto, empresa=emp)
-                    cria_pasta(f"media/{slug}/{slug_do_projeto}")
+                    cria_pasta(f"media/{login.pasta}/{slug_do_projeto}")
                     cria_pasta_arquivos(slug=slug, projeto=slug_do_projeto)
                     sucesso(request, msg="Projeto cadastrado com sucesso!")
                     return redirect(f"/administracao/projetos/{slug}/")

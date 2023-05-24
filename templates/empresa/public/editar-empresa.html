@@ -14,10 +14,21 @@
     {% endfor %}
 {% endif %}
 
+
+{% if request.user.is_superuser %}
+sou admin
+
 <form action="" method="post" autocomplete="off">
+    <h1>Editar empresa</h1>
     {% csrf_token %}
 
-    <label for="cnpj">Nome do Responsavel:</label>
+    <label for="cnpj">Cnpj do Responsavel:</label>
+    <input class="form form-control" type="text" name="cnpj" id="cnpj" value="{{empresa.cnpj}}">
+
+    <label for="nome_da_empresa">Nome da Empresa:</label>
+    <input class="form form-control" type="text" name="nome_da_empresa" id="nome_da_empresa" value="{{empresa.nome_da_empresa}}">
+
+    <label for="nome_do_responsavel">Nome do Responsavel:</label>
     <input class="form form-control" type="text" name="nome_do_responsavel" id="nome_do_responsavel" value="{{empresa.nome_do_responsavel}}">
 
     <label for="cnpj">Telefone:</label>
@@ -25,5 +36,22 @@
 
     <button class="btn botao" type="submit">Atualizar dados</button>
 </form>
+
+{% else %}
+nao sou admin
+
+<form action="" method="post" autocomplete="off">
+    <h1>Editar empresa</h1>
+    {% csrf_token %}
+
+    <label for="nome_do_responsavel">Nome do Responsavel:</label>
+    <input class="form form-control" type="text" name="nome_do_responsavel" id="nome_do_responsavel" value="{{empresa.nome_do_responsavel}}">
+
+    <label for="cnpj">Telefone:</label>
+    <input class="form form-control" type="text" name="telefone" id="telefone" value="{{empresa.telefone}}">
+
+    <button class="btn botao" type="submit">Atualizar dados</button>
+</form>
+{% endif %}
 
 {% endblock %}

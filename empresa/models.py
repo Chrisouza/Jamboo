@@ -40,6 +40,7 @@ class Login(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     nivel = models.ForeignKey(Nivel, on_delete=models.DO_NOTHING)
+    pasta = models.CharField(max_length=255, default="")
     primeiro_acesso = models.BooleanField(default=False)
 
     class Meta:
