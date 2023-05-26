@@ -37,13 +37,14 @@
         <td>
             <span>{{login}}</span>
         </td>
-        {% if not login.nivel.id == 1 %}
         <td>
-            <a href="{{login.usuario.id}}/" class="btn btn-danger">
+            <a href="editar-usuario/{{login.usuario.id}}/" class="btn btn-secondary">
+                <i class="fa-solid fa-pen-to-square"></i>Editar
+            </a>
+            <a href="/administracao/usuarios/{{slug_da_empresa}}/remover/{{login.usuario.id}}/" class="btn btn-danger">
                 <i class="fa-solid fa-trash-can"></i>Excluir
             </a>
         </td>
-        {% endif %}
     </tr>
 {% endfor %}
 </table>

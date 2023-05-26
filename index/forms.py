@@ -1,6 +1,8 @@
 from django import forms
 from django.core.mail import send_mail
+from django.contrib.auth.models import User
 from empresa.models import Login, Nivel, Projeto, Arquivo, Empresa
+
 
 #################################################
 ################# INDEX #########################
@@ -24,6 +26,16 @@ class FormNovoUsuario(forms.ModelForm):
         model = Login
         fields = "__all__"
         exclude = ["usuario", "empresa", "primeiro_acesso"]
+
+
+class FormEditarUsuario(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = "__all__"
+        exclude = []
+        widgets = {
+            "password": forms.PasswordInput
+        }
 
 
 class FormNovoProjeto(forms.ModelForm):
@@ -79,11 +91,14 @@ class FormEditarEmpresaRoot(forms.ModelForm):
             "cnpj": forms.TextInput(attrs={"id": "cnpj"}),
             "telefone": forms.TextInput(attrs={"id": "telefone", "maxlength": 11})
         }
+
+
 class FormEditarEmpresaAdmin(forms.ModelForm):
     class Meta:
         model = Empresa
         fields = "__all__"
-        exclude = ["cnpj","nome_da_empresa", "slug_da_empresa", "pasta", "criado", "ativo"]
+        exclude = ["cnpj", "nome_da_empresa",
+                   "slug_da_empresa", "pasta", "criado", "ativo"]
         widgets = {
             "cnpj": forms.TextInput(attrs={"id": "cnpj"}),
             "telefone": forms.TextInput(attrs={"id": "telefone", "maxlength": 11})

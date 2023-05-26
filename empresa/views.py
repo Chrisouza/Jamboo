@@ -59,7 +59,7 @@ def nova_empresa(request):
                     pasta=pasta
                 )
 
-                Login.objects.create(
+                login = Login.objects.create(
                     usuario=user,
                     empresa=emp,
                     nivel=Nivel.objects.get(id=1)
@@ -75,7 +75,9 @@ def nova_empresa(request):
                 if emp:
                     cria_pasta(f"media/{pasta}")
                     Notificacoes.objects.create(
-                        descricao="Nova empresa cadastrada!")
+                        descricao=f"Nova empresa: '{emp.nome_da_empresa}' cadastrada por: {request.user}!")
+                    Notificacoes.objects.create(
+                        descricao=f"Usuario '{user.username}' com nivel '{login.nivel.nome_do_nivel}' criado por '{request.user}' para a empresa '{emp.nome_da_empresa}'!")
                     messages.add_message(request, messages.SUCCESS,
                                          "Empresa criada com sucesso!")
                     # messages.add_message(request, messages.INFO, "Um e-mail foi enviado para o administrador!")
