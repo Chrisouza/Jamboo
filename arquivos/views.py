@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect
 from empresa.models import Empresa, Arquivo
-from .forms import FormNovoArquivo
-from .funcoes import apaga_arquivo, verifica_tipo_de_arquivo, upload_function
+from index.forms import FormNovoArquivo
+from index.funcoes import apaga_arquivo, verifica_tipo_de_arquivo, upload_function
 
 
 def index(request, id):
     if request.user.is_authenticated:
         empresa = Empresa.objects.get(id=id)
-        print(empresa)
-        exit()
         arquivos = Arquivo.objects.filter(empresa=id).order_by('extensao')
         context = {
             "emp_id": id,

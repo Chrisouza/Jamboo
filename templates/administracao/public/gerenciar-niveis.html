@@ -28,8 +28,9 @@
 <table class="table table-striped">
     <tr>
         <th>#</th>
-        <th>Nivel:</th>
-        <th>Descricao:</th>
+        <th>Nivel</th>
+        <th>Descricao</th>
+        <th></th>
     </tr>
 {% for nivel in niveis %}
     <tr>
@@ -38,9 +39,13 @@
             <span>{{nivel.nome_do_nivel}}</span>
         </td>
         <td>{{nivel.descricao}}
-            <!--<a href="/administracao/niveis/excluir/{{nivel.id}}" class="btn btn-danger">
+        </td>
+        <td>
+            {% if nivel.id != 1 %}
+            <a href="/administracao/niveis/excluir/{{nivel.id}}" class="btn btn-danger">
                 <i class="fa-solid fa-trash-can"></i>Excluir
-            </a>-->
+            </a>
+            {% endif %}
         </td>
     </tr>
 {% endfor %}

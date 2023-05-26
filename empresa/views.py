@@ -1,11 +1,10 @@
 import shutil
 from django.conf import settings
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from empresa.models import Login, Empresa, Nivel, Notificacoes
 from django.contrib.auth.models import User
-from .forms import FormNovaEmpresa
-from .funcoes import cria_pasta, gera_hash
+from index.forms import FormEditarEmpresaAdmin, FormEditarEmpresaRoot, FormNovaEmpresa
+from index.funcoes import cria_pasta, gera_hash, cria_nome_da_pasta
 from django.contrib import messages
 
 
@@ -36,9 +35,10 @@ def nova_empresa(request):
             if form.is_valid():
                 cnpj = request.POST.get("cnpj")
                 nome_da_empresa = request.POST.get("nome_da_empresa")
+                slug_da_empresa = f"{nome_da_empresa}".replace(" ", "-")
                 nome_do_responsavel = request.POST.get("nome_do_responsavel")
-                slug_da_empresa = nome_da_empresa.replace(" ", "-")
                 telefone = request.POST.get("telefone")
+                pasta = cria_nome_da_pasta()
 
                 usuario_administrador = request.POST.get("administrador")
                 email = request.POST.get("email")
@@ -55,15 +55,14 @@ def nova_empresa(request):
                     slug_da_empresa=slug_da_empresa,
                     nome_da_empresa=nome_da_empresa,
                     nome_do_responsavel=nome_do_responsavel,
-                    telefone=telefone
+                    telefone=telefone,
+                    pasta=pasta
                 )
 
-                pasta = gera_hash(text=emp.id)
                 Login.objects.create(
                     usuario=user,
                     empresa=emp,
-                    nivel=Nivel.objects.get(id=1),
-                    pasta=pasta
+                    nivel=Nivel.objects.get(id=1)
                 )
 
                 ##################################
@@ -75,9 +74,11 @@ def nova_empresa(request):
 
                 if emp:
                     cria_pasta(f"media/{pasta}")
-                messages.add_message(request, messages.SUCCESS,
-                                     "Empresa criada com sucesso!")
-                # messages.add_message(request, messages.INFO, "Um e-mail foi enviado para o administrador!")
+                    Notificacoes.objects.create(
+                        descricao="Nova empresa cadastrada!")
+                    messages.add_message(request, messages.SUCCESS,
+                                         "Empresa criada com sucesso!")
+                    # messages.add_message(request, messages.INFO, "Um e-mail foi enviado para o administrador!")
                 return redirect("/administracao/")
         context = {"form": form, "notificacoes": notificacoes}
         return render(request, "empresa/public/nova-empresa.html", context)
@@ -88,25 +89,22 @@ def nova_empresa(request):
 
 def editar_empresa(request, id):
     if request.user.is_authenticated:
-        try:
-            nivel = Login.objects.get(usuario=request.user.id)
-        except:
-            pass
-        if request.user.is_superuser or nivel.nivel.id == 1:
-            notificacoes = pega_notificacoes()
+        empresa = Empresa.objects.get(id=id)
+        if request.user.is_superuser:
+            form = FormEditarEmpresaRoot(instance=empresa)
             if request.method == "POST":
-                nome_do_responsavel = request.POST.get("nome_do_responsavel")
-                telefone = request.POST.get("telefone")
-                dados = Empresa.objects.filter(id=id)
-                dados.update(
-                    nome_do_responsavel=nome_do_responsavel,
-                    telefone=telefone
-                )
-                messages.add_message(request, messages.SUCCESS,
-                                     "Dados atualizados com sucesso!")
-            empresa = Empresa.objects.get(id=id)
-            context = {"empresa": empresa, "notificacoes": notificacoes}
-            return render(request, "empresa/public/editar-empresa.html", context)
+                form = FormEditarEmpresaRoot(request.POST, instance=empresa)
+                form.save()
+        else:
+            form = FormEditarEmpresaAdmin(instance=empresa)
+            if request.method == "POST":
+                form = FormEditarEmpresaAdmin(request.POST, instance=empresa)
+                form.save()
+
+        notificacoes = pega_notificacoes()
+        context = {"form": form, "empresa": empresa,
+                   "notificacoes": notificacoes}
+        return render(request, "empresa/public/editar-empresa.html", context)
     messages.add_message(request, messages.WARNING,
                          "Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -115,14 +113,10 @@ def editar_empresa(request, id):
 def excluir_empresa(request, id):
     if request.user.is_authenticated and request.user.is_superuser:
         logins = Login.objects.filter(empresa=id)
-        try:
-            shutil.rmtree(
-                f"{settings.BASE_DIR}/media/{logins[0].pasta}", ignore_errors=True)
-        except:
-            pass
         for login in logins:
             User.objects.get(username=login.usuario.username).delete()
         emp = Empresa.objects.get(id=id)
+        shutil.rmtree(f"{settings.BASE_DIR}/media/{emp.pasta}")
         emp.delete()
         return redirect("/administracao/")
     messages.add_message(request, messages.WARNING,

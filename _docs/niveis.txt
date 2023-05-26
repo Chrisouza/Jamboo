@@ -1,3 +1,0 @@
-prestador de serviço - ps
-administrador - admins
-engenheiro - eng

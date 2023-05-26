@@ -11,7 +11,7 @@
 
 
 {% block ld %}
-<form action="/administracao/arquivos/{{slug}}/{{projeto}}/novo/" method="post" enctype="multipart/form-data">
+<form action="/administracao/arquivos/{{slug_da_empresa}}/{{projeto}}/novo/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button class="btn botao" type="submit">Cadastrar arquivo</button>

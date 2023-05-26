@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import Widget
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -11,6 +10,7 @@ class Empresa(models.Model):
     nome_do_responsavel = models.CharField(
         max_length=255, default="", unique=True)
     telefone = models.CharField(max_length=16, default="", unique=True)
+    pasta = models.CharField(max_length=255, default="")
     criado = models.DateTimeField(default=timezone.now)
     ativo = models.BooleanField(default=True)
 
@@ -18,6 +18,7 @@ class Empresa(models.Model):
         db_table = "empresa"
         verbose_name = "Empresa"
         verbose_name_plural = "Empresas"
+        ordering = ["-id"]
 
     def __str__(self):
         return self.nome_da_empresa
@@ -31,6 +32,7 @@ class Nivel(models.Model):
         db_table = "nivel"
         verbose_name = "Nivel"
         verbose_name_plural = "Niveis"
+        ordering = ["-id"]
 
     def __str__(self) -> str:
         return self.nome_do_nivel
@@ -40,13 +42,13 @@ class Login(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     nivel = models.ForeignKey(Nivel, on_delete=models.DO_NOTHING)
-    pasta = models.CharField(max_length=255, default="")
     primeiro_acesso = models.BooleanField(default=False)
 
     class Meta:
         db_table = "login"
         verbose_name = "Login"
         verbose_name_plural = "Logins"
+        ordering = ["-id"]
 
     def __str__(self):
         return f"{self.usuario.username}"
@@ -61,6 +63,7 @@ class Projeto(models.Model):
         db_table = "projeto"
         verbose_name = "Projeto"
         verbose_name_plural = "Projetos"
+        ordering = ["-id"]
 
     def __str__(self):
         return self.nome_do_projeto
@@ -79,6 +82,7 @@ class Arquivo(models.Model):
         db_table = "arquivo"
         verbose_name = "Arquivo"
         verbose_name_plural = "Arquivos"
+        ordering = ["-id"]
 
     def __str__(self) -> str:
         return f"{self.file} | {self.editor} | {self.edicao}"
@@ -87,12 +91,12 @@ class Arquivo(models.Model):
 class Notificacoes(models.Model):
     descricao = models.TextField(default="")
     data = models.DateTimeField(default=timezone.now)
-    lida = models.BooleanField(default=False)
 
     class Meta:
         db_table = "notificacoes"
         verbose_name = "Notificacao"
         verbose_name_plural = "Notificacoes"
+        ordering = ["-id"]
 
     def __str__(self) -> str:
         return f"{self.descricao} | {self.data}"
