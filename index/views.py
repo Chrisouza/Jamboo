@@ -7,7 +7,6 @@ from .mensagens import *
 def alterar_senha(request):
     pass
 
-
 def entrar(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:

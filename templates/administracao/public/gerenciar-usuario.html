@@ -29,6 +29,7 @@
     <tr>
         <th>#</th>
         <th>Login</th>
+        <th>DESCRICAO</th>
         <th>Acoes</th>
     </tr>
 {% for login in logins %}
@@ -38,12 +39,17 @@
             <span>{{login}}</span>
         </td>
         <td>
+            <span>O QUE O USUARIO EH</span>
+        </td>
+        <td>
             <a href="editar-usuario/{{login.usuario.id}}/" class="btn btn-secondary">
                 <i class="fa-solid fa-pen-to-square"></i>Editar
             </a>
+            {% if login.id != 1 %}
             <a href="/administracao/usuarios/{{slug_da_empresa}}/remover/{{login.usuario.id}}/" class="btn btn-danger">
                 <i class="fa-solid fa-trash-can"></i>Excluir
             </a>
+            {% endif %}
         </td>
     </tr>
 {% endfor %}

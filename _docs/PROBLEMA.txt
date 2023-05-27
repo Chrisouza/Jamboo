@@ -1,1 +1,7 @@
 - EDITAR SENHA DO USUARIO NAO ESTA ACONTECENDO
+- EXTENSAO DE ARQUIVOS SEGUROS
+
+
+salvo atual de noticacoes -> que os usuarios das empresas fizeram ( marcar como lida )
+
+salvo atual de noticacoes -> que o root fez de novos arquivos para o admin da empresa ( maracar como lida )
