@@ -30,6 +30,7 @@
         <th>#</th>
         <th>Login</th>
         <th>Acoes</th>
+        <th>ULTIMO BKP BAIXADO</th>
     </tr>
 {% for projeto in projetos %}
     <tr>
@@ -44,6 +45,9 @@
             <a href="{{projeto.id}}" class="btn btn-danger">
                 <i class="fa-solid fa-trash-can"></i>Excluir
             </a>
+        </td>
+        <td>
+            baixado dia X por FULANO
         </td>
     </tr>
 {% endfor %}
