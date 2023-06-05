@@ -14,11 +14,29 @@ def pega_notificacoes():
     return notificacoes
 
 
+def update_notificacoes(notificacoes):
+    for n in notificacoes:
+        up = Notificacoes.objects.filter(id=n.id)
+        up.update(visto=1)
+
+
+def aviso():
+    nl = 0
+    aviso = False
+    for n in pega_notificacoes():
+        if not n.visto:
+            nl += 1
+    if nl > 0:
+        aviso = True
+    return aviso
+
+
 def index(request):
     if request.user.is_authenticated and request.user.is_superuser:
         empresas = Empresa.objects.all()
         notificacoes = pega_notificacoes()
-        context = {"empresas": empresas, "notificacoes": notificacoes}
+        context = {"empresas": empresas,
+                   "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/home.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -27,6 +45,7 @@ def index(request):
 def notificacoes(request):
     if request.user.is_authenticated and request.user.is_superuser:
         notificacoes = pega_notificacoes()
+        update_notificacoes(notificacoes)
         context = {"notificacoes": notificacoes}
         return render(request, "administracao/public/notificacoes.html", context)
     return redirect("/")
@@ -41,7 +60,8 @@ def gerenciar_niveis(request):
     if request.user.is_authenticated and request.user.is_superuser:
         niveis = Nivel.objects.all()
         notificacoes = pega_notificacoes()
-        context = {"niveis": niveis, "notificacoes": notificacoes}
+        context = {"niveis": niveis,
+                   "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/gerenciar-niveis.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -60,7 +80,8 @@ def novo_nivel(request):
                 Notificacoes.objects.create(
                     descricao=f"Nivel '{nivel}' de acesso adicionado por '{request.user}'!")
                 return redirect(f"/administracao/niveis/")
-        context = {"form": form, "notificacoes": notificacoes}
+        context = {"form": form,
+                   "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/novo-nivel.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -94,7 +115,7 @@ def gerenciar_usuarios(request, slug_da_empresa):
         logins = Login.objects.filter(
             empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
         context = {"slug_da_empresa": slug_da_empresa,
-                   "logins": logins, "notificacoes": notificacoes}
+                   "logins": logins, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/gerenciar-usuario.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -126,7 +147,7 @@ def novo_usuario(request, slug_da_empresa):
                     sucesso(request, msg="Usuario cadastrado com sucesso!")
                     return redirect(f"/administracao/usuarios/{slug_da_empresa}/")
             context = {"form": form, "slug_da_empresa": slug_da_empresa,
-                       "notificacoes": notificacoes}
+                       "notificacoes": notificacoes, "aviso": aviso()}
             return render(request, "administracao/public/novo-usuario.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -142,7 +163,7 @@ def editar_usuario(request, slug_da_empresa, usuario):
             form.save()
             # Notificacoes.objects.create(descricao=f"Usuario '{user}' com nivel '{nivel}' criado por '{request.user}' para a empresa '{emp}'!")
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
-                   "usuario": usuario, "notificacoes": notificacoes}
+                   "usuario": usuario, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/editar-usuario.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -173,7 +194,7 @@ def gerenciar_projetos(request, slug_da_empresa):
             projetos = Projeto.objects.filter(
                 empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
             context = {"slug_da_empresa": slug_da_empresa, "projetos": projetos,
-                       "notificacoes": notificacoes}
+                       "notificacoes": notificacoes, "aviso": aviso()}
             return render(request, "administracao/public/gerenciar-projetos.html", context)
     return redirect("/")
 
@@ -198,7 +219,7 @@ def novo_projeto(request, slug_da_empresa):
                         descricao=f"Projeto:'{nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !")
                     return redirect(f"/administracao/projetos/{slug_da_empresa}/")
             context = {"form": form, "slug_da_empresa": slug_da_empresa,
-                       "notificacoes": notificacoes}
+                       "notificacoes": notificacoes, "aviso": aviso()}
             return render(request, "administracao/public/novo-projeto.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -231,7 +252,7 @@ def gerenciar_arquivos(request, slug_da_empresa):
             empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
         arquivos = Arquivo.objects.all().order_by("-id")
         context = {"slug_da_empresa": slug_da_empresa, "projetos": projetos,
-                   "arquivos": arquivos, "notificacoes": notificacoes}
+                   "arquivos": arquivos, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/gerenciar-arquivos.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -269,7 +290,7 @@ def novo_arquivo(request, slug_da_empresa, projeto):
             return redirect(f"/administracao/arquivos/{slug_da_empresa}/")
 
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
-                   "projeto": projeto, "notificacoes": notificacoes}
+                   "projeto": projeto, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/novo-arquivo.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
@@ -281,7 +302,7 @@ def ver_arquivos(request, slug_da_empresa, projeto):
         projeto = Projeto.objects.get(slug_do_projeto=projeto)
         arquivos = Arquivo.objects.filter(projeto=projeto.id)
         context = {"slug_da_empresa": slug_da_empresa, "arquivos": arquivos,
-                   "projeto": projeto, "notificacoes": notificacoes}
+                   "projeto": projeto, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/ver-arquivos.html", context)
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")

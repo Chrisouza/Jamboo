@@ -94,6 +94,7 @@ class Arquivo(models.Model):
 
 class Notificacoes(models.Model):
     descricao = models.TextField(default="")
+    visto = models.BooleanField(default=0)
     data = models.DateTimeField(default=timezone.now)
 
     class Meta:

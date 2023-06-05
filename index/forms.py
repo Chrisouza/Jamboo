@@ -48,15 +48,16 @@ class FormNovoProjeto(forms.ModelForm):
         exclude = ["empresa", "slug_do_projeto", "data_criado"]
 
 
+# USANDO LOCALMENTE DESCOMENTE O `widgets` E COMENTE O `file`
+# USANDO ONLINE DESCOMENTE O `file` E COMENTE O `widgets`
 class FormNovoArquivo(forms.ModelForm):
-    file = MultipleFileField()
+    #file = MultipleFileField()
 
     class Meta:
         model = Arquivo
         fields = "__all__"
-        #widgets = {"file": forms.ClearableFileInput(attrs={'multiple':True, 'allow_multiple_selected':True})}
-        exclude = ["empresa", "editor", "edicao",
-                   "extensao", "projeto", "data_upload"]
+        widgets = {"file": forms.ClearableFileInput(attrs={'multiple':True, 'allow_multiple_selected':True})}
+        exclude = ["empresa", "editor", "edicao", "extensao", "projeto", "data_upload"]
 
 
 class FormNovoNivel(forms.ModelForm):

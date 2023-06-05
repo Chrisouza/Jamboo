@@ -12,6 +12,17 @@ def pega_notificacoes():
     notificacoes = Notificacoes.objects.all()
     return notificacoes
 
+
+def aviso():
+    nl = 0
+    aviso = False
+    for n in pega_notificacoes():
+        if not n.visto:
+            nl += 1
+    if nl > 0:
+        aviso = True
+    return aviso
+
 # SO ACESSA ESSA INDEX SE NAO FOR SUPER USUARIo
 
 
@@ -20,7 +31,8 @@ def index(request):
         notificacoes = pega_notificacoes()
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
-        context = {"empresa": empresa, "notificacoes": notificacoes}
+        context = {"empresa": empresa,
+                   "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "empresa/public/home.html", context)
     messages.add_message(request, messages.WARNING,
                          "Voce nao tem permissao para acessar essa pagina!")
@@ -82,7 +94,8 @@ def nova_empresa(request):
                                          "Empresa criada com sucesso!")
                     # messages.add_message(request, messages.INFO, "Um e-mail foi enviado para o administrador!")
                 return redirect("/administracao/")
-        context = {"form": form, "notificacoes": notificacoes}
+        context = {"form": form,
+                   "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "empresa/public/nova-empresa.html", context)
     messages.add_message(request, messages.WARNING,
                          "Voce nao tem permissao para acessar essa pagina!")
@@ -98,18 +111,18 @@ def editar_empresa(request, id):
                 form = FormEditarEmpresaRoot(request.POST, instance=empresa)
                 form.save()
                 Notificacoes.objects.create(
-                        descricao=f"Empresa `{empresa}` editada por `{request.user}`!")
+                    descricao=f"Empresa `{empresa}` editada por `{request.user}`!")
         else:
             form = FormEditarEmpresaAdmin(instance=empresa)
             if request.method == "POST":
                 form = FormEditarEmpresaAdmin(request.POST, instance=empresa)
                 form.save()
                 Notificacoes.objects.create(
-                        descricao=f"Empresa `{empresa}` editada por `{request.user}`!")
+                    descricao=f"Empresa `{empresa}` editada por `{request.user}`!")
 
         notificacoes = pega_notificacoes()
         context = {"form": form, "empresa": empresa,
-                   "notificacoes": notificacoes}
+                   "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "empresa/public/editar-empresa.html", context)
     messages.add_message(request, messages.WARNING,
                          "Voce nao tem permissao para acessar essa pagina!")
@@ -126,7 +139,8 @@ def excluir_empresa(request, id):
             shutil.rmtree(f"{settings.BASE_DIR}/media/{emp.pasta}")
         except:
             pass
-        Notificacoes.objects.create(descricao=f"Empresa `{emp}` excluida por `{request.user}`!")
+        Notificacoes.objects.create(
+            descricao=f"Empresa `{emp}` excluida por `{request.user}`!")
         emp.delete()
         return redirect("/administracao/")
     messages.add_message(request, messages.WARNING,
@@ -143,11 +157,13 @@ def ativar(request, id, acao):
         if acao == "ativar":
             empresa = Empresa.objects.filter(id=id)
             empresa.update(ativo=True)
-            Notificacoes.objects.create(descricao=f"Empresa `{empresa}` foi ativada por `{request.user}`!")
+            Notificacoes.objects.create(
+                descricao=f"Empresa `{empresa}` foi ativada por `{request.user}`!")
         elif acao == "desativar":
             empresa = Empresa.objects.filter(id=id)
             empresa.update(ativo=False)
-            Notificacoes.objects.create(descricao=f"Empresa `{empresa}` foi desativada por `{request.user}`!")
+            Notificacoes.objects.create(
+                descricao=f"Empresa `{empresa}` foi desativada por `{request.user}`!")
         else:
             return redirect("/")
     return redirect("/")
