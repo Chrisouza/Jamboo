@@ -49,12 +49,12 @@ class FormNovoProjeto(forms.ModelForm):
 
 
 class FormNovoArquivo(forms.ModelForm):
-    #file = MultipleFileField()
+    file = MultipleFileField()
 
     class Meta:
         model = Arquivo
         fields = "__all__"
-        widgets = {"file": forms.ClearableFileInput(attrs={'multiple':True, 'allow_multiple_selected':True})}
+        # widgets = {"file": forms.ClearableFileInput(attrs={'multiple':True, 'allow_multiple_selected':True})}
         exclude = ["empresa", "editor", "edicao",
                    "extensao", "projeto", "data_upload"]
 
