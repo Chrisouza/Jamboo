@@ -263,7 +263,8 @@ def novo_arquivo(request, slug_da_empresa, projeto):
                 projeto = Projeto.objects.get(slug_do_projeto=projeto)
                 Arquivo.objects.create(empresa=emp, file=path, descricao=descricao,
                                        editor=editor, extensao=extensao, projeto=projeto)
-                Notificacoes.objects.create(descricao=f"Arquivo:'{file}' adicioando ao projeto: '{projeto}' da empresa '{emp}' por '{request.user}' !")
+                Notificacoes.objects.create(
+                    descricao=f"Arquivo:'{file}' adicioando ao projeto: '{projeto}' da empresa '{emp}' por '{request.user}' !")
             sucesso(request, msg="Arquivo cadastrado com sucesso!")
             return redirect(f"/administracao/arquivos/{slug_da_empresa}/")
 
@@ -297,6 +298,6 @@ def excluir_arquivo(request, slug_da_empresa, projeto, id_file):
             Notificacoes.objects.create(
                 descricao=f"Arquivo:'{nome_arquivo}' do projeto: '{arq.projeto.nome_do_projeto}' por: '{request.user}' !")
             arq.delete()
-            return redirect(f"/administracao/arquivos/{slug_da_empresa}")
+            return redirect(f"/administracao/arquivos/{slug_da_empresa}/{projeto}/ver/")
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect(f"/")

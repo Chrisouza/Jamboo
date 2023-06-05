@@ -3,6 +3,8 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from empresa.models import Login, Nivel, Projeto, Arquivo, Empresa
 
+from .auxiliar import MultipleFileField
+
 
 #################################################
 ################# INDEX #########################
@@ -47,14 +49,12 @@ class FormNovoProjeto(forms.ModelForm):
 
 
 class FormNovoArquivo(forms.ModelForm):
-    # file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True,}), required=True)
+    #file = MultipleFileField()
 
     class Meta:
         model = Arquivo
         fields = "__all__"
-        widgets = {
-            "file": forms.FileInput(attrs={'multiple': True})
-        }
+        widgets = {"file": forms.ClearableFileInput(attrs={'multiple':True, 'allow_multiple_selected':True})}
         exclude = ["empresa", "editor", "edicao",
                    "extensao", "projeto", "data_upload"]
 
