@@ -1,5 +1,5 @@
 import shutil
-from xml.dom import UserDataHandler
+import time
 from django.conf import settings
 from django.shortcuts import render, redirect
 from empresa.models import Login, Nivel, Empresa, Notificacoes, Projeto, Arquivo
@@ -243,20 +243,30 @@ def novo_arquivo(request, slug_da_empresa, projeto):
         form = FormNovoArquivo(request.FILES)
         if request.method == "POST":
             emp = Empresa.objects.get(slug_da_empresa=slug_da_empresa)
-            file = request.FILES.get("file")
+            files = request.FILES.getlist('file')
             descricao = request.POST.get('descricao')
             editor = request.user
-            extensao = file.name.split(".")[-1]
-            extensao = verifica_tipo_de_arquivo(extensao)
-            path = upload_function(
-                arquivo=file, extensao=extensao, pasta=emp.pasta, projeto=projeto)
-            projeto = Projeto.objects.get(slug_do_projeto=projeto)
-            Arquivo.objects.create(
-                empresa=emp, file=path, descricao=descricao, editor=editor, extensao=extensao, projeto=projeto)
+
+            for file in files:
+                extensao = file.name.split(".")[-1]
+                extensao = verifica_tipo_de_arquivo(extensao)
+                if not extensao:
+                    warning(
+                        request, msg="Algum arquivo esta fora da extensao permitida!")
+                    return redirect(f"/administracao/arquivos/{slug_da_empresa}/{projeto}/novo/")
+
+            for file in files:
+                extensao = file.name.split(".")[-1]
+                extensao = verifica_tipo_de_arquivo(extensao)
+                path = upload_function(
+                    arquivo=file, extensao=extensao, pasta=emp.pasta, projeto=projeto)
+                projeto = Projeto.objects.get(slug_do_projeto=projeto)
+                Arquivo.objects.create(empresa=emp, file=path, descricao=descricao,
+                                       editor=editor, extensao=extensao, projeto=projeto)
+                Notificacoes.objects.create(descricao=f"Arquivo:'{file}' adicioando ao projeto: '{projeto}' da empresa '{emp}' por '{request.user}' !")
             sucesso(request, msg="Arquivo cadastrado com sucesso!")
-            Notificacoes.objects.create(
-                descricao=f"Arquivo:'{file}' adicioando ao projeto: '{projeto}' da empresa '{emp}' por '{request.user}' !")
             return redirect(f"/administracao/arquivos/{slug_da_empresa}/")
+
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
                    "projeto": projeto, "notificacoes": notificacoes}
         return render(request, "administracao/public/novo-arquivo.html", context)

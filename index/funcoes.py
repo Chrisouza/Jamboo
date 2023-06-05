@@ -30,7 +30,7 @@ def cria_pasta(path):
 
 
 def cria_pasta_arquivos(pasta, projeto):
-    pastas = ["pdf", "imagens", "audios", "videos", "outros"]
+    pastas = ["pdf", "imagens", "videos"]
     for folder in pastas:
         os.mkdir(f"media/{pasta}/{projeto}/{folder}")
 
@@ -46,21 +46,21 @@ def apaga_arquivo(path):
 
 
 def verifica_tipo_de_arquivo(tipo):
-    if (tipo == "pdf"):
-        tipo = "pdf"
-    elif (tipo == "png" or tipo == "jpg" or tipo == "jpeg"):
-        tipo = "imagens"
-    elif (tipo == "wma" or tipo == "mp3"):
-        tipo = "audios"
-    elif (tipo == "mp4" or tipo == "wmv"):
-        tipo = "videos"
+    extensoes = ["pdf", 'laz', 'tiff', 'jpg', 'mp4']
+    if tipo in extensoes:
+        if (tipo == "pdf"):
+            tipo = "pdf"
+        elif (tipo == "laz" or tipo == "tiff" or tipo == "jpg"):
+            tipo = "imagens"
+        elif (tipo == "mp4" or tipo == "wmv"):
+            tipo = "videos"
+        return tipo
     else:
-        tipo = "outros"
-    return tipo
+        return False
 
 
 def upload_function(arquivo, extensao, pasta, projeto):
-    data = f"{cria_data()}".replace(" ","_")
+    data = f"{cria_data()}".replace(" ", "_")
     name_id = uuid.uuid4().hex
     new_name = arquivo.name.replace(" ", "-").lower()
     new_name = f"{data}_{name_id}_{new_name}"

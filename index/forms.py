@@ -10,7 +10,8 @@ from empresa.models import Login, Nivel, Projeto, Arquivo, Empresa
 
 
 class FormLogin(forms.Form):
-    usuario = forms.CharField(required=True)
+    usuario = forms.CharField(
+        label="E-mail ou Usuario", required=True)
     senha = forms.CharField(widget=forms.PasswordInput, required=True)
 
 
@@ -25,14 +26,14 @@ class FormNovoUsuario(forms.ModelForm):
     class Meta:
         model = Login
         fields = "__all__"
-        exclude = ["usuario", "empresa", "primeiro_acesso"]
+        exclude = ["usuario", "empresa", "primeiro_acesso", "data_criado"]
 
 
 class FormEditarUsuario(forms.ModelForm):
     class Meta:
         model = User
         fields = "__all__"
-        exclude = []
+        exclude = ["data_criado"]
         widgets = {
             "password": forms.PasswordInput
         }
@@ -42,20 +43,25 @@ class FormNovoProjeto(forms.ModelForm):
     class Meta:
         model = Projeto
         fields = "__all__"
-        exclude = ["empresa", "slug_do_projeto"]
+        exclude = ["empresa", "slug_do_projeto", "data_criado"]
 
 
 class FormNovoArquivo(forms.ModelForm):
+    file = forms.FileField(widget=forms.ClearableFileInput(
+        attrs={'multiple': True}), required=True)
+
     class Meta:
         model = Arquivo
         fields = "__all__"
-        exclude = ["empresa", "editor", "edicao", "extensao", "projeto"]
+        exclude = ["empresa", "editor", "edicao",
+                   "extensao", "projeto", "data_upload"]
 
 
 class FormNovoNivel(forms.ModelForm):
     class Meta:
         model = Nivel
         fields = "__all__"
+        exclude = ['data_criado']
 
 
 #################################################

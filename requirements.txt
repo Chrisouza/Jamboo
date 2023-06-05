@@ -1,7 +1,3 @@
 django
 django_bootstrap5
 pillow
-sqlparse
-django-environ
-django_smtp_ssl
-gunicorn

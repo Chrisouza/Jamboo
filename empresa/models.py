@@ -27,7 +27,7 @@ class Empresa(models.Model):
 class Nivel(models.Model):
     nome_do_nivel = models.CharField(max_length=100, default="")
     descricao = models.TextField(max_length=255, default="")
-    #data_criado = 
+    data_criado = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = "nivel"
@@ -44,7 +44,7 @@ class Login(models.Model):
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     nivel = models.ForeignKey(Nivel, on_delete=models.DO_NOTHING)
     primeiro_acesso = models.BooleanField(default=False)
-    #data_criado = 
+    data_criado = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = "login"
@@ -60,7 +60,7 @@ class Projeto(models.Model):
     slug_do_projeto = models.CharField(max_length=255, default="", unique=True)
     nome_do_projeto = models.CharField(max_length=255, default="", unique=True)
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, default="")
-    #data_criado = 
+    data_criado = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = "projeto"
@@ -80,7 +80,7 @@ class Arquivo(models.Model):
     edicao = models.DateTimeField(default=timezone.now)
     extensao = models.CharField(max_length=10, default="")
     projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE)
-    #data_upload = 
+    data_upload = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = "arquivo"
