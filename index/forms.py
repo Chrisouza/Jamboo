@@ -48,7 +48,7 @@ class FormNovoProjeto(forms.ModelForm):
 
 class FormNovoArquivo(forms.ModelForm):
     file = forms.FileField(widget=forms.ClearableFileInput(
-        attrs={'multiple': True}), required=True)
+        attrs={'multiple': True, "allow_multiple_selected": True}), required=True)
 
     class Meta:
         model = Arquivo

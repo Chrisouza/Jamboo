@@ -97,11 +97,15 @@ def editar_empresa(request, id):
             if request.method == "POST":
                 form = FormEditarEmpresaRoot(request.POST, instance=empresa)
                 form.save()
+                Notificacoes.objects.create(
+                        descricao=f"Empresa `{empresa}` editada por `{request.user}`!")
         else:
             form = FormEditarEmpresaAdmin(instance=empresa)
             if request.method == "POST":
                 form = FormEditarEmpresaAdmin(request.POST, instance=empresa)
                 form.save()
+                Notificacoes.objects.create(
+                        descricao=f"Empresa `{empresa}` editada por `{request.user}`!")
 
         notificacoes = pega_notificacoes()
         context = {"form": form, "empresa": empresa,
@@ -122,6 +126,7 @@ def excluir_empresa(request, id):
             shutil.rmtree(f"{settings.BASE_DIR}/media/{emp.pasta}")
         except:
             pass
+        Notificacoes.objects.create(descricao=f"Empresa `{emp}` excluida por `{request.user}`!")
         emp.delete()
         return redirect("/administracao/")
     messages.add_message(request, messages.WARNING,
@@ -138,9 +143,11 @@ def ativar(request, id, acao):
         if acao == "ativar":
             empresa = Empresa.objects.filter(id=id)
             empresa.update(ativo=True)
+            Notificacoes.objects.create(descricao=f"Empresa `{empresa}` foi ativada por `{request.user}`!")
         elif acao == "desativar":
             empresa = Empresa.objects.filter(id=id)
             empresa.update(ativo=False)
+            Notificacoes.objects.create(descricao=f"Empresa `{empresa}` foi desativada por `{request.user}`!")
         else:
             return redirect("/")
     return redirect("/")
