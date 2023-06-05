@@ -1,3 +1,4 @@
 django
 django_bootstrap5
 pillow
+django-environ
