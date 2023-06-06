@@ -21,7 +21,9 @@
 
 <h1>Usuarios {{slug_da_empresa}}</h1>
 <!--Vai pra dentro de gerenciar usuarios-->
-<a class="botao btn" href="novo/">Novo usuario</a>
+<a class="botao btn" href="novo/" data-toggle="tooltip" data-placement="top" title="Novo Usuario">
+    <i class="fa-solid fa-plus"></i>
+</a>
 <hr />
 
 {% if logins %}
@@ -42,12 +44,12 @@
             <span>O QUE O USUARIO EH</span>
         </td>
         <td>
-            <a href="editar-usuario/{{login.usuario.id}}/" class="btn btn-secondary">
-                <i class="fa-solid fa-pen-to-square"></i>Editar
+            <a href="editar-usuario/{{login.usuario.id}}/" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Editar Usuario">
+                <i class="fa-solid fa-pen-to-square"></i>
             </a>
             {% if login.id != 1 %}
-            <a href="/administracao/usuarios/{{slug_da_empresa}}/remover/{{login.usuario.id}}/" class="btn btn-danger">
-                <i class="fa-solid fa-trash-can"></i>Excluir
+            <a href="/administracao/usuarios/{{slug_da_empresa}}/remover/{{login.usuario.id}}/" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir Usuario">
+                <i class="fa-solid fa-trash-can"></i>
             </a>
             {% endif %}
         </td>

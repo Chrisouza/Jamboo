@@ -19,7 +19,9 @@
 {% endif %}
 
 
-<a href="/administracao/arquivos/{{slug_da_empresa}}/" class="btn btn-success">Voltar</a>
+<a href="/administracao/arquivos/{{slug_da_empresa}}/" class="btn btn-success" data-placement="top" title="Voltar">
+    <i class="fa-solid fa-left-long"></i>
+</a>
 
 <form action="/administracao/arquivos/{{slug_da_empresa}}/{{projeto}}/novo/" method="post" enctype="multipart/form-data">
     {% csrf_token %}

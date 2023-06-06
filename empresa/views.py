@@ -158,12 +158,12 @@ def ativar(request, id, acao):
             empresa = Empresa.objects.filter(id=id)
             empresa.update(ativo=True)
             Notificacoes.objects.create(
-                descricao=f"Empresa `{empresa}` foi ativada por `{request.user}`!")
+                descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi ativada por `{request.user}`!")
         elif acao == "desativar":
             empresa = Empresa.objects.filter(id=id)
             empresa.update(ativo=False)
             Notificacoes.objects.create(
-                descricao=f"Empresa `{empresa}` foi desativada por `{request.user}`!")
+                descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi desativada por `{request.user}`!")
         else:
             return redirect("/")
     return redirect("/")

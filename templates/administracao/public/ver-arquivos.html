@@ -17,8 +17,12 @@
     <div class="alert alert-{{message.tags}}">{{message}}</div>
     {% endfor %}
 {% endif %}
-<a href="/administracao/arquivos/{{slug_da_empresa}}/" class="btn btn-success">Voltar</a>
-<a href="/administracao/arquivos/{{slug_da_empresa}}/{{projeto}}/novo/" class="btn btn-success">+ Adicionar arquivo</a>
+<a href="/administracao/arquivos/{{slug_da_empresa}}/" class="btn btn-success" data-placement="top" title="Voltar">
+    <i class="fa-solid fa-left-long"></i>
+</a>
+<a href="/administracao/arquivos/{{slug_da_empresa}}/{{projeto}}/novo/" class="btn btn-success" data-placement="top" title="Adicionar Arquivo">
+    <i class="fa-solid fa-plus"></i>
+</a>
 
 {% if arquivos %}
 

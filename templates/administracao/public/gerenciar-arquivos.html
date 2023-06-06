@@ -33,8 +33,12 @@
                 <td>{{projeto.nome_do_projeto}}</td>
                 <td>{{arquivos|length}}</td>
                 <td>
-                    <a href="{{projeto.slug_do_projeto}}/novo/" class="btn btn-success">+ Adicionar arquivo</a>
-                    <a href="{{projeto.slug_do_projeto}}/ver/" class="btn btn-info">Ver arquivos</a>
+                    <a href="{{projeto.slug_do_projeto}}/novo/" class="btn btn-success" data-placement="top" title="Adicionar Arquivo">
+                        <i class="fa-solid fa-plus"></i>
+                    </a>
+                    <a href="{{projeto.slug_do_projeto}}/ver/" class="btn btn-info" data-placement="top" title="Visualizar Arquivos">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
                 </td>
             </tr>
         {% endfor %}
