@@ -1,9 +1,9 @@
 import shutil
-import time
+import zipfile
 from django.conf import settings
 from django.shortcuts import render, redirect
 from empresa.models import Login, Nivel, Empresa, Notificacoes, Projeto, Arquivo
-from index.funcoes import cria_pasta, cria_pasta_arquivos, verifica_tipo_de_arquivo, upload_function, apaga_arquivo
+from index.funcoes import cria_data, cria_pasta, cria_pasta_arquivos, cria_zip, verifica_tipo_de_arquivo, upload_function, apaga_arquivo
 from django.contrib.auth.models import User
 from index.forms import FormEditarUsuario, FormNovoArquivo, FormNovoNivel, FormNovoUsuario, FormNovoProjeto
 from index.mensagens import *
@@ -239,6 +239,29 @@ def remove_projeto(request, slug_da_empresa, projeto):
             return redirect(f"/administracao/projetos/{slug_da_empresa}/")
     info(request, msg="Voce nao tem permissao para acessar essa pagina!")
     return redirect("/")
+
+
+def realizar_bkp(request, slug_da_empresa, projeto):
+    data = cria_data()
+    data = str(data).replace(" ", "_")
+    data = data.replace(":", "_")
+    data = data.replace(".", "_")
+    data = data.replace("-", "_")
+    emp = Empresa.objects.get(slug_da_empresa=slug_da_empresa)
+    projeto = Projeto.objects.get(id=projeto)
+
+    path_save = f"{settings.BASE_DIR}{settings.MEDIA_URL}{emp.pasta}/{projeto.slug_do_projeto}"
+    output_name = f"{emp.nome_da_empresa}_{projeto.nome_do_projeto}_{data}"
+
+    cria_zip(path=path_save, output_name=output_name)
+    Notificacoes.objects.create(
+        descricao=f"BKP do Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !")
+
+    url = f"{settings.MEDIA_URL}{emp.pasta}/{projeto.slug_do_projeto}/bkps/{output_name}.zip"
+    sucesso(
+        request, msg=f"BKP do Projeto criado <a href='{url}' download>BAIXAR AGORA</a>!")
+    return redirect(f"/administracao/projetos/{slug_da_empresa}/")
+
 
 ##########################################################
 ############# GERENCIAMENTO DE ARQUIVOS ##################

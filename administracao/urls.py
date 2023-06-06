@@ -13,13 +13,16 @@ urlpatterns = [
     # gerencia usuarios
     path("usuarios/<str:slug_da_empresa>/", views.gerenciar_usuarios),
     path("usuarios/<str:slug_da_empresa>/novo/", views.novo_usuario),
-    path("usuarios/<str:slug_da_empresa>/editar-usuario/<int:usuario>/", views.editar_usuario),
-    path("usuarios/<str:slug_da_empresa>/remover/<int:usuario>/", views.remove_usuario),
+    path("usuarios/<str:slug_da_empresa>/editar-usuario/<int:usuario>/",
+         views.editar_usuario),
+    path("usuarios/<str:slug_da_empresa>/remover/<int:usuario>/",
+         views.remove_usuario),
 
     # gernecia projetos
     path("projetos/<str:slug_da_empresa>/", views.gerenciar_projetos),
     path("projetos/<str:slug_da_empresa>/novo/", views.novo_projeto),
     path("projetos/<str:slug_da_empresa>/<int:projeto>/", views.remove_projeto),
+    path("projetos/<str:slug_da_empresa>/<int:projeto>/bkp/", views.realizar_bkp),
 
     # gernecia arquivos
     path("arquivos/<str:slug_da_empresa>/", views.gerenciar_arquivos),

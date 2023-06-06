@@ -3,11 +3,13 @@ import hashlib
 import datetime as dt
 import uuid
 from django.conf import settings
-
+import shutil
 
 ##################################################################
 ############################ GERAL ###############################
 ##################################################################
+
+
 def cria_data():
     hoje = dt.datetime.now()
     return hoje
@@ -30,14 +32,24 @@ def cria_pasta(path):
 
 
 def cria_pasta_arquivos(pasta, projeto):
-    pastas = ["pdf", "imagens", "videos"]
+    pastas = ["pdf", "imagens", "videos", "bkps"]
     for folder in pastas:
         os.mkdir(f"media/{pasta}/{projeto}/{folder}")
 
 
+def cria_zip(path, output_name):
+    pastas = ["pdf", "imagens", "videos"]
+    os.mkdir(f"{path}/bkps/{output_name}")
+    for p in pastas:
+        shutil.copytree(f"{path}/{p}/", f"{path}/bkps/{output_name}/{p}/")
+        print(f"{path}/{p}")
+    shutil.make_archive(f'{path}/bkps/bkp_{output_name}', 'zip', './', f"{path}/bkps/{output_name}")
+    shutil.rmtree(f"{path}/bkps/{output_name}")
+
 ##################################################################
 ############################ ARQUIVOS ############################
 ##################################################################
+
 
 def apaga_arquivo(path):
     path = f"{settings.BASE_DIR}{path}"
