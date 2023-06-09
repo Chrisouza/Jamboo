@@ -1,0 +1,6 @@
+{% if notificacoes.has_previous %}
+<a href="?page={{notificacoes.previous_page_number}}">Anterior</a>
+{% endif %}
+{% if notificacoes.has_next %}
+<a href="?page={{notificacoes.next_page_number}}">Proximo</a>
+{% endif %}

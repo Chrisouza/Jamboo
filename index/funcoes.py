@@ -2,8 +2,16 @@ import os
 import hashlib
 import datetime as dt
 import uuid
-from django.conf import settings
 import shutil
+from django.conf import settings
+from django.core.paginator import Paginator
+
+
+def paginacao(request, data, qtd_pagina):
+    paginacao = Paginator(data, qtd_pagina)
+    page_num = request.GET.get('page')
+    page = paginacao.get_page(page_num)
+    return page
 
 ##################################################################
 ############################ GERAL ###############################

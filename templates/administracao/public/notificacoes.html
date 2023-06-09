@@ -25,14 +25,23 @@
         <th>Descricao</th>
         <th>Data</th>
     </tr>
-    {% for notificacao in notificacoes %}
+    {% for page in pages %}
         <tr>
-            <td>{{notificacao.id}}</td>
-            <td>{{notificacao.descricao}}</td>
-            <td>{{notificacao.data}}</td>
+            <td>{{page.id}}</td>
+            <td>{{page.descricao}}</td>
+            <td>{{page.data}}</td>
         </tr>
     {% endfor %}
 </table>
+
+{% if pages.has_previous %}
+<a href="?page={{pages.previous_page_number}}">Anterior</a>
+{% endif %}
+{% if pages.has_next %}
+<a href="?page={{pages.next_page_number}}">Proximo</a>
+{% endif %}
+
+
 {% else %}
 <div class="alert alert-danger">Sem notificacoes</div>
 {% endif %}

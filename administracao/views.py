@@ -1,9 +1,8 @@
 import shutil
-import zipfile
 from django.conf import settings
 from django.shortcuts import render, redirect
 from empresa.models import Login, Nivel, Empresa, Notificacoes, Projeto, Arquivo
-from index.funcoes import cria_data, cria_pasta, cria_pasta_arquivos, cria_zip, verifica_tipo_de_arquivo, upload_function, apaga_arquivo
+from index.funcoes import cria_data, cria_pasta, cria_pasta_arquivos, cria_zip, paginacao, verifica_tipo_de_arquivo, upload_function, apaga_arquivo
 from django.contrib.auth.models import User
 from index.forms import FormEditarUsuario, FormNovoArquivo, FormNovoNivel, FormNovoUsuario, FormNovoProjeto
 from index.mensagens import *
@@ -45,8 +44,11 @@ def index(request):
 def notificacoes(request):
     if request.user.is_authenticated and request.user.is_superuser:
         notificacoes = pega_notificacoes()
+
+        pages = paginacao(request, data=notificacoes, qtd_pagina=2)
+
         update_notificacoes(notificacoes)
-        context = {"notificacoes": notificacoes}
+        context = {"notificacoes": notificacoes, "pages": pages}
         return render(request, "administracao/public/notificacoes.html", context)
     return redirect("/")
 
