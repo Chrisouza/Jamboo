@@ -32,8 +32,8 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*", "jamboo.rcsc3w.repl.co"]
-CSRF_TRUSTED_ORIGINS = ['jamboo.rcsc3w.repl.co']
+ALLOWED_HOSTS = ["*", "https://jamboo.rcsc3w.repl.co"]
+CSRF_TRUSTED_ORIGINS = ['https://jamboo.rcsc3w.repl.co']
 
 
 # Application definition
