@@ -1,14 +1,14 @@
 import shutil
 from django.conf import settings
 from django.shortcuts import render, redirect
-from empresa.models import Login, Nivel, Empresa, Notificacoes, Projeto, Arquivo
+from empresa.models import Backups, Login, Nivel, Empresa, Notificacoes, Projeto, Arquivo
 from index.funcoes import cria_data, cria_pasta, cria_pasta_arquivos, cria_zip, paginacao, verifica_tipo_de_arquivo, upload_function, apaga_arquivo
 from django.contrib.auth.models import User
 from index.forms import FormEditarUsuario, FormNovoArquivo, FormNovoNivel, FormNovoUsuario, FormNovoProjeto
 from index.mensagens import *
 
 
-def pega_notificacoes():
+def pega_notificacoes(ordem="last"):
     notificacoes = Notificacoes.objects.all()
     return notificacoes
 
@@ -44,8 +44,14 @@ def index(request):
 def notificacoes(request):
     if request.user.is_authenticated and request.user.is_superuser:
         notificacoes = pega_notificacoes()
+        if request.method == "POST":
+            if request.POST.get("pesquisa"):
+                notificacoes = notificacoes.filter(
+                    descricao__contains=request.POST.get("pesquisa"))
+            if request.POST.get("ordem") == '2':
+                notificacoes = notificacoes.order_by("id")
 
-        pages = paginacao(request, data=notificacoes, qtd_pagina=2)
+        pages = paginacao(request, data=notificacoes, qtd_pagina=4)
 
         update_notificacoes(notificacoes)
         context = {"notificacoes": notificacoes, "pages": pages}
@@ -161,9 +167,15 @@ def editar_usuario(request, slug_da_empresa, usuario):
         usuario = User.objects.get(id=usuario)
         form = FormEditarUsuario(instance=usuario)
         if request.method == "POST":
+            if request.POST.get("nova_senha") != "":
+                usuario.set_password(request.POST.get("password"))
+                usuario.save()
+            print(usuario.id)
+            exit()
             form = FormEditarUsuario(request.POST, instance=usuario)
             form.save()
-            # Notificacoes.objects.create(descricao=f"Usuario '{user}' com nivel '{nivel}' criado por '{request.user}' para a empresa '{emp}'!")
+            Notificacoes.objects.create(
+                descricao=f"Usuario '{user}' com nivel '{nivel}' criado por '{request.user}' para a empresa '{emp}'!")
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
                    "usuario": usuario, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/editar-usuario.html", context)
@@ -195,7 +207,12 @@ def gerenciar_projetos(request, slug_da_empresa):
             notificacoes = pega_notificacoes()
             projetos = Projeto.objects.filter(
                 empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
-            context = {"slug_da_empresa": slug_da_empresa, "projetos": projetos,
+            try:
+                ultimo_bkp = Backups.objects.filter(
+                    empresa=projetos[0].empresa)[0]
+            except:
+                ultimo_bkp = None
+            context = {"slug_da_empresa": slug_da_empresa, "projetos": projetos, "ultimo_bkp": ultimo_bkp,
                        "notificacoes": notificacoes, "aviso": aviso()}
             return render(request, "administracao/public/gerenciar-projetos.html", context)
     return redirect("/")
@@ -253,9 +270,14 @@ def realizar_bkp(request, slug_da_empresa, projeto):
     projeto = Projeto.objects.get(id=projeto)
 
     path_save = f"{settings.BASE_DIR}{settings.MEDIA_URL}{emp.pasta}/{projeto.slug_do_projeto}"
-    output_name = f"{emp.nome_da_empresa}_{projeto.nome_do_projeto}_{data}"
+    output_name = f"{emp.slug_da_empresa}_{projeto.nome_do_projeto}_{data}"
 
     cria_zip(path=path_save, output_name=output_name)
+    Backups.objects.create(
+        empresa=emp,
+        usuario=request.user,
+        projeto=projeto
+    )
     Notificacoes.objects.create(
         descricao=f"BKP do Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !")
 

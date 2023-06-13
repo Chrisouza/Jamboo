@@ -50,8 +50,8 @@ def cria_zip(path, output_name):
     os.mkdir(f"{path}/bkps/{output_name}")
     for p in pastas:
         shutil.copytree(f"{path}/{p}/", f"{path}/bkps/{output_name}/{p}/")
-        print(f"{path}/{p}")
-    shutil.make_archive(f'{path}/bkps/bkp_{output_name}', 'zip', './', f"{path}/bkps/{output_name}")
+    shutil.make_archive(f'{path}/bkps/{output_name}',
+                        'zip', './', f"{path}/bkps/{output_name}")
     shutil.rmtree(f"{path}/bkps/{output_name}")
 
 ##################################################################

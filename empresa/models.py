@@ -105,3 +105,19 @@ class Notificacoes(models.Model):
 
     def __str__(self) -> str:
         return f"{self.descricao} | {self.data}"
+
+
+class Backups(models.Model):
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE)
+    data = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = "backups"
+        verbose_name = "Backup"
+        verbose_name_plural = "Backups"
+        ordering = ["-id"]
+
+    def __str__(self) -> str:
+        return f"{self.empresa} | {self.usuario} | {self.data}"

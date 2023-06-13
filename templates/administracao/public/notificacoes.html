@@ -19,6 +19,19 @@
 {% endif %}
 
 {% if notificacoes %}
+
+<div class="filtro">
+    <form action="" method="post">
+        {% csrf_token %}
+        <select name="ordem" id="ordem">
+            <option value="1">Mais recente</option>
+            <option value="2">Mais antigo</option>
+        </select>
+        <input type="search" name="pesquisa" id="pesquisa" />
+        <button>pesquisar</button>
+    </form>
+</div>
+
 <table class="table table-striped">
     <tr>
         <th>#</th>

@@ -32,7 +32,7 @@
         <th>#</th>
         <th>Login</th>
         <th>Acoes</th>
-        <th>ULTIMO BKP BAIXADO</th>
+        <th>ULTIMO BKP CRIADO</th>
     </tr>
 {% for projeto in projetos %}
     <tr>
@@ -53,7 +53,9 @@
             </a>
         </td>
         <td>
-            baixado dia X por FULANO
+            {% if ultimo_bkp %}
+                {{ultimo_bkp.data}} por {{ultimo_bkp.usuario}}
+            {% endif %}
         </td>
     </tr>
 {% endfor %}

@@ -112,6 +112,8 @@ def editar_empresa(request, id):
                 form.save()
                 Notificacoes.objects.create(
                     descricao=f"Empresa `{empresa}` editada por `{request.user}`!")
+                messages.add_message(
+                    request, messages.SUCCESS, "Empresa editada com sucesso!")
         else:
             form = FormEditarEmpresaAdmin(instance=empresa)
             if request.method == "POST":
@@ -119,6 +121,8 @@ def editar_empresa(request, id):
                 form.save()
                 Notificacoes.objects.create(
                     descricao=f"Empresa `{empresa}` editada por `{request.user}`!")
+                messages.add_message(
+                    request, messages.SUCCESS, "Empresa editada com sucesso!")
 
         notificacoes = pega_notificacoes()
         context = {"form": form, "empresa": empresa,

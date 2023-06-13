@@ -32,12 +32,13 @@ class FormNovoUsuario(forms.ModelForm):
 
 
 class FormEditarUsuario(forms.ModelForm):
+    nova_senha = forms.CharField(label="Nova senha")
+
     class Meta:
         model = User
-        fields = "__all__"
-        exclude = ["data_criado"]
+        fields = ["username", "email"]
         widgets = {
-            "password": forms.PasswordInput
+            "nova_senha": forms.PasswordInput(attrs={"required": False})
         }
 
 
