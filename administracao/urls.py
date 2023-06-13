@@ -23,6 +23,7 @@ urlpatterns = [
     path("projetos/<str:slug_da_empresa>/novo/", views.novo_projeto),
     path("projetos/<str:slug_da_empresa>/<int:projeto>/", views.remove_projeto),
     path("projetos/<str:slug_da_empresa>/<int:projeto>/bkp/", views.realizar_bkp),
+    path("projetos/<str:slug_da_empresa>/<int:projeto>/clean/", views.limpa_bkps),
 
     # gernecia arquivos
     path("arquivos/<str:slug_da_empresa>/", views.gerenciar_arquivos),

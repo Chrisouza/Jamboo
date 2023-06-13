@@ -260,6 +260,14 @@ def remove_projeto(request, slug_da_empresa, projeto):
     return redirect("/")
 
 
+def limpa_bkps(request, slug_da_empresa, projeto):
+    bkps = Backups.objects.filter(projeto=projeto).order_by("-data")
+    for i in range(len(bkps) - 1):
+        i += 1
+        bkps[i].delete()
+    return redirect(f"/administracao/projetos/{slug_da_empresa}/")
+
+
 def realizar_bkp(request, slug_da_empresa, projeto):
     data = cria_data()
     data = str(data).replace(" ", "_")
