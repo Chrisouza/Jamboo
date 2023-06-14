@@ -12,13 +12,12 @@ from .auxiliar import MultipleFileField
 
 
 class FormLogin(forms.Form):
-    usuario = forms.CharField(
-        label="E-mail ou Usuario", required=True)
+    usuario = forms.CharField(label="E-mail ou Usuário", required=True)
     senha = forms.CharField(widget=forms.PasswordInput, required=True)
 
 
 #################################################
-################# ADMINSITRACAO #################
+################# ADMINITRACAO #################
 #################################################
 class FormNovoUsuario(forms.ModelForm):
     usuario = forms.CharField(max_length=100)

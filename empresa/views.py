@@ -34,8 +34,7 @@ def index(request):
         context = {"empresa": empresa,
                    "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "empresa/public/home.html", context)
-    messages.add_message(request, messages.WARNING,
-                         "Voce nao tem permissao para acessar essa pagina!")
+    messages.add_message(request, messages.WARNING, "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
     return redirect("/")
 
 
@@ -89,7 +88,7 @@ def nova_empresa(request):
                     Notificacoes.objects.create(
                         descricao=f"Nova empresa: '{emp.nome_da_empresa}' cadastrada por: {request.user}!")
                     Notificacoes.objects.create(
-                        descricao=f"Usuario '{user.username}' com nivel '{login.nivel.nome_do_nivel}' criado por '{request.user}' para a empresa '{emp.nome_da_empresa}'!")
+                        descricao=f"Usu&aacute;rio '{user.username}' com nivel '{login.nivel.nome_do_nivel}' criado por '{request.user}' para a empresa '{emp.nome_da_empresa}'!")
                     messages.add_message(request, messages.SUCCESS,
                                          "Empresa criada com sucesso!")
                     # messages.add_message(request, messages.INFO, "Um e-mail foi enviado para o administrador!")
@@ -98,7 +97,7 @@ def nova_empresa(request):
                    "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "empresa/public/nova-empresa.html", context)
     messages.add_message(request, messages.WARNING,
-                         "Voce nao tem permissao para acessar essa pagina!")
+                         "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
     return redirect("/")
 
 
@@ -129,7 +128,7 @@ def editar_empresa(request, id):
                    "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "empresa/public/editar-empresa.html", context)
     messages.add_message(request, messages.WARNING,
-                         "Voce nao tem permissao para acessar essa pagina!")
+                         "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
     return redirect("/")
 
 
@@ -148,7 +147,7 @@ def excluir_empresa(request, id):
         emp.delete()
         return redirect("/administracao/")
     messages.add_message(request, messages.WARNING,
-                         "Voce nao tem permissao para acessar essa pagina!")
+                         "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
     return redirect("/")
 
 ##########################################################

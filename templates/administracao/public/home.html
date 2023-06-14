@@ -25,11 +25,11 @@
         <table class="table table-striped">
             <tr>
                 <th>#</th>
-                <th>NOME</th>
-                <th>RESPONSAVEL</th>
-                <th>DATA DO CADASTRO</th>
-                <th>STATUS</th>
-                <th>ACOES</th>
+                <th>Nome</th>
+                <th>Respons&aacute;vel</th>
+                <th>Data do cadastro</th>
+                <th>Status</th>
+                <th>A&ccedil;&otilde;es</th>
             </tr>
             {% for empresa in empresas%}
             <tr>
@@ -54,7 +54,7 @@
                 </td>
                 <td>
                     <a class="btn btn-warning" href="usuarios/{{empresa.slug_da_empresa}}"
-                        data-toggle="tooltip" data-placement="top" title="Gerenciar usuarios">
+                        data-toggle="tooltip" data-placement="top" title="Gerenciar usu&aacute;rios">
                         <i class="fa-solid fa-user-gear"></i>
                     </a>
                     <a class="btn btn-warning" href="projetos/{{empresa.slug_da_empresa}}"
@@ -75,7 +75,7 @@
             {% endfor %}
         </table>
     {% else %}
-        <div class="alert alert-danger">Não possue empresas cadastradas</div>
+        <div class="alert alert-danger">N&atilde;o possue empresas cadastradas</div>
     {% endif %}
 </div>
 

@@ -46,7 +46,7 @@ def entrar(request):
                     empresa = Empresa.objects.get(id=acesso.empresa.id)
                     if not empresa.ativo:
                         warning(
-                            request, msg="Voce nao tem permissao de acesso. Entre em contato!")
+                            request, msg="Voc&ecirc; n&atilde;o tem permissao de acesso. Entre em contato!")
                         return redirect("/")
                 login(request, auth)
                 sucesso(request, msg="Login realizado com sucesso!")

@@ -1,3 +1,0 @@
-python manage.py makemigrations
-python manage.py makemigrations administracao arquivos empresa index jamboo
-python manage.py migrate

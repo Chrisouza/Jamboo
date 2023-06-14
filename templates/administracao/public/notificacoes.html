@@ -28,14 +28,16 @@
             <option value="2">Mais antigo</option>
         </select>
         <input type="search" name="pesquisa" id="pesquisa" />
-        <button>pesquisar</button>
+        <button>
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
     </form>
 </div>
 
 <table class="table table-striped">
     <tr>
         <th>#</th>
-        <th>Descricao</th>
+        <th>Descri&ccedil;&atilde;o</th>
         <th>Data</th>
     </tr>
     {% for page in pages %}
@@ -51,12 +53,12 @@
 <a href="?page={{pages.previous_page_number}}">Anterior</a>
 {% endif %}
 {% if pages.has_next %}
-<a href="?page={{pages.next_page_number}}">Proximo</a>
+<a href="?page={{pages.next_page_number}}">Pr&oacute;ximo</a>
 {% endif %}
 
 
 {% else %}
-<div class="alert alert-danger">Sem notificacoes</div>
+<div class="alert alert-danger">Sem notifica&ccedil;&otilde;es</div>
 {% endif %}
     
 

@@ -4,17 +4,10 @@
         <img src="{% static 'index/images/logo.png' %}" width="100%" height="100" alt="">
     </div>
 
-    {% if aviso %}
-        <div class="alert alert-info text-center">
-            Voce tem notificacoes nao vista
-        </div>
-    {% endif %}
-
-
     <!--Links main-->
     <a href="/">
         <i class="fa-solid fa-house"></i>
-        <span>Dashboard</span>
+        <span>Painel principal</span>
     </a>
     {% if request.user.is_superuser %}
         <a href="{% url 'nova_empresa-empresa' %}">
@@ -26,13 +19,16 @@
             <span>Acessos</span>
         </a>
         <a href="/administracao/notificacoes/">
-            <i class="fa-solid fa-flag"></i>
-            <span>Notificacoes ({{notificacoes|length}})</span>
+            <i class="fa-solid fa-bell"></i>
+            <span>Notifica&ccedil;&otilde;es ({{notificacoes|length}})</span>
+            {% if aviso %}
+                <i class="fas fa-exclamation-circle text-danger"></i>
+            {% endif %}
         </a>
     {% endif %}
     <a href="">
-        <i class="fa-solid fa-person-running"></i>
-        <span>CONFICURACOES</span>
+        <i class="fa-solid fa-gear"></i>
+        <span>Configura&ccedil;&otilde;es</span>
     </a>
     <a href="{% url 'logout-index' %}">
         <i class="fa-solid fa-person-running"></i>

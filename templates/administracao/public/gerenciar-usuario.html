@@ -21,7 +21,7 @@
 
 <h1>Usuarios {{slug_da_empresa}}</h1>
 <!--Vai pra dentro de gerenciar usuarios-->
-<a class="botao btn" href="novo/" data-toggle="tooltip" data-placement="top" title="Novo Usuario">
+<a class="botao btn" href="novo/" data-toggle="tooltip" data-placement="top" title="Novo Usu&aacute;rio">
     <i class="fa-solid fa-plus"></i>
 </a>
 <hr />
@@ -31,8 +31,8 @@
     <tr>
         <th>#</th>
         <th>Login</th>
-        <th>DESCRICAO</th>
-        <th>Acoes</th>
+        <th>Descri&ccedil;&atilde;o</th>
+        <th>A&ccedil;&otilde;es</th>
     </tr>
 {% for login in logins %}
     <tr>
@@ -41,14 +41,14 @@
             <span>{{login}}</span>
         </td>
         <td>
-            <span>O QUE O USUARIO EH</span>
+            <span>{{login.nivel.descricao}}</span>
         </td>
         <td>
-            <a href="editar-usuario/{{login.usuario.id}}/" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Editar Usuario">
+            <a href="editar-usuario/{{login.usuario.id}}/" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Editar Usu&aacute;rio">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
             {% if login.id != 1 %}
-            <a href="/administracao/usuarios/{{slug_da_empresa}}/remover/{{login.usuario.id}}/" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir Usuario">
+            <a href="/administracao/usuarios/{{slug_da_empresa}}/remover/{{login.usuario.id}}/" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir Usu&aacute;rio">
                 <i class="fa-solid fa-trash-can"></i>
             </a>
             {% endif %}
@@ -58,7 +58,7 @@
 </table>
 
 {% else %}
-<div class="alert alert-danger">Nenhum usuario cadastrado para essa empresa</div>
+<div class="alert alert-danger">Nenhum usu&aacute;rio cadastrado para essa empresa</div>
 {% endif %}
 
 {% endblock %}

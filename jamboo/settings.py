@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'django_bootstrap5',
 
     'administracao',
-    'arquivos',
     'empresa',
     'index',
     'jamboo',

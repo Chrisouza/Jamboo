@@ -21,15 +21,15 @@
 
 <h1>Acessos:</h1>
 <!--Vai pra dentro de gerenciar usuarios-->
-<a class="botao btn" href="novo/">Novo Nivel</a>
+<a class="botao btn" href="novo/">Novo N&iacute;vel</a>
 <hr/>
 
 {% if niveis %}
 <table class="table table-striped">
     <tr>
         <th>#</th>
-        <th>Nivel</th>
-        <th>Descricao</th>
+        <th>N&iacute;vel</th>
+        <th>Descri&ccedil;&atilde;o</th>
         <th></th>
     </tr>
 {% for nivel in niveis %}
@@ -51,7 +51,7 @@
 {% endfor %}
 </table>
 {% else %}
-    <div class="alert alert-danger">Nenhum nivel de acesso cadastrado</div>
+    <div class="alert alert-danger">Nenhum n&iacute;vel de acesso cadastrado</div>
 {% endif %}
     
 
