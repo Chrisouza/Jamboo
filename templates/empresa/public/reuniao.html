@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
+<link rel="stylesheet" href="{% static 'index/css/jeet.si.css' %}">
+{% endblock %}
+
+
+{% block js%}
+<script src='https://meet.jit.si/external_api.js'></script>
+<script src="{% static 'index/js/jeet.si.js' %}"></script>
+{% endblock %}
+
+{% block ld %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
+<div id="meet"></div>
+<script>jeet(nome_da_empresa=`{{empresa.nome_da_empresa}}`)</script>
+
+{% endblock %}

@@ -4,6 +4,12 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
+<link rel="stylesheet" href="{% static 'index/css/calendario.css' %}">
+{% endblock %}
+
+
+{% block js %}
+<script src="{% static 'index/js/jeet.si.js' %}"></script>
 {% endblock %}
 
 {% block ld %}
@@ -12,28 +18,37 @@
     <div class="alert alert-{{message.tags}}">{{message}}</div>
     {% endfor %}
 {% endif %}
-<h3>index da empresa <strong>{{empresa.nome}}</strong></h3>
+<h3>index da empresa <strong>{{empresa.nome_da_empresa}}</strong></h3>
 
 
 
-<a class="btn btn-warning" href="/administracao/usuarios/{{empresa.slug_da_empresa}}">
+<a class="btn btn-warning" href="/administracao/usuarios/{{empresa.slug_da_empresa}}" data-toggle="tooltip" data-placement="top" title="Gerenciar usu&aacute;rios">
     <i class="fa-solid fa-user-gear"></i>
-    Gerenciar usu&aacute;rios
+    <!--Gerenciar usu&aacute;rios-->
 </a>
 
-<a class="btn btn-warning" href="/administracao/projetos/{{empresa.slug_da_empresa}}">
+<a class="btn btn-warning" href="/administracao/projetos/{{empresa.slug_da_empresa}}" data-toggle="tooltip" data-placement="top" title="Gerenciar Projetos">
     <i class="fa-solid fa-folder-plus"></i>
-    Gerenciar Projetos
+    <!--Gerenciar Projetos-->
 </a>
 
-<!--Vai pra dentro de gerenciar projetos-->
-<a class="btn btn-info" href="/administracao/arquivos/{{empresa.slug_da_empresa}}/">
-    <i class="fa-solid fa-file-import"></i>
-    Gerenciar Arquivos
-</a>
-
-<a class="btn btn-danger" href="/empresa/editar/{{empresa.id}}">
+<a class="btn btn-danger" href="/empresa/editar/{{empresa.id}}" data-toggle="tooltip" data-placement="top" title="Editar empresa">
     <i class="fa-solid fa-pen-to-square"></i>
-    Editar empresa
+    <!--Editar empresa-->
 </a>
+
+
+<a class="btn btn-info" href="reuniao/" data-toggle="tooltip" data-placement="top" title="Entrar na reuniao">
+    <i class="fa-solid fa-video"></i>
+    <!--Entrar em Reuniao-->
+</a>
+<a class="btn btn-info" href="calendario/" data-toggle="tooltip" data-placement="top" title="Ver agenda">
+    <i class="fa-solid fa-calendar-days"></i>
+    <!--Calendario-->
+</a>
+
+<hr/>
+
+<iframe src="https://calendar.google.com/calendar/embed?src=rcsc3ww%40gmail.com&ctz=UTC" style="border: 0" frameborder="0" scrolling="no"></iframe>
+
 {% endblock %}

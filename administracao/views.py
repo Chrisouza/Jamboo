@@ -203,59 +203,56 @@ def remove_usuario(request, slug_da_empresa, usuario):
 
 def gerenciar_projetos(request, slug_da_empresa):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
-            notificacoes = pega_notificacoes()
-            projetos = Projeto.objects.filter(
-                empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
-            try:
-                ultimo_bkp = Backups.objects.filter(
-                    empresa=projetos[0].empresa)[0]
-            except:
-                ultimo_bkp = None
-            context = {"slug_da_empresa": slug_da_empresa, "projetos": projetos, "ultimo_bkp": ultimo_bkp,
-                       "notificacoes": notificacoes, "aviso": aviso()}
-            return render(request, "administracao/public/gerenciar-projetos.html", context)
+        notificacoes = pega_notificacoes()
+        projetos = Projeto.objects.filter(
+            empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
+        try:
+            ultimo_bkp = Backups.objects.filter(
+                empresa=projetos[0].empresa)[0]
+        except:
+            ultimo_bkp = None
+        context = {"slug_da_empresa": slug_da_empresa, "projetos": projetos, "ultimo_bkp": ultimo_bkp,
+                   "notificacoes": notificacoes, "aviso": aviso()}
+        return render(request, "administracao/public/gerenciar-projetos.html", context)
     return redirect("/")
 
 
 def novo_projeto(request, slug_da_empresa):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
-            notificacoes = pega_notificacoes()
-            form = FormNovoProjeto(request.POST or None)
-            if request.method == "POST":
-                if form.is_valid():
-                    nome_do_projeto = request.POST.get("nome_do_projeto")
-                    slug_do_projeto = nome_do_projeto.replace(" ", "-")
-                    emp = Empresa.objects.get(slug_da_empresa=slug_da_empresa)
-                    Projeto.objects.create(
-                        slug_do_projeto=slug_do_projeto, nome_do_projeto=nome_do_projeto, empresa=emp)
-                    cria_pasta(f"media/{emp.pasta}/{slug_do_projeto}")
-                    cria_pasta_arquivos(
-                        pasta=emp.pasta, projeto=slug_do_projeto)
-                    sucesso(request, msg="Projeto cadastrado com sucesso!")
-                    Notificacoes.objects.create(
-                        descricao=f"Projeto:'{nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !")
-                    return redirect(f"/administracao/projetos/{slug_da_empresa}/")
-            context = {"form": form, "slug_da_empresa": slug_da_empresa,
-                       "notificacoes": notificacoes, "aviso": aviso()}
-            return render(request, "administracao/public/novo-projeto.html", context)
+        notificacoes = pega_notificacoes()
+        form = FormNovoProjeto(request.POST or None)
+        if request.method == "POST":
+            if form.is_valid():
+                nome_do_projeto = request.POST.get("nome_do_projeto")
+                slug_do_projeto = nome_do_projeto.replace(" ", "-")
+                emp = Empresa.objects.get(slug_da_empresa=slug_da_empresa)
+                Projeto.objects.create(
+                    slug_do_projeto=slug_do_projeto, nome_do_projeto=nome_do_projeto, empresa=emp)
+                cria_pasta(f"media/{emp.pasta}/{slug_do_projeto}")
+                cria_pasta_arquivos(
+                    pasta=emp.pasta, projeto=slug_do_projeto)
+                sucesso(request, msg="Projeto cadastrado com sucesso!")
+                Notificacoes.objects.create(
+                    descricao=f"Projeto:'{nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !")
+                return redirect(f"/administracao/projetos/{slug_da_empresa}/")
+        context = {"form": form, "slug_da_empresa": slug_da_empresa,
+                   "notificacoes": notificacoes, "aviso": aviso()}
+        return render(request, "administracao/public/novo-projeto.html", context)
     info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
     return redirect("/")
 
 
 def remove_projeto(request, slug_da_empresa, projeto):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
-            projeto = Projeto.objects.get(id=projeto)
-            emp = Empresa.objects.get(id=projeto.empresa.id)
-            shutil.rmtree(f"{settings.BASE_DIR}/media/{emp.pasta}/{projeto.slug_do_projeto}",
-                          ignore_errors=True)
-            sucesso(request, msg="Projeto deletado com sucesso!")
-            Notificacoes.objects.create(
-                descricao=f"Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' removido por '{request.user}' !")
-            projeto.delete()
-            return redirect(f"/administracao/projetos/{slug_da_empresa}/")
+        projeto = Projeto.objects.get(id=projeto)
+        emp = Empresa.objects.get(id=projeto.empresa.id)
+        shutil.rmtree(f"{settings.BASE_DIR}/media/{emp.pasta}/{projeto.slug_do_projeto}",
+                      ignore_errors=True)
+        sucesso(request, msg="Projeto deletado com sucesso!")
+        Notificacoes.objects.create(
+            descricao=f"Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' removido por '{request.user}' !")
+        projeto.delete()
+        return redirect(f"/administracao/projetos/{slug_da_empresa}/")
     info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
     return redirect("/")
 

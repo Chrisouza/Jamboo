@@ -34,7 +34,8 @@ def index(request):
         context = {"empresa": empresa,
                    "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "empresa/public/home.html", context)
-    messages.add_message(request, messages.WARNING, "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    messages.add_message(request, messages.WARNING,
+                         "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
     return redirect("/")
 
 
@@ -169,4 +170,38 @@ def ativar(request, id, acao):
                 descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi desativada por `{request.user}`!")
         else:
             return redirect("/")
+    return redirect("/")
+
+
+##########################################################
+############# REUNIAO / CALENDARIO EMPRESA ###############
+##########################################################
+
+def reuniao(request):
+    if request.user.is_authenticated:
+
+        notificacoes = pega_notificacoes()
+        usuario = Login.objects.get(usuario=request.user)
+        empresa = Empresa.objects.get(id=usuario.empresa.id)
+
+        context = {"empresa": empresa,
+                   "notificacoes": notificacoes, "aviso": aviso()}
+        return render(request, "empresa/public/reuniao.html", context)
+    messages.add_message(request, messages.WARNING,
+                         "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    return redirect("/")
+
+
+def calendario(request):
+    if request.user.is_authenticated:
+
+        notificacoes = pega_notificacoes()
+        usuario = Login.objects.get(usuario=request.user)
+        empresa = Empresa.objects.get(id=usuario.empresa.id)
+
+        context = {"empresa": empresa,
+                   "notificacoes": notificacoes, "aviso": aviso()}
+        return render(request, "empresa/public/calendario.html", context)
+    messages.add_message(request, messages.WARNING,
+                         "Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
     return redirect("/")

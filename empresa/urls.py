@@ -7,4 +7,8 @@ urlpatterns = [
     path("editar/<int:id>/", views.editar_empresa),
     path("ativar/<int:id>/<str:acao>/", views.ativar),
     path("excluir/<int:id>/", views.excluir_empresa),
+    # 3
+    path("reuniao/", views.reuniao),
+    path("calendario/", views.calendario),
+
 ]

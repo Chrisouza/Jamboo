@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
+<link rel="stylesheet" href="{% static 'index/css/calendario.css' %}">
+{% endblock %}
+
+
+{% block ld %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
+<h3>Calendario: {{empresa.nome_da_empresa}}</h3>
+<iframe src="https://calendar.google.com/calendar/embed?src=rcsc3ww%40gmail.com&ctz=UTC" style="border: 0" frameborder="0" scrolling="no"></iframe>
+
+{% endblock %}
