@@ -37,7 +37,7 @@ def index(request):
         context = {"empresas": empresas,
                    "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/home.html", context)
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -71,7 +71,7 @@ def gerenciar_niveis(request):
         context = {"niveis": niveis,
                    "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/gerenciar-niveis.html", context)
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -91,7 +91,7 @@ def novo_nivel(request):
         context = {"form": form,
                    "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/novo-nivel.html", context)
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -105,11 +105,11 @@ def excluir_nivel(request, nivel):
             nivel.delete()
         except:
             warning(
-                request, msg="N&atilde;o pode apagar esse nivel, pois existe usu&aacute;rios nele!")
+                request, msg="Não pode apagar esse nivel, pois existe usuários nele!")
             Notificacoes.objects.create(
                 descricao=f"Erro ao remover '{nivel.nome_do_nivel}' de n&iacute;vel de acesso '{request.user}'!")
         return redirect(f"/administracao/niveis/")
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect(f"/")
 
 ##########################################################
@@ -125,7 +125,7 @@ def gerenciar_usuarios(request, slug_da_empresa):
         context = {"slug_da_empresa": slug_da_empresa, "logins": logins,
                    "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/gerenciar-usuario.html", context)
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -150,14 +150,14 @@ def novo_usuario(request, slug_da_empresa):
                         usuario=user, empresa=emp, nivel=nivel)
 
                     Notificacoes.objects.create(
-                        descricao=f"Usu&aacute;rio '{user}' com n&iacute;vel '{nivel}' criado por '{request.user}' para a empresa '{emp}'!")
+                        descricao=f"Usuário '{user}' com n&iacute;vel '{nivel}' criado por '{request.user}' para a empresa '{emp}'!")
 
                     sucesso(request, msg="Usuario cadastrado com sucesso!")
                     return redirect(f"/administracao/usuarios/{slug_da_empresa}/")
             context = {"form": form, "slug_da_empresa": slug_da_empresa,
                        "notificacoes": notificacoes, "aviso": aviso()}
             return render(request, "administracao/public/novo-usuario.html", context)
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -179,7 +179,7 @@ def editar_usuario(request, slug_da_empresa, usuario):
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
                    "usuario": usuario, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/editar-usuario.html", context)
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -190,10 +190,10 @@ def remove_usuario(request, slug_da_empresa, usuario):
             login = Login.objects.get(usuario=usuario)
             sucesso(request, msg="Usuario removido com sucesso!")
             Notificacoes.objects.create(
-                descricao=f"Usu&aacute;rio:'{login.usuario.username}' de n&iacute;vel: '{login.nivel}' da empresa '{login.empresa.nome_da_empresa}' removido por '{request.user}' !")
+                descricao=f"Usuário:'{login.usuario.username}' de n&iacute;vel: '{login.nivel}' da empresa '{login.empresa.nome_da_empresa}' removido por '{request.user}' !")
             user.delete()
             return redirect(f"/administracao/usuarios/{slug_da_empresa}/")
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect(f"/")
 
 ##########################################################
@@ -238,7 +238,7 @@ def novo_projeto(request, slug_da_empresa):
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
                    "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/novo-projeto.html", context)
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -253,7 +253,7 @@ def remove_projeto(request, slug_da_empresa, projeto):
             descricao=f"Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' removido por '{request.user}' !")
         projeto.delete()
         return redirect(f"/administracao/projetos/{slug_da_empresa}/")
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -307,7 +307,7 @@ def gerenciar_arquivos(request, slug_da_empresa):
         context = {"slug_da_empresa": slug_da_empresa, "projetos": projetos,
                    "arquivos": arquivos, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/gerenciar-arquivos.html", context)
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -326,7 +326,7 @@ def novo_arquivo(request, slug_da_empresa, projeto):
                 extensao = verifica_tipo_de_arquivo(extensao)
                 if not extensao:
                     warning(
-                        request, msg="Algum arquivo esta fora da extens&atilde;o permitida!")
+                        request, msg="Algum arquivo esta fora da extensão permitida!")
                     return redirect(f"/administracao/arquivos/{slug_da_empresa}/{projeto}/novo/")
 
             for file in files:
@@ -345,7 +345,7 @@ def novo_arquivo(request, slug_da_empresa, projeto):
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
                    "projeto": projeto, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/novo-arquivo.html", context)
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -357,7 +357,7 @@ def ver_arquivos(request, slug_da_empresa, projeto):
         context = {"slug_da_empresa": slug_da_empresa, "arquivos": arquivos,
                    "projeto": projeto, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/ver-arquivos.html", context)
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
@@ -373,5 +373,5 @@ def excluir_arquivo(request, slug_da_empresa, projeto, id_file):
                 descricao=f"Arquivo:'{nome_arquivo}' do projeto: '{arq.projeto.nome_do_projeto}' por: '{request.user}' !")
             arq.delete()
             return redirect(f"/administracao/arquivos/{slug_da_empresa}/{projeto}/ver/")
-    info(request, msg="Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa p&aacute;gina!")
+    info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect(f"/")
