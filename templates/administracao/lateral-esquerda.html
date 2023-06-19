@@ -18,14 +18,14 @@
             <i class="fa-solid fa-address-card"></i>
             <span>Acessos</span>
         </a>
-        <a href="/administracao/notificacoes/">
-            <i class="fa-solid fa-bell"></i>
-            <span>Notifica&ccedil;&otilde;es ({{notificacoes|length}})</span>
-            {% if aviso %}
-                <i class="fas fa-exclamation-circle text-danger"></i>
-            {% endif %}
-        </a>
     {% endif %}
+    <a href="/administracao/notificacoes/">
+        <i class="fa-solid fa-bell"></i>
+        <span>Notifica&ccedil;&otilde;es ({{notificacoes|length}})</span>
+        {% if aviso %}
+            <i class="fas fa-exclamation-circle text-danger"></i>
+        {% endif %}
+    </a>
     <a href="">
         <i class="fa-solid fa-gear"></i>
         <span>Configura&ccedil;&otilde;es</span>
