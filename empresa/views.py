@@ -1,7 +1,7 @@
 import shutil
 from django.conf import settings
 from django.shortcuts import render, redirect
-from empresa.models import Login, Empresa, Nivel, Notificacoes
+from empresa.models import Login, Empresa, Nivel, Notificacoes, Tarefas
 from django.contrib.auth.models import User
 from index.forms import FormEditarEmpresaAdmin, FormEditarEmpresaRoot, FormNovaEmpresa
 from index.funcoes import cria_pasta, gera_hash, cria_nome_da_pasta
@@ -31,8 +31,9 @@ def index(request):
         notificacoes = pega_notificacoes()
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
+        tarefas = Tarefas.objects.all()
         context = {"empresa": empresa,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(), "tarefas": tarefas}
         return render(request, "empresa/public/home.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")
@@ -177,22 +178,24 @@ def ativar(request, id, acao):
 ############# REUNIAO / CALENDARIO EMPRESA ###############
 ##########################################################
 
-def reuniao(request):
+def reuniao(request, tarefa):
     if request.user.is_authenticated:
 
         notificacoes = pega_notificacoes()
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
 
+        room = f"{tarefa} {empresa.nome_da_empresa}"
+
         context = {"empresa": empresa,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(), "room": room}
         return render(request, "empresa/public/reuniao.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
-def calendario(request):
+def tarefas(request):
     if request.user.is_authenticated:
 
         notificacoes = pega_notificacoes()

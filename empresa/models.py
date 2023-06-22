@@ -121,3 +121,35 @@ class Backups(models.Model):
 
     def __str__(self) -> str:
         return f"{self.empresa} | {self.usuario} | {self.data}"
+
+
+class TipoEvento(models.Model):
+    nome = models.CharField(max_length=255, default="")
+
+    class Meta:
+        db_table = "tipoevento"
+        verbose_name = "Tipo de Evento"
+        verbose_name_plural = "Tipos de Eventos"
+        ordering = ["-id"]
+
+    def __str__(self) -> str:
+        return f"{self.nome}"
+
+
+class Tarefas(models.Model):
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=255, default="")
+    descricao = models.TextField()
+    inicio = models.DateTimeField()
+    fim = models.DateTimeField()
+    tipo = models.ForeignKey(TipoEvento, on_delete=models.CASCADE)
+    data = models.DateField(default=timezone.now)
+
+    class Meta:
+        db_table = "tarefas"
+        verbose_name = "Tarefa"
+        verbose_name_plural = "Tarefas"
+        ordering = ["-id"]
+
+    def __str__(self) -> str:
+        return self.titulo

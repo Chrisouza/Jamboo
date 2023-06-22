@@ -1,3 +1,4 @@
+/*meet.jit.si*/
 function jeet(nome_da_empresa) {
     const domain = 'meet.jit.si';
     const options = {
