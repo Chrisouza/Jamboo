@@ -21,7 +21,6 @@
 <h3>index da empresa <strong>{{empresa.nome_da_empresa}}</strong></h3>
 
 
-
 <a class="btn btn-warning" href="/administracao/usuarios/{{empresa.slug_da_empresa}}" data-toggle="tooltip" data-placement="top" title="Gerenciar usu&aacute;rios">
     <i class="fa-solid fa-user-gear"></i>
     <!--Gerenciar usu&aacute;rios-->
@@ -37,19 +36,14 @@
     <!--Editar empresa-->
 </a>
 
-
-<a class="btn btn-info" href="reuniao/" data-toggle="tooltip" data-placement="top" title="Entrar na reuniao">
-    <i class="fa-solid fa-video"></i>
-    <!--Entrar em Reuniao-->
-</a>
-<a class="btn btn-info" href="calendario/" data-toggle="tooltip" data-placement="top" title="Ver agenda">
-    <i class="fa-solid fa-calendar-days"></i>
+<a class="btn btn-info" href="agenda/" data-toggle="tooltip" data-placement="top" title="Ver agenda completa">
+    <i class="fa-solid fa-book"></i>
     <!--Calendario-->
 </a>
 
 <hr/>
 
-<a class="btn btn-secondary" href="" data-toggle="tooltip" data-placement="top" title="Ver agenda">
+<a class="btn btn-secondary" href="agenda/nova/" data-toggle="tooltip" data-placement="top" title="Nova Tarefa">
     nova tarefa
 </a>
 
@@ -72,8 +66,6 @@
                     <!--Entrar em Reuniao-->
                 </a>
                 {% endif %}
-                <a href="#">editar</a>
-                <a href="#">excluir</a>
             </div>
         </details>
     

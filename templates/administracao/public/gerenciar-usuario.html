@@ -48,9 +48,11 @@
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
             {% if login.id != 1 %}
-            <a href="/administracao/usuarios/{{slug_da_empresa}}/remover/{{login.usuario.id}}/" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir Usu&aacute;rio">
-                <i class="fa-solid fa-trash-can"></i>
-            </a>
+            {% if login.usuario != request.user %}
+                <a href="/administracao/usuarios/{{slug_da_empresa}}/remover/{{login.usuario.id}}/" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir Usu&aacute;rio">
+                    <i class="fa-solid fa-trash-can"></i>
+                </a>
+            {% endif %}
             {% endif %}
         </td>
     </tr>

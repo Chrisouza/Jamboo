@@ -45,12 +45,13 @@ def entrar(request):
                     acesso = Login.objects.get(usuario=auth.id)
                     empresa = Empresa.objects.get(id=acesso.empresa.id)
                     if not empresa.ativo:
-                        warning(
-                            request, msg="Você á tem permissao de acesso. Entre em contato!")
+                        warning(request, msg="Você não tem permissao de acesso. Entre em contato!")
                         return redirect("/")
                 login(request, auth)
                 sucesso(request, msg="Login realizado com sucesso!")
                 return redirect("/")
+            else:
+                warning(request, msg="Usuário/E-mail ou Senha incorretos!")
     context = {"form_login": form_login}
     return render(request, "index/public/login.html", context)
 

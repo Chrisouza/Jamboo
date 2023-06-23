@@ -9,6 +9,7 @@ urlpatterns = [
     path("excluir/<int:id>/", views.excluir_empresa),
     # 3
     path("reuniao/<str:tarefa>/", views.reuniao),
-    path("tarefas/", views.tarefas),
+    path("agenda/", views.agenda),
+    path("agenda/nova/", views.nova_agenda),
 
 ]

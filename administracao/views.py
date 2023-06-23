@@ -6,6 +6,7 @@ from index.funcoes import cria_data, cria_pasta, cria_pasta_arquivos, cria_zip, 
 from django.contrib.auth.models import User
 from index.forms import FormEditarUsuario, FormNovoArquivo, FormNovoNivel, FormNovoUsuario, FormNovoProjeto
 from index.mensagens import *
+from index.verificacoes import *
 
 
 def pega_notificacoes(ordem="last"):
@@ -119,6 +120,9 @@ def excluir_nivel(request, nivel):
 
 def gerenciar_usuarios(request, slug_da_empresa):
     if request.user.is_authenticated:
+        permissao = permissoes(request, slug_da_empresa)
+        if permissao == False:
+            return redirect("/")
         notificacoes = pega_notificacoes()
         logins = Login.objects.filter(
             empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
@@ -131,38 +135,43 @@ def gerenciar_usuarios(request, slug_da_empresa):
 
 def novo_usuario(request, slug_da_empresa):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
-            notificacoes = pega_notificacoes()
-            form = FormNovoUsuario(request.POST or None)
-            if request.method == "POST":
-                if form.is_valid():
-                    usuario = request.POST.get("usuario")
-                    senha = request.POST.get("senha")
-                    email = request.POST.get("email")
-                    nivel = request.POST.get("nivel")
+        permissao = permissoes(request, slug_da_empresa)
+        if permissao == False:
+            return redirect("/")
+        notificacoes = pega_notificacoes()
+        form = FormNovoUsuario(request.POST or None)
+        if request.method == "POST":
+            if form.is_valid():
+                usuario = request.POST.get("usuario")
+                senha = request.POST.get("senha")
+                email = request.POST.get("email")
+                nivel = request.POST.get("nivel")
 
-                    user = User.objects.create_user(
-                        username=usuario, password=senha, email=email)
-                    emp = Empresa.objects.get(slug_da_empresa=slug_da_empresa)
+                user = User.objects.create_user(
+                    username=usuario, password=senha, email=email)
+                emp = Empresa.objects.get(slug_da_empresa=slug_da_empresa)
 
-                    nivel = Nivel.objects.get(id=nivel)
-                    Login.objects.create(
-                        usuario=user, empresa=emp, nivel=nivel)
+                nivel = Nivel.objects.get(id=nivel)
+                Login.objects.create(
+                    usuario=user, empresa=emp, nivel=nivel)
 
-                    Notificacoes.objects.create(
-                        descricao=f"Usuário '{user}' com n&iacute;vel '{nivel}' criado por '{request.user}' para a empresa '{emp}'!")
+                Notificacoes.objects.create(
+                    descricao=f"Usuário '{user}' com n&iacute;vel '{nivel}' criado por '{request.user}' para a empresa '{emp}'!")
 
-                    sucesso(request, msg="Usuario cadastrado com sucesso!")
-                    return redirect(f"/administracao/usuarios/{slug_da_empresa}/")
-            context = {"form": form, "slug_da_empresa": slug_da_empresa,
-                       "notificacoes": notificacoes, "aviso": aviso()}
-            return render(request, "administracao/public/novo-usuario.html", context)
+                sucesso(request, msg="Usuario cadastrado com sucesso!")
+                return redirect(f"/administracao/usuarios/{slug_da_empresa}/")
+        context = {"form": form, "slug_da_empresa": slug_da_empresa,
+                   "notificacoes": notificacoes, "aviso": aviso()}
+        return render(request, "administracao/public/novo-usuario.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
 
 
 def editar_usuario(request, slug_da_empresa, usuario):
     if request.user.is_authenticated:
+        permissao = permissoes(request, slug_da_empresa)
+        if permissao == False:
+            return redirect("/")
         notificacoes = pega_notificacoes()
         usuario = User.objects.get(id=usuario)
         form = FormEditarUsuario(instance=usuario)
@@ -185,14 +194,16 @@ def editar_usuario(request, slug_da_empresa, usuario):
 
 def remove_usuario(request, slug_da_empresa, usuario):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
-            user = User.objects.get(id=usuario)
-            login = Login.objects.get(usuario=usuario)
-            sucesso(request, msg="Usuario removido com sucesso!")
-            Notificacoes.objects.create(
-                descricao=f"Usuário:'{login.usuario.username}' de n&iacute;vel: '{login.nivel}' da empresa '{login.empresa.nome_da_empresa}' removido por '{request.user}' !")
-            user.delete()
-            return redirect(f"/administracao/usuarios/{slug_da_empresa}/")
+        permissao = permissoes(request, slug_da_empresa)
+        if permissao == False:
+            return redirect("/")
+        user = User.objects.get(id=usuario)
+        login = Login.objects.get(usuario=usuario)
+        sucesso(request, msg="Usuario removido com sucesso!")
+        Notificacoes.objects.create(
+            descricao=f"Usuário:'{login.usuario.username}' de n&iacute;vel: '{login.nivel}' da empresa '{login.empresa.nome_da_empresa}' removido por '{request.user}' !")
+        user.delete()
+        return redirect(f"/administracao/usuarios/{slug_da_empresa}/")
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect(f"/")
 
@@ -203,6 +214,9 @@ def remove_usuario(request, slug_da_empresa, usuario):
 
 def gerenciar_projetos(request, slug_da_empresa):
     if request.user.is_authenticated:
+        permissao = permissoes(request, slug_da_empresa)
+        if permissao == False:
+            return redirect("/")
         notificacoes = pega_notificacoes()
         projetos = Projeto.objects.filter(
             empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
@@ -219,6 +233,9 @@ def gerenciar_projetos(request, slug_da_empresa):
 
 def novo_projeto(request, slug_da_empresa):
     if request.user.is_authenticated:
+        permissao = permissoes(request, slug_da_empresa)
+        if permissao == False:
+            return redirect("/")
         notificacoes = pega_notificacoes()
         form = FormNovoProjeto(request.POST or None)
         if request.method == "POST":
@@ -244,6 +261,9 @@ def novo_projeto(request, slug_da_empresa):
 
 def remove_projeto(request, slug_da_empresa, projeto):
     if request.user.is_authenticated:
+        permissao = permissoes(request, slug_da_empresa)
+        if permissao == False:
+            return redirect("/")
         projeto = Projeto.objects.get(id=projeto)
         emp = Empresa.objects.get(id=projeto.empresa.id)
         shutil.rmtree(f"{settings.BASE_DIR}/media/{emp.pasta}/{projeto.slug_do_projeto}",

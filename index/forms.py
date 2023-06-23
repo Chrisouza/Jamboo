@@ -1,9 +1,9 @@
 from django import forms
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
-from empresa.models import Login, Nivel, Projeto, Arquivo, Empresa
+from empresa.models import Login, Nivel, Projeto, Arquivo, Empresa, Tarefas
 
-from .auxiliar import MultipleFileField
+from index.auxiliar import *
 
 
 #################################################
@@ -112,4 +112,18 @@ class FormEditarEmpresaAdmin(forms.ModelForm):
         widgets = {
             "cnpj": forms.TextInput(attrs={"id": "cnpj"}),
             "telefone": forms.TextInput(attrs={"id": "telefone", "maxlength": 11})
+        }
+
+
+class FormNovaAgenda(forms.ModelForm):
+
+    class Meta:
+        model = Tarefas
+        fields = "__all__"
+        exclude = ["empresa", "data"]
+        widgets = {
+            "inicio_data": DateInput(),
+            "inicio_hora": TimeInput(),
+            "fim_data": DateInput(),
+            "fim_hora": TimeInput()
         }

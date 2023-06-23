@@ -3,9 +3,10 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from empresa.models import Login, Empresa, Nivel, Notificacoes, Tarefas
 from django.contrib.auth.models import User
-from index.forms import FormEditarEmpresaAdmin, FormEditarEmpresaRoot, FormNovaEmpresa
-from index.funcoes import cria_pasta, gera_hash, cria_nome_da_pasta
+from index.forms import FormEditarEmpresaAdmin, FormEditarEmpresaRoot, FormNovaAgenda, FormNovaEmpresa
+from index.funcoes import cria_pasta, cria_nome_da_pasta
 from django.contrib import messages
+from index.verificacoes import *
 
 
 def pega_notificacoes():
@@ -23,14 +24,17 @@ def aviso():
         aviso = True
     return aviso
 
-# SO ACESSA ESSA INDEX SE NAO FOR SUPER USUARIo
+# SO ACESSA ESSA INDEX SE NAO FOR SUPER USUARIO
 
 
 def index(request):
     if request.user.is_authenticated and not request.user.is_superuser:
-        notificacoes = pega_notificacoes()
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
+        permissao = permissoes(request, empresa.slug_da_empresa)
+        if permissao == False:
+            return redirect("/")
+        notificacoes = pega_notificacoes()
         tarefas = Tarefas.objects.all()
         context = {"empresa": empresa,
                    "notificacoes": notificacoes, "aviso": aviso(), "tarefas": tarefas}
@@ -195,16 +199,28 @@ def reuniao(request, tarefa):
     return redirect("/")
 
 
-def tarefas(request):
+def agenda(request):
     if request.user.is_authenticated:
-
         notificacoes = pega_notificacoes()
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
-
         context = {"empresa": empresa,
                    "notificacoes": notificacoes, "aviso": aviso()}
-        return render(request, "empresa/public/calendario.html", context)
+        return render(request, "empresa/public/agenda.html", context)
+    messages.add_message(request, messages.WARNING,
+                         "Você não tem permissão para acessar essa página!")
+    return redirect("/")
+
+
+def nova_agenda(request):
+    if request.user.is_authenticated:
+        form = FormNovaAgenda()
+        notificacoes = pega_notificacoes()
+        usuario = Login.objects.get(usuario=request.user)
+        empresa = Empresa.objects.get(id=usuario.empresa.id)
+        context = {"empresa": empresa,
+                   "notificacoes": notificacoes, "aviso": aviso(), "form": form}
+        return render(request, "empresa/public/nova_agenda.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")
     return redirect("/")

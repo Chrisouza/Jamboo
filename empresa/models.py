@@ -140,8 +140,10 @@ class Tarefas(models.Model):
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=255, default="")
     descricao = models.TextField()
-    inicio = models.DateTimeField()
-    fim = models.DateTimeField()
+    inicio_data = models.DateField(default="")
+    inicio_hora = models.TimeField(default="")
+    fim_data = models.DateField(default="")
+    fim_hora = models.TimeField(default="")
     tipo = models.ForeignKey(TipoEvento, on_delete=models.CASCADE)
     data = models.DateField(default=timezone.now)
 
