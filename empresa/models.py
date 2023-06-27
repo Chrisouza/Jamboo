@@ -138,7 +138,7 @@ class TipoEvento(models.Model):
 
 class Tarefas(models.Model):
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
-    titulo = models.CharField(max_length=255, default="")
+    titulo = models.CharField(max_length=255, default="", unique=True)
     descricao = models.TextField()
     inicio_data = models.DateField(default="")
     inicio_hora = models.TimeField(default="")

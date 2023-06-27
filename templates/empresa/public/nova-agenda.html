@@ -15,7 +15,8 @@
     {% endfor %}
 {% endif %}
 
-<form action="" method="post">
+<form action="/empresa/agenda/nova/" method="post">
+    {% csrf_token %}
     {% bootstrap_form form %}
     <button type="submit">cadastrar</button>
 </form>

@@ -30,12 +30,6 @@
         <i class="fa-solid fa-gear"></i>
         <span>Configura&ccedil;&otilde;es</span>
     </a>
-    {% if not request.user.is_superuser %}
-    <a href="">
-        <i class="fa-solid fa-gear"></i>
-        <span>Tarefas Diarias</span>
-    </a>
-    {% endif %}
     <a href="{% url 'logout-index' %}">
         <i class="fa-solid fa-person-running"></i>
         <span>Sair</span>

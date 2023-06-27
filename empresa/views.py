@@ -1,7 +1,7 @@
 import shutil
 from django.conf import settings
 from django.shortcuts import render, redirect
-from empresa.models import Login, Empresa, Nivel, Notificacoes, Tarefas
+from empresa.models import Login, Empresa, Nivel, Notificacoes, Tarefas, TipoEvento
 from django.contrib.auth.models import User
 from index.forms import FormEditarEmpresaAdmin, FormEditarEmpresaRoot, FormNovaAgenda, FormNovaEmpresa
 from index.funcoes import cria_pasta, cria_nome_da_pasta
@@ -214,13 +214,39 @@ def agenda(request):
 
 def nova_agenda(request):
     if request.user.is_authenticated:
-        form = FormNovaAgenda()
+        form = FormNovaAgenda(request.POST or None)
         notificacoes = pega_notificacoes()
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
+
+        if request.method == "POST":
+            if form.is_valid():
+                print(request.POST)
+                titulo = request.POST.get('titulo')
+                descricao = request.POST.get('descricao')
+                inicio_data = request.POST.get('inicio_data')
+                inicio_hora = request.POST.get('inicio_hora')
+                fim_data = request.POST.get('fim_data')
+                fim_hora = request.POST.get('fim_hora')
+                tipo = request.POST.get('tipo')
+                tipo = TipoEvento.objects.get(id=tipo)
+
+                Tarefas.objects.create(
+                    titulo=titulo,
+                    descricao=descricao,
+                    inicio_data=inicio_data,
+                    inicio_hora=inicio_hora,
+                    fim_data=fim_data,
+                    fim_hora=fim_hora,
+                    empresa=empresa,
+                    tipo=tipo
+                )
+            else:
+                print('nao esta valido')
+
         context = {"empresa": empresa,
                    "notificacoes": notificacoes, "aviso": aviso(), "form": form}
-        return render(request, "empresa/public/nova_agenda.html", context)
+        return render(request, "empresa/public/nova-agenda.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")
     return redirect("/")
