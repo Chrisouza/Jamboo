@@ -177,14 +177,11 @@ def editar_usuario(request, slug_da_empresa, usuario):
         form = FormEditarUsuario(instance=usuario)
         if request.method == "POST":
             if request.POST.get("nova_senha") != "":
-                usuario.set_password(request.POST.get("password"))
+                usuario.set_password(request.POST.get("nova_senha"))
                 usuario.save()
-            print(usuario.id)
-            exit()
-            form = FormEditarUsuario(request.POST, instance=usuario)
-            form.save()
-            Notificacoes.objects.create(
-                descricao=f"Usuario '{user}' com nivel '{nivel}' criado por '{request.user}' para a empresa '{emp}'!")
+                Notificacoes.objects.create(
+                    descricao=f"Usuario '{usuario}' alterou sua senha!")
+                info(request, msg="Senha alterado com sucesso!")
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
                    "usuario": usuario, "notificacoes": notificacoes, "aviso": aviso()}
         return render(request, "administracao/public/editar-usuario.html", context)
