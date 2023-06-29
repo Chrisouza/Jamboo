@@ -55,7 +55,7 @@
     {% for tarefa in tarefas %}
     
         <details class="lista_de_tarefas">
-            <summary>{{tarefa.titulo}}</summary>
+            <summary><strong>{{tarefa.titulo}}:</strong> {{tarefa.inicio_data}} - {{tarefa.inicio_hora}}</summary>
             <div class="descricao">
                 {{tarefa.descricao}}
             </div>

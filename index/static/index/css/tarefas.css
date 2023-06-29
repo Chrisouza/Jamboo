@@ -1,11 +1,10 @@
 .lista_de_tarefas{
-    background-color:orange;
     width:100%;
     height: auto;
-    line-height: 40px;
+    margin-top:1%;
 }
 
-.lista_de_tarefas{
+.lista_de_tarefas summary{
     width:100%;
     height: 40px;
     line-height: 40px;

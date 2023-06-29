@@ -43,8 +43,11 @@ def index(request):
 
 
 def notificacoes(request):
-    if request.user.is_authenticated and request.user.is_superuser:
-        notificacoes = pega_notificacoes()
+    if request.user.is_authenticated:
+        if not request.user.is_superuser:
+            notificacoes = pega_notificacoes()
+        else:
+            notificacoes = pega_notificacoes()
         if request.method == "POST":
             if request.POST.get("pesquisa"):
                 notificacoes = notificacoes.filter(
