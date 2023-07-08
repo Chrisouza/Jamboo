@@ -9,8 +9,11 @@ from index.mensagens import *
 from index.verificacoes import *
 
 
-def pega_notificacoes(ordem="last"):
-    notificacoes = Notificacoes.objects.all()
+def pega_notificacoes(empresa=None):
+    if empresa:
+        notificacoes = Notificacoes.objects.filter(empresa=empresa)
+    else:
+        notificacoes = Notificacoes.objects.all()
     return notificacoes
 
 
@@ -44,10 +47,11 @@ def index(request):
 
 def notificacoes(request):
     if request.user.is_authenticated:
-        if not request.user.is_superuser:
+        if request.user.is_superuser:
             notificacoes = pega_notificacoes()
         else:
-            notificacoes = pega_notificacoes()
+            empresa = Login.objects.get(usuario=request.user)
+            notificacoes = pega_notificacoes(empresa=empresa)
         if request.method == "POST":
             if request.POST.get("pesquisa"):
                 notificacoes = notificacoes.filter(
@@ -55,7 +59,7 @@ def notificacoes(request):
             if request.POST.get("ordem") == '2':
                 notificacoes = notificacoes.order_by("id")
 
-        pages = paginacao(request, data=notificacoes, qtd_pagina=4)
+        pages = paginacao(request, data=notificacoes, qtd_pagina=10)
 
         update_notificacoes(notificacoes)
         context = {"notificacoes": notificacoes, "pages": pages}
@@ -159,7 +163,7 @@ def novo_usuario(request, slug_da_empresa):
                     usuario=user, empresa=emp, nivel=nivel)
 
                 Notificacoes.objects.create(
-                    descricao=f"Usuário '{user}' com n&iacute;vel '{nivel}' criado por '{request.user}' para a empresa '{emp}'!")
+                    descricao=f"Usuário '{user}' com n&iacute;vel '{nivel}' criado por '{request.user}' para a empresa '{emp}'!", empresa=emp)
 
                 sucesso(request, msg="Usuario cadastrado com sucesso!")
                 return redirect(f"/administracao/usuarios/{slug_da_empresa}/")
@@ -201,7 +205,7 @@ def remove_usuario(request, slug_da_empresa, usuario):
         login = Login.objects.get(usuario=usuario)
         sucesso(request, msg="Usuario removido com sucesso!")
         Notificacoes.objects.create(
-            descricao=f"Usuário:'{login.usuario.username}' de n&iacute;vel: '{login.nivel}' da empresa '{login.empresa.nome_da_empresa}' removido por '{request.user}' !")
+            descricao=f"Usuário:'{login.usuario.username}' de n&iacute;vel: '{login.nivel}' da empresa '{login.empresa.nome_da_empresa}' removido por '{request.user}' !", empresa=login.empresa)
         user.delete()
         return redirect(f"/administracao/usuarios/{slug_da_empresa}/")
     info(request, msg="Você não tem permissão para acessar essa página!")

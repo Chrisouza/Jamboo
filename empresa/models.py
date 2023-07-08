@@ -94,6 +94,7 @@ class Arquivo(models.Model):
 
 class Notificacoes(models.Model):
     descricao = models.TextField(default="")
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, default="")
     visto = models.BooleanField(default=0)
     data = models.DateTimeField(default=timezone.now)
 

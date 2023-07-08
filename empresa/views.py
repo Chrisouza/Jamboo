@@ -92,9 +92,9 @@ def nova_empresa(request):
                 if emp:
                     cria_pasta(f"media/{pasta}")
                     Notificacoes.objects.create(
-                        descricao=f"Nova empresa: '{emp.nome_da_empresa}' cadastrada por: {request.user}!")
+                        descricao=f"Nova empresa: '{emp.nome_da_empresa}' cadastrada por: {request.user}!", empresa=emp)
                     Notificacoes.objects.create(
-                        descricao=f"Usuário '{user.username}' com nivel '{login.nivel.nome_do_nivel}' criado por '{request.user}' para a empresa '{emp.nome_da_empresa}'!")
+                        descricao=f"Usuário '{user.username}' com nivel '{login.nivel.nome_do_nivel}' criado por '{request.user}' para a empresa '{emp.nome_da_empresa}'!", empresa=emp)
                     messages.add_message(request, messages.SUCCESS,
                                          "Empresa criada com sucesso!")
                     # messages.add_message(request, messages.INFO, "Um e-mail foi enviado para o administrador!")
@@ -116,7 +116,7 @@ def editar_empresa(request, id):
                 form = FormEditarEmpresaRoot(request.POST, instance=empresa)
                 form.save()
                 Notificacoes.objects.create(
-                    descricao=f"Empresa `{empresa}` editada por `{request.user}`!")
+                    descricao=f"Empresa `{empresa}` editada por `{request.user}`!", empresa=empresa)
                 messages.add_message(
                     request, messages.SUCCESS, "Empresa editada com sucesso!")
         else:
@@ -125,7 +125,7 @@ def editar_empresa(request, id):
                 form = FormEditarEmpresaAdmin(request.POST, instance=empresa)
                 form.save()
                 Notificacoes.objects.create(
-                    descricao=f"Empresa `{empresa}` editada por `{request.user}`!")
+                    descricao=f"Empresa `{empresa}` editada por `{request.user}`!", empresa=empresa)
                 messages.add_message(
                     request, messages.SUCCESS, "Empresa editada com sucesso!")
 
@@ -149,7 +149,7 @@ def excluir_empresa(request, id):
         except:
             pass
         Notificacoes.objects.create(
-            descricao=f"Empresa `{emp}` excluida por `{request.user}`!")
+            descricao=f"Empresa `{emp}` excluida por `{request.user}`!", empresa=emp)
         emp.delete()
         return redirect("/administracao/")
     messages.add_message(request, messages.WARNING,
@@ -167,12 +167,12 @@ def ativar(request, id, acao):
             empresa = Empresa.objects.filter(id=id)
             empresa.update(ativo=True)
             Notificacoes.objects.create(
-                descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi ativada por `{request.user}`!")
+                descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi ativada por `{request.user}`!", empresa=empresa)
         elif acao == "desativar":
             empresa = Empresa.objects.filter(id=id)
             empresa.update(ativo=False)
             Notificacoes.objects.create(
-                descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi desativada por `{request.user}`!")
+                descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi desativada por `{request.user}`!", empresa=empresa)
         else:
             return redirect("/")
     return redirect("/")
