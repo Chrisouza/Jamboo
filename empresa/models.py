@@ -105,7 +105,7 @@ class Notificacoes(models.Model):
         ordering = ["-id"]
 
     def __str__(self) -> str:
-        return f"{self.descricao} | {self.data}"
+        return self.descricao
 
 
 class Backups(models.Model):

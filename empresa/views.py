@@ -7,17 +7,13 @@ from index.forms import FormEditarEmpresaAdmin, FormEditarEmpresaRoot, FormNovaA
 from index.funcoes import cria_pasta, cria_nome_da_pasta
 from django.contrib import messages
 from index.verificacoes import *
+from index.auxiliar import pega_notificacoes
 
 
-def pega_notificacoes():
-    notificacoes = Notificacoes.objects.all()
-    return notificacoes
-
-
-def aviso():
+def aviso(request):
     nl = 0
     aviso = False
-    for n in pega_notificacoes():
+    for n in pega_notificacoes(request=request):
         if not n.visto:
             nl += 1
     if nl > 0:
@@ -34,10 +30,10 @@ def index(request):
         permissao = permissoes(request, empresa.slug_da_empresa)
         if permissao == False:
             return redirect("/")
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         tarefas = Tarefas.objects.all()
         context = {"empresa": empresa,
-                   "notificacoes": notificacoes, "aviso": aviso(), "tarefas": tarefas}
+                   "notificacoes": notificacoes, "aviso": aviso(request), "tarefas": tarefas}
         return render(request, "empresa/public/home.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")
@@ -46,7 +42,7 @@ def index(request):
 
 def nova_empresa(request):
     if request.user.is_authenticated and request.user.is_superuser:
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         form = FormNovaEmpresa(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
@@ -100,7 +96,7 @@ def nova_empresa(request):
                     # messages.add_message(request, messages.INFO, "Um e-mail foi enviado para o administrador!")
                 return redirect("/administracao/")
         context = {"form": form,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "empresa/public/nova-empresa.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")
@@ -129,9 +125,9 @@ def editar_empresa(request, id):
                 messages.add_message(
                     request, messages.SUCCESS, "Empresa editada com sucesso!")
 
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         context = {"form": form, "empresa": empresa,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "empresa/public/editar-empresa.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")
@@ -185,14 +181,14 @@ def ativar(request, id, acao):
 def reuniao(request, tarefa):
     if request.user.is_authenticated:
 
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
 
         room = f"{tarefa} {empresa.nome_da_empresa}"
 
         context = {"empresa": empresa,
-                   "notificacoes": notificacoes, "aviso": aviso(), "room": room}
+                   "notificacoes": notificacoes, "aviso": aviso(request), "room": room}
         return render(request, "empresa/public/reuniao.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")
@@ -201,11 +197,11 @@ def reuniao(request, tarefa):
 
 def agenda(request):
     if request.user.is_authenticated:
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
         context = {"empresa": empresa,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "empresa/public/agenda.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")
@@ -215,7 +211,7 @@ def agenda(request):
 def nova_agenda(request):
     if request.user.is_authenticated:
         form = FormNovaAgenda(request.POST or None)
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
 
@@ -245,7 +241,7 @@ def nova_agenda(request):
                 print('nao esta valido')
 
         context = {"empresa": empresa,
-                   "notificacoes": notificacoes, "aviso": aviso(), "form": form}
+                   "notificacoes": notificacoes, "aviso": aviso(request), "form": form}
         return render(request, "empresa/public/nova-agenda.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")

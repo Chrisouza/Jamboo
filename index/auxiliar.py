@@ -1,5 +1,7 @@
 from django import forms
 
+from empresa.models import Login, Notificacoes
+
 
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
@@ -25,3 +27,12 @@ class DateInput(forms.DateInput):
 
 class TimeInput(forms.DateInput):
     input_type = 'time'
+
+
+def pega_notificacoes(request):
+    try:
+        login = Login.objects.get(usuario=request.user)
+        notificacoes = Notificacoes.objects.filter(empresa=login.empresa)
+    except:
+        notificacoes = Notificacoes.objects.all()
+    return notificacoes

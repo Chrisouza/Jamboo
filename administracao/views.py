@@ -7,14 +7,7 @@ from django.contrib.auth.models import User
 from index.forms import FormEditarUsuario, FormNovoArquivo, FormNovoNivel, FormNovoUsuario, FormNovoProjeto
 from index.mensagens import *
 from index.verificacoes import *
-
-
-def pega_notificacoes(empresa=None):
-    if empresa:
-        notificacoes = Notificacoes.objects.filter(empresa=empresa)
-    else:
-        notificacoes = Notificacoes.objects.all()
-    return notificacoes
+from index.auxiliar import pega_notificacoes
 
 
 def update_notificacoes(notificacoes):
@@ -23,10 +16,10 @@ def update_notificacoes(notificacoes):
         up.update(visto=1)
 
 
-def aviso():
+def aviso(request):
     nl = 0
     aviso = False
-    for n in pega_notificacoes():
+    for n in pega_notificacoes(request=request):
         if not n.visto:
             nl += 1
     if nl > 0:
@@ -37,9 +30,9 @@ def aviso():
 def index(request):
     if request.user.is_authenticated and request.user.is_superuser:
         empresas = Empresa.objects.all()
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         context = {"empresas": empresas,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/home.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
@@ -47,11 +40,7 @@ def index(request):
 
 def notificacoes(request):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
-            notificacoes = pega_notificacoes()
-        else:
-            empresa = Login.objects.get(usuario=request.user)
-            notificacoes = pega_notificacoes(empresa=empresa)
+        notificacoes = pega_notificacoes(request=request)
         if request.method == "POST":
             if request.POST.get("pesquisa"):
                 notificacoes = notificacoes.filter(
@@ -75,9 +64,9 @@ def notificacoes(request):
 def gerenciar_niveis(request):
     if request.user.is_authenticated and request.user.is_superuser:
         niveis = Nivel.objects.all()
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         context = {"niveis": niveis,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/gerenciar-niveis.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
@@ -85,7 +74,7 @@ def gerenciar_niveis(request):
 
 def novo_nivel(request):
     if request.user.is_authenticated and request.user.is_superuser:
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         form = FormNovoNivel(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
@@ -97,7 +86,7 @@ def novo_nivel(request):
                     descricao=f"N&iacute;vel '{nivel}' de acesso adicionado por '{request.user}'!")
                 return redirect(f"/administracao/niveis/")
         context = {"form": form,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/novo-nivel.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
@@ -130,11 +119,11 @@ def gerenciar_usuarios(request, slug_da_empresa):
         permissao = permissoes(request, slug_da_empresa)
         if permissao == False:
             return redirect("/")
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         logins = Login.objects.filter(
             empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
         context = {"slug_da_empresa": slug_da_empresa, "logins": logins,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/gerenciar-usuario.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
@@ -145,7 +134,7 @@ def novo_usuario(request, slug_da_empresa):
         permissao = permissoes(request, slug_da_empresa)
         if permissao == False:
             return redirect("/")
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         form = FormNovoUsuario(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
@@ -168,7 +157,7 @@ def novo_usuario(request, slug_da_empresa):
                 sucesso(request, msg="Usuario cadastrado com sucesso!")
                 return redirect(f"/administracao/usuarios/{slug_da_empresa}/")
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/novo-usuario.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
@@ -179,7 +168,7 @@ def editar_usuario(request, slug_da_empresa, usuario):
         permissao = permissoes(request, slug_da_empresa)
         if permissao == False:
             return redirect("/")
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         usuario = User.objects.get(id=usuario)
         form = FormEditarUsuario(instance=usuario)
         if request.method == "POST":
@@ -190,7 +179,7 @@ def editar_usuario(request, slug_da_empresa, usuario):
                     descricao=f"Usuario '{usuario}' alterou sua senha!")
                 info(request, msg="Senha alterado com sucesso!")
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
-                   "usuario": usuario, "notificacoes": notificacoes, "aviso": aviso()}
+                   "usuario": usuario, "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/editar-usuario.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
@@ -221,7 +210,7 @@ def gerenciar_projetos(request, slug_da_empresa):
         permissao = permissoes(request, slug_da_empresa)
         if permissao == False:
             return redirect("/")
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         projetos = Projeto.objects.filter(
             empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
         try:
@@ -230,7 +219,7 @@ def gerenciar_projetos(request, slug_da_empresa):
         except:
             ultimo_bkp = None
         context = {"slug_da_empresa": slug_da_empresa, "projetos": projetos, "ultimo_bkp": ultimo_bkp,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/gerenciar-projetos.html", context)
     return redirect("/")
 
@@ -240,7 +229,7 @@ def novo_projeto(request, slug_da_empresa):
         permissao = permissoes(request, slug_da_empresa)
         if permissao == False:
             return redirect("/")
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         form = FormNovoProjeto(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
@@ -254,10 +243,10 @@ def novo_projeto(request, slug_da_empresa):
                     pasta=emp.pasta, projeto=slug_do_projeto)
                 sucesso(request, msg="Projeto cadastrado com sucesso!")
                 Notificacoes.objects.create(
-                    descricao=f"Projeto:'{nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !")
+                    descricao=f"Projeto:'{nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !", empresa="")
                 return redirect(f"/administracao/projetos/{slug_da_empresa}/")
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
-                   "notificacoes": notificacoes, "aviso": aviso()}
+                   "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/novo-projeto.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
@@ -274,7 +263,7 @@ def remove_projeto(request, slug_da_empresa, projeto):
                       ignore_errors=True)
         sucesso(request, msg="Projeto deletado com sucesso!")
         Notificacoes.objects.create(
-            descricao=f"Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' removido por '{request.user}' !")
+            descricao=f"Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' removido por '{request.user}' !", empresa=None)
         projeto.delete()
         return redirect(f"/administracao/projetos/{slug_da_empresa}/")
     info(request, msg="Você não tem permissão para acessar essa página!")
@@ -309,7 +298,7 @@ def realizar_bkp(request, slug_da_empresa, projeto):
         projeto=projeto
     )
     Notificacoes.objects.create(
-        descricao=f"BKP do Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !")
+        descricao=f"BKP do Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !", empresa=emp)
 
     url = f"{settings.MEDIA_URL}{emp.pasta}/{projeto.slug_do_projeto}/bkps/{output_name}.zip"
     sucesso(
@@ -324,12 +313,12 @@ def realizar_bkp(request, slug_da_empresa, projeto):
 
 def gerenciar_arquivos(request, slug_da_empresa):
     if request.user.is_authenticated:
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         projetos = Projeto.objects.filter(
             empresa=Empresa.objects.get(slug_da_empresa=slug_da_empresa).id)
         arquivos = Arquivo.objects.all().order_by("-id")
         context = {"slug_da_empresa": slug_da_empresa, "projetos": projetos,
-                   "arquivos": arquivos, "notificacoes": notificacoes, "aviso": aviso()}
+                   "arquivos": arquivos, "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/gerenciar-arquivos.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
@@ -337,7 +326,7 @@ def gerenciar_arquivos(request, slug_da_empresa):
 
 def novo_arquivo(request, slug_da_empresa, projeto):
     if request.user.is_authenticated:
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         form = FormNovoArquivo(request.FILES)
         if request.method == "POST":
             emp = Empresa.objects.get(slug_da_empresa=slug_da_empresa)
@@ -367,7 +356,7 @@ def novo_arquivo(request, slug_da_empresa, projeto):
             return redirect(f"/administracao/arquivos/{slug_da_empresa}/")
 
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
-                   "projeto": projeto, "notificacoes": notificacoes, "aviso": aviso()}
+                   "projeto": projeto, "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/novo-arquivo.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
@@ -375,11 +364,11 @@ def novo_arquivo(request, slug_da_empresa, projeto):
 
 def ver_arquivos(request, slug_da_empresa, projeto):
     if request.user.is_authenticated:
-        notificacoes = pega_notificacoes()
+        notificacoes = pega_notificacoes(request=request)
         projeto = Projeto.objects.get(slug_do_projeto=projeto)
         arquivos = Arquivo.objects.filter(projeto=projeto.id)
         context = {"slug_da_empresa": slug_da_empresa, "arquivos": arquivos,
-                   "projeto": projeto, "notificacoes": notificacoes, "aviso": aviso()}
+                   "projeto": projeto, "notificacoes": notificacoes, "aviso": aviso(request)}
         return render(request, "administracao/public/ver-arquivos.html", context)
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect("/")
