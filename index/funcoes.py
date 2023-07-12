@@ -81,9 +81,9 @@ def verifica_tipo_de_arquivo(tipo):
 
 def upload_function(arquivo, extensao, pasta, projeto):
     data = f"{cria_data()}".replace(" ", "_")
+    tipo = arquivo.name.split(".")[1]
     name_id = uuid.uuid4().hex
-    new_name = arquivo.name.replace(" ", "-").lower()
-    new_name = f"{data}_{name_id}_{new_name}"
+    new_name = f"{data}-{name_id}.{tipo}"
 
     with open(f"{settings.BASE_DIR}/media/{pasta}/{projeto}/{extensao}/{new_name}", "wb+") as destination:
         for chunk in arquivo.chunks():

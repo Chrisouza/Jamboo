@@ -7,24 +7,13 @@ from django.contrib.auth.models import User
 from index.forms import FormEditarUsuario, FormNovoArquivo, FormNovoNivel, FormNovoUsuario, FormNovoProjeto
 from index.mensagens import *
 from index.verificacoes import *
-from index.auxiliar import pega_notificacoes
+from index.auxiliar import pega_notificacoes, aviso
 
 
 def update_notificacoes(notificacoes):
     for n in notificacoes:
         up = Notificacoes.objects.filter(id=n.id)
         up.update(visto=1)
-
-
-def aviso(request):
-    nl = 0
-    aviso = False
-    for n in pega_notificacoes(request=request):
-        if not n.visto:
-            nl += 1
-    if nl > 0:
-        aviso = True
-    return aviso
 
 
 def index(request):
@@ -170,13 +159,17 @@ def editar_usuario(request, slug_da_empresa, usuario):
             return redirect("/")
         notificacoes = pega_notificacoes(request=request)
         usuario = User.objects.get(id=usuario)
-        form = FormEditarUsuario(instance=usuario)
+        form = FormEditarUsuario(request.POST or None, instance=usuario)
         if request.method == "POST":
-            if request.POST.get("nova_senha") != "":
-                usuario.set_password(request.POST.get("nova_senha"))
-                usuario.save()
+            if form.is_valid():
+                if request.POST.get("nova_senha") != "":
+                    usuario.set_password(request.POST.get("nova_senha"))
+                    usuario.save()
+                else:
+                    usuario.save()
+                login = Login.objects.get(usuario=usuario)
                 Notificacoes.objects.create(
-                    descricao=f"Usuario '{usuario}' alterou sua senha!")
+                    descricao=f"Usuario '{usuario}' alterou sua senha!", empresa=login.empresa)
                 info(request, msg="Senha alterado com sucesso!")
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
                    "usuario": usuario, "notificacoes": notificacoes, "aviso": aviso(request)}
@@ -243,7 +236,7 @@ def novo_projeto(request, slug_da_empresa):
                     pasta=emp.pasta, projeto=slug_do_projeto)
                 sucesso(request, msg="Projeto cadastrado com sucesso!")
                 Notificacoes.objects.create(
-                    descricao=f"Projeto:'{nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !", empresa="")
+                    descricao=f"Projeto:'{nome_do_projeto}' da empresa '{emp}' criado por '{request.user}' !", empresa=emp)
                 return redirect(f"/administracao/projetos/{slug_da_empresa}/")
         context = {"form": form, "slug_da_empresa": slug_da_empresa,
                    "notificacoes": notificacoes, "aviso": aviso(request)}
@@ -263,7 +256,7 @@ def remove_projeto(request, slug_da_empresa, projeto):
                       ignore_errors=True)
         sucesso(request, msg="Projeto deletado com sucesso!")
         Notificacoes.objects.create(
-            descricao=f"Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' removido por '{request.user}' !", empresa=None)
+            descricao=f"Projeto:'{projeto.nome_do_projeto}' da empresa '{emp}' removido por '{request.user}' !", empresa=emp)
         projeto.delete()
         return redirect(f"/administracao/projetos/{slug_da_empresa}/")
     info(request, msg="Você não tem permissão para acessar essa página!")
@@ -351,7 +344,7 @@ def novo_arquivo(request, slug_da_empresa, projeto):
                 Arquivo.objects.create(empresa=emp, file=path, descricao=descricao,
                                        editor=editor, extensao=extensao, projeto=projeto)
                 Notificacoes.objects.create(
-                    descricao=f"Arquivo:'{file}' adicioando ao projeto: '{projeto}' da empresa '{emp}' por '{request.user}' !")
+                    descricao=f"Arquivo:'{file}' adicioando ao projeto: '{projeto}' da empresa '{emp}' por '{request.user}' !", empresa=emp)
             sucesso(request, msg="Arquivo cadastrado com sucesso!")
             return redirect(f"/administracao/arquivos/{slug_da_empresa}/")
 
@@ -383,7 +376,7 @@ def excluir_arquivo(request, slug_da_empresa, projeto, id_file):
             apaga_arquivo(path=f"{arq.file}")
             sucesso(request, msg="Arquivo apagado com sucesso!")
             Notificacoes.objects.create(
-                descricao=f"Arquivo:'{nome_arquivo}' do projeto: '{arq.projeto.nome_do_projeto}' por: '{request.user}' !")
+                descricao=f"Arquivo:'{nome_arquivo}' do projeto: '{arq.projeto.nome_do_projeto}' por: '{request.user}' !",empresa=arq.empresa)
             arq.delete()
             return redirect(f"/administracao/arquivos/{slug_da_empresa}/{projeto}/ver/")
     info(request, msg="Você não tem permissão para acessar essa página!")

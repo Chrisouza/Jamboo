@@ -29,6 +29,7 @@ class TimeInput(forms.DateInput):
     input_type = 'time'
 
 
+# ###################################33
 def pega_notificacoes(request):
     try:
         login = Login.objects.get(usuario=request.user)
@@ -36,3 +37,14 @@ def pega_notificacoes(request):
     except:
         notificacoes = Notificacoes.objects.all()
     return notificacoes
+
+
+def aviso(request):
+    nl = 0
+    aviso = False
+    for n in pega_notificacoes(request=request):
+        if not n.visto:
+            nl += 1
+    if nl > 0:
+        aviso = True
+    return aviso

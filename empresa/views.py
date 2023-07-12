@@ -7,18 +7,7 @@ from index.forms import FormEditarEmpresaAdmin, FormEditarEmpresaRoot, FormNovaA
 from index.funcoes import cria_pasta, cria_nome_da_pasta
 from django.contrib import messages
 from index.verificacoes import *
-from index.auxiliar import pega_notificacoes
-
-
-def aviso(request):
-    nl = 0
-    aviso = False
-    for n in pega_notificacoes(request=request):
-        if not n.visto:
-            nl += 1
-    if nl > 0:
-        aviso = True
-    return aviso
+from index.auxiliar import pega_notificacoes, aviso
 
 # SO ACESSA ESSA INDEX SE NAO FOR SUPER USUARIO
 
@@ -159,16 +148,15 @@ def excluir_empresa(request, id):
 
 def ativar(request, id, acao):
     if request.user.is_authenticated and request.user.is_superuser:
+        empresa = Empresa.objects.filter(id=id)
         if acao == "ativar":
-            empresa = Empresa.objects.filter(id=id)
             empresa.update(ativo=True)
             Notificacoes.objects.create(
-                descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi ativada por `{request.user}`!", empresa=empresa)
+                descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi ativada por `{request.user}`!", empresa=empresa[0])
         elif acao == "desativar":
-            empresa = Empresa.objects.filter(id=id)
             empresa.update(ativo=False)
             Notificacoes.objects.create(
-                descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi desativada por `{request.user}`!", empresa=empresa)
+                descricao=f"Empresa `{empresa[0].nome_da_empresa}` foi desativada por `{request.user}`!", empresa=empresa[0])
         else:
             return redirect("/")
     return redirect("/")
@@ -237,6 +225,9 @@ def nova_agenda(request):
                     empresa=empresa,
                     tipo=tipo
                 )
+                messages.add_message(
+                    request, messages.WARNING, "Tarefa agendada com sucesso!")
+                return redirect("/empresa/")
             else:
                 print('nao esta valido')
 
