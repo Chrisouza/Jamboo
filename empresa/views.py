@@ -4,10 +4,11 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.utils import timezone
 
 from empresa.models import Login, Empresa, Nivel, Notificacoes, Tarefas, TipoEvento
 from index.forms import FormEditarEmpresaAdmin, FormEditarEmpresaRoot, FormNovaAgenda, FormNovaEmpresa
-from index.funcoes import cria_pasta, cria_nome_da_pasta
+from index.funcoes import cria_pasta, cria_nome_da_pasta, paginacao
 from index.verificacoes import *
 from index.auxiliar import pega_notificacoes, aviso
 
@@ -22,7 +23,8 @@ def index(request):
         if permissao == False:
             return redirect("/")
         notificacoes = pega_notificacoes(request=request)
-        tarefas = Tarefas.objects.all()
+        tarefas = Tarefas.objects.filter(
+            empresa=empresa, inicio_data=timezone.now().date())
         context = {"empresa": empresa,
                    "notificacoes": notificacoes, "aviso": aviso(request), "tarefas": tarefas}
         return render(request, "empresa/public/home.html", context)
@@ -190,8 +192,13 @@ def agenda(request):
         notificacoes = pega_notificacoes(request=request)
         usuario = Login.objects.get(usuario=request.user)
         empresa = Empresa.objects.get(id=usuario.empresa.id)
+
+        tarefas = Tarefas.objects.filter(empresa=empresa)
+
+        pages = paginacao(request, data=tarefas, qtd_pagina=10)
+
         context = {"empresa": empresa,
-                   "notificacoes": notificacoes, "aviso": aviso(request)}
+                   "notificacoes": notificacoes, "aviso": aviso(request), 'tarefas': pages}
         return render(request, "empresa/public/agenda.html", context)
     messages.add_message(request, messages.WARNING,
                          "Você não tem permissão para acessar essa página!")
