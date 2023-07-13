@@ -107,13 +107,3 @@ def read_files(slug):
             for arq in arquivo:
                 files[x][key].append(arq)
     return files
-
-
-# #################3
-
-register = template.Library()
-
-
-@register.filter
-def replace(value):
-    return value.replace("-", " ")
