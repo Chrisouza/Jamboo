@@ -1,8 +1,11 @@
+from django import template
 import os
 import hashlib
 import datetime as dt
 import uuid
 import shutil
+
+
 from django.conf import settings
 from django.core.paginator import Paginator
 
@@ -66,7 +69,9 @@ def apaga_arquivo(path):
 
 
 def verifica_tipo_de_arquivo(tipo):
-    extensoes = ["pdf", 'laz', 'tiff', 'jpg', 'mp4']
+    ext_low = ["pdf", 'laz', 'tiff', 'jpg', 'mp4', 'dwg', 'png']
+    ext_upper = [ext.upper() for ext in ext_low]
+    extensoes = ext_low + ext_upper
     if tipo in extensoes:
         if (tipo == "pdf"):
             tipo = "pdf"
@@ -84,6 +89,9 @@ def upload_function(arquivo, extensao, pasta, projeto):
     tipo = arquivo.name.split(".")[1]
     name_id = uuid.uuid4().hex
     new_name = f"{data}-{name_id}.{tipo}"
+
+    print(f"{settings.BASE_DIR}/media/{pasta}/{projeto}/{extensao}/{new_name}")
+    exit()
 
     with open(f"{settings.BASE_DIR}/media/{pasta}/{projeto}/{extensao}/{new_name}", "wb+") as destination:
         for chunk in arquivo.chunks():
@@ -103,3 +111,13 @@ def read_files(slug):
             for arq in arquivo:
                 files[x][key].append(arq)
     return files
+
+
+# #################3
+
+register = template.Library()
+
+
+@register.filter
+def replace(value):
+    return value.replace("-", " ")

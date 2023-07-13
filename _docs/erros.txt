@@ -1,0 +1,14 @@
+cadastrar / remover novo nivel -> ok
+
+reconhcer extensao maiuscula  / minuscula -> ok
+
+remover id das listagens -> ok
+
+consertar url do meet do sistema -> feito
+
+alterar nome dor tr das tabelas -> ok
+
+alterar a exibicao das paginas ( titulo com higen ) -> ok
+
+verificar erro na hora do upload ( pasta com espaco nao estao recebendo o slug ) -> ok
+problema no link de novo arquivo

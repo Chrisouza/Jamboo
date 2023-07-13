@@ -17,15 +17,14 @@
     {% endfor %}
 {% endif %}
 
-<h1>Dashboard:</h1>
+<h1>Dashboard</h1>
 
 <div class="ultimas-empresas">
     {% if empresas %}
         <h3>Ultimas empresas cadastradas</h3>
         <table class="table table-striped">
             <tr>
-                <th>#</th>
-                <th>Nome</th>
+                <th>Nome da empresa</th>
                 <th>Respons&aacute;vel</th>
                 <th>Data do cadastro</th>
                 <th>Status</th>
@@ -33,7 +32,6 @@
             </tr>
             {% for empresa in empresas%}
             <tr>
-                <td>{{empresa.id}}</td>
                 <td>{{empresa.nome_da_empresa}}</td>
                 <td>{{empresa.nome_do_responsavel}}</td>
                 <td>{{empresa.criado}}</td>

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load django_bootstrap5 %}
+{% load custom_filters %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
@@ -18,18 +19,16 @@
     {% endfor %}
 {% endif %}
 
-    <h1>Arquivos {{slug_da_empresa}}</h1>
+    <h1>Arquivos {% replace slug_da_empresa "-" " " %}</h1>
     {% if projetos %}
         <table class="table table-striped">
             <tr>
-                <th>#</th>
                 <th>Nome</th>
                 <th>Total de arquivos</th>
                 <th>A&ccedil;&otilde;es</th>
             </tr>
         {% for projeto in projetos %}
             <tr>
-                <td>{{projeto.id}}</td>
                 <td>{{projeto.nome_do_projeto}}</td>
                 <td>{{arquivos|length}}</td>
                 <td>

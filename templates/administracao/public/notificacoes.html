@@ -18,6 +18,8 @@
     {% endfor %}
 {% endif %}
 
+<h1>Notifica&ccedil;&otilde;es</h1>
+
 {% if notificacoes %}
 
 <div class="filtro">
@@ -36,13 +38,11 @@
 
 <table class="table table-striped">
     <tr>
-        <th>#</th>
         <th>Descri&ccedil;&atilde;o</th>
         <th>Data</th>
     </tr>
     {% for page in pages %}
         <tr>
-            <td>{{page.id}}</td>
             <td>{{page.descricao}}</td>
             <td>{{page.data}}</td>
         </tr>

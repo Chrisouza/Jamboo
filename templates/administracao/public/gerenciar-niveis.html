@@ -19,7 +19,7 @@
 {% endif %}
 
 
-<h1>Acessos:</h1>
+<h1>Acessos</h1>
 <!--Vai pra dentro de gerenciar usuarios-->
 <a class="botao btn" href="novo/">Novo N&iacute;vel</a>
 <hr/>
@@ -27,14 +27,12 @@
 {% if niveis %}
 <table class="table table-striped">
     <tr>
-        <th>#</th>
-        <th>N&iacute;vel</th>
+        <th>N&iacute;vel de acesso</th>
         <th>Descri&ccedil;&atilde;o</th>
         <th></th>
     </tr>
 {% for nivel in niveis %}
     <tr>
-        <td>{{nivel.id}}</td>
         <td>
             <span>{{nivel.nome_do_nivel}}</span>
         </td>

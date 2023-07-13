@@ -71,8 +71,7 @@ def novo_nivel(request):
                 descricao = request.POST.get("descricao")
                 Nivel.objects.create(nome_do_nivel=nivel, descricao=descricao)
                 sucesso(request, msg="N&iacute;vel cadastrado com sucesso!")
-                Notificacoes.objects.create(
-                    descricao=f"N&iacute;vel '{nivel}' de acesso adicionado por '{request.user}'!")
+                # Notificacoes.objects.create(descricao=f"N&iacute;vel '{nivel}' de acesso adicionado por '{request.user}'!", empresa=empresa)
                 return redirect(f"/administracao/niveis/")
         context = {"form": form,
                    "notificacoes": notificacoes, "aviso": aviso(request)}
@@ -86,14 +85,12 @@ def excluir_nivel(request, nivel):
         nivel = Nivel.objects.get(id=nivel)
         try:
             sucesso(request, msg="N&iacute;vel removido com sucesso!")
-            Notificacoes.objects.create(
-                descricao=f"N&iacute;vel '{nivel.nome_do_nivel}' de acesso removido por '{request.user}'!")
+            # Notificacoes.objects.create(descricao=f"N&iacute;vel '{nivel.nome_do_nivel}' de acesso removido por '{request.user}'!")
             nivel.delete()
         except:
             warning(
                 request, msg="Não pode apagar esse nivel, pois existe usuários nele!")
-            Notificacoes.objects.create(
-                descricao=f"Erro ao remover '{nivel.nome_do_nivel}' de n&iacute;vel de acesso '{request.user}'!")
+            # Notificacoes.objects.create(descricao=f"Erro ao remover '{nivel.nome_do_nivel}' de n&iacute;vel de acesso '{request.user}'!")
         return redirect(f"/administracao/niveis/")
     info(request, msg="Você não tem permissão para acessar essa página!")
     return redirect(f"/")
@@ -376,7 +373,7 @@ def excluir_arquivo(request, slug_da_empresa, projeto, id_file):
             apaga_arquivo(path=f"{arq.file}")
             sucesso(request, msg="Arquivo apagado com sucesso!")
             Notificacoes.objects.create(
-                descricao=f"Arquivo:'{nome_arquivo}' do projeto: '{arq.projeto.nome_do_projeto}' por: '{request.user}' !",empresa=arq.empresa)
+                descricao=f"Arquivo:'{nome_arquivo}' do projeto: '{arq.projeto.nome_do_projeto}' por: '{request.user}' !", empresa=arq.empresa)
             arq.delete()
             return redirect(f"/administracao/arquivos/{slug_da_empresa}/{projeto}/ver/")
     info(request, msg="Você não tem permissão para acessar essa página!")

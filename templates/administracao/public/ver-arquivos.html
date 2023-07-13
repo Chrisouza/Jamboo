@@ -17,15 +17,17 @@
     <div class="alert alert-{{message.tags}}">{{message}}</div>
     {% endfor %}
 {% endif %}
+
+<h1>Lista de arquivos</h1>
+
 <a href="/administracao/arquivos/{{slug_da_empresa}}/" class="btn btn-success" data-placement="top" title="Voltar">
     <i class="fa-solid fa-left-long"></i>
 </a>
-<a href="/administracao/arquivos/{{slug_da_empresa}}/{{projeto}}/novo/" class="btn btn-success" data-placement="top" title="Adicionar Arquivo">
+<a href="/administracao/arquivos/{{slug_da_empresa}}/{{projeto.slug_do_projeto}}/novo/" class="btn btn-success" data-placement="top" title="Adicionar Arquivo">
     <i class="fa-solid fa-plus"></i>
 </a>
 
 {% if arquivos %}
-
 {% for arquivo in arquivos %}
     <div class="card item-arquivo" style="width: 18rem;">
             {% if arquivo.extensao == "pdf" %}
@@ -56,7 +58,7 @@
         </div>
 {% endfor %}
 {% else %}
-<div class="alert alert-danger">Ainda n&atilde;o colocou arquivos nesse projeto</div>
+    <div class="alert alert-danger">Ainda n&atilde;o colocou arquivos nesse projeto</div>
 {% endif %}
 
 {% endblock %}

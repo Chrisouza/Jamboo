@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/runner/Jamboo/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/runner/Jamboo/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/runner/Jamboo/administracao/views.py", line 341, in novo_arquivo
+    path = upload_function(
+  File "/home/runner/Jamboo/index/funcoes.py", line 88, in upload_function
+    with open(f"{settings.BASE_DIR}/media/{pasta}/{projeto}/{extensao}/{new_name}", "wb+") as destination:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/Jamboo/media/7c4eee2da84cec913e69fe5ba9d14c4d/USINA FOTOVOTAICA/videos/2023-07-13_18:55:32.760384-c492960f180d4b87baa020f27621019a.15'

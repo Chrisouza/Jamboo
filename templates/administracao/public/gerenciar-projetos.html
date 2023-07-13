@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load django_bootstrap5 %}
+{% load custom_filters %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
@@ -19,7 +20,7 @@
 {% endif %}
 
 
-<h1>Projetos {{slug_da_empresa}}</h1>
+<h1>Projetos {% replace slug_da_empresa "-" " " %}</h1>
 <!--Vai pra dentro de gerenciar usuarios-->
 <a class="botao btn" href="novo/" data-placement="top" title="Novo Projeto">
     <i class="fa-solid fa-plus"></i>
@@ -29,14 +30,12 @@
 {% if projetos %}
 <table class="table table-striped">
     <tr>
-        <th>#</th>
-        <th>Login</th>
+        <th>Nome do projeto</th>
         <th>A&ccedil;&otilde;es</th>
         <th>Ultimo backup criado</th>
     </tr>
 {% for projeto in projetos %}
     <tr>
-        <td>{{projeto.id}}</td>
         <td>
             <span>{{projeto}}</span>
         </td>
