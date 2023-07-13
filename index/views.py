@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from .forms import FormLogin
 from .mensagens import *
 
-from empresa.models import Empresa, Login, Nivel
+from empresa.models import Empresa, Login, Nivel, TipoEvento
 
 
 def inicia_admin():
@@ -18,12 +18,18 @@ def inicia_admin():
         )
 
 
-def alterar_senha(request):
-    pass
+def inicia_tipo_tarefa():
+    tarefas = ["reuniao"]
+    for tarefa in tarefas:
+        try:
+            TipoEvento.objects.get(nome=tarefa)
+        except:
+            TipoEvento.objects.create(nome=tarefa)
 
 
 def entrar(request):
     inicia_admin()
+    inicia_tipo_tarefa()
     if request.user.is_authenticated:
         if request.user.is_superuser:
             return redirect("/administracao/")
@@ -45,7 +51,8 @@ def entrar(request):
                     acesso = Login.objects.get(usuario=auth.id)
                     empresa = Empresa.objects.get(id=acesso.empresa.id)
                     if not empresa.ativo:
-                        warning(request, msg="Você não tem permissao de acesso. Entre em contato!")
+                        warning(
+                            request, msg="Você não tem permissao de acesso. Entre em contato!")
                         return redirect("/")
                 login(request, auth)
                 sucesso(request, msg="Login realizado com sucesso!")

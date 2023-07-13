@@ -1,11 +1,13 @@
 import shutil
+
 from django.conf import settings
 from django.shortcuts import render, redirect
-from empresa.models import Login, Empresa, Nivel, Notificacoes, Tarefas, TipoEvento
 from django.contrib.auth.models import User
+from django.contrib import messages
+
+from empresa.models import Login, Empresa, Nivel, Notificacoes, Tarefas, TipoEvento
 from index.forms import FormEditarEmpresaAdmin, FormEditarEmpresaRoot, FormNovaAgenda, FormNovaEmpresa
 from index.funcoes import cria_pasta, cria_nome_da_pasta
-from django.contrib import messages
 from index.verificacoes import *
 from index.auxiliar import pega_notificacoes, aviso
 
@@ -205,7 +207,6 @@ def nova_agenda(request):
 
         if request.method == "POST":
             if form.is_valid():
-                print(request.POST)
                 titulo = request.POST.get('titulo')
                 descricao = request.POST.get('descricao')
                 inicio_data = request.POST.get('inicio_data')
@@ -227,6 +228,8 @@ def nova_agenda(request):
                 )
                 messages.add_message(
                     request, messages.WARNING, "Tarefa agendada com sucesso!")
+                Notificacoes.objects.create(
+                    descricao=f"Tarefa adicionada da empresa '{empresa}' por '{request.user}' !", empresa=empresa)
                 return redirect("/empresa/")
             else:
                 print('nao esta valido')
