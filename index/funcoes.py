@@ -89,10 +89,6 @@ def upload_function(arquivo, extensao, pasta, projeto):
     tipo = arquivo.name.split(".")[1]
     name_id = uuid.uuid4().hex
     new_name = f"{data}-{name_id}.{tipo}"
-
-    print(f"{settings.BASE_DIR}/media/{pasta}/{projeto}/{extensao}/{new_name}")
-    exit()
-
     with open(f"{settings.BASE_DIR}/media/{pasta}/{projeto}/{extensao}/{new_name}", "wb+") as destination:
         for chunk in arquivo.chunks():
             destination.write(chunk)
