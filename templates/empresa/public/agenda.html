@@ -25,7 +25,7 @@
             </div>
             <div class="acoes">
                 {% if tarefa.tipo.nome == "reuniao"%}
-                <a class="btn btn-info" href="/empresa/reuniao/{{tarefa.titulo}}/" data-toggle="tooltip" data-placement="top" title="Entrar na reuniao">
+                <a class="btn btn-info" target="_blank" href="/empresa/reuniao/{{tarefa.titulo}}/" data-toggle="tooltip" data-placement="top" title="Entrar na reuniao">
                     <i class="fa-solid fa-video"></i>
                 </a>
                 {% endif %}
