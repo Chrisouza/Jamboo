@@ -26,8 +26,10 @@ SECRET_KEY = "django-insecure-5^iyk!h)k5_*o3^kief+tvfw^%g@((^7ljoy^44p9rd8@vii@7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*", "https://jamboo--rcsc3w.repl.co", "https://jamboo.rcsc3w.repl.co"]
-CSRF_TRUSTED_ORIGINS = ['https://jamboo--rcsc3w.repl.co', "https://jamboo.rcsc3w.repl.co"]
+ALLOWED_HOSTS = ["http://0.0.0.0:3000", "*",
+                 "https://jamboo--rcsc3w.repl.co", "https://jamboo.rcsc3w.repl.co"]
+CSRF_TRUSTED_ORIGINS = ['"http://0.0.0.0:3000"',
+                        'https://jamboo--rcsc3w.repl.co', "https://jamboo.rcsc3w.repl.co"]
 
 
 # Application definition
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     'administracao',
     'empresa',
     'index',
+    'editor',
     'jamboo',
 ]
 

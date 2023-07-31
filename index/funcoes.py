@@ -69,13 +69,13 @@ def apaga_arquivo(path):
 
 
 def verifica_tipo_de_arquivo(tipo):
-    ext_low = ["pdf", 'laz', 'tiff', 'jpg', 'mp4', 'dwg', 'png']
+    ext_low = ["pdf", 'laz', 'tiff', 'jpg', 'jpeg', 'mp4', 'dwg', 'png']
     ext_upper = [ext.upper() for ext in ext_low]
     extensoes = ext_low + ext_upper
     if tipo in extensoes:
         if (tipo == "pdf"):
             tipo = "pdf"
-        elif (tipo == "laz" or tipo == "tiff" or tipo == "jpg"):
+        elif (tipo == "laz" or tipo == "tiff" or tipo == "jpg" or tipo == "jpeg"):
             tipo = "imagens"
         elif (tipo == "mp4" or tipo == "wmv"):
             tipo = "videos"

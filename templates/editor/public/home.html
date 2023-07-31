@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'index/css/administracao.css' %}">
+<link rel="stylesheet" href="{% static 'index/css/css.3f03e7a4.css' %}">
+<link rel="stylesheet" href="{% static 'index/css/css.3f03e7a4.css.map' %}">
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'index/js/script.js' %}"></script>
+{% endblock %}
+
+{% block ld %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+{% endif %}
+
+<h1>dentro do editor</h1>
+{{form}}
+
+
+<div class='container'>
+    <div class='img background-img'></div>
+    <div class='img foreground-img'></div>
+    <input type="range" min="1" max="100" value="50" class="slider" name='slider' id="slider">
+    <div class='slider-button'></div>
+</div>
+
+{% endblock %}

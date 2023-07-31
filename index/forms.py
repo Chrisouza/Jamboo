@@ -1,3 +1,5 @@
+from email.policy import default
+from django.conf import settings
 from django import forms
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
@@ -89,7 +91,7 @@ class FormNovaEmpresa(forms.ModelForm):
     def envia_email(self, destinatario, corpo):
         # mail = send_mail(assunto, corpo, "rcsc3w@yahoo.com.br", [destinatario])
         assunto = 'Dados de acesso ao sistema'
-        send_mail(assunto, corpo, "rcsc3w@yahoo.com.br", [destinatario])
+        # send_mail(assunto, corpo, "rcsc3w@yahoo.com.br", [destinatario])
 
 
 class FormEditarEmpresaRoot(forms.ModelForm):
@@ -127,3 +129,18 @@ class FormNovaAgenda(forms.ModelForm):
             "fim_data": DateInput(),
             "fim_hora": TimeInput()
         }
+
+
+#################################################
+################# EDITOR  #######################
+#################################################
+
+
+class FormEditor(forms.Form):
+    choices = Arquivo.objects.all()
+    choices = [(f"{settings.ALLOWED_HOSTS[0]}{file.file}",
+                f"{file.file}".split("/")[-1]) for file in choices]
+    file_antigo = forms.CharField(
+        widget=forms.Select(choices=choices))
+    file_novo = forms.CharField(
+        widget=forms.Select(choices=choices))
