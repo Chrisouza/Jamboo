@@ -138,8 +138,8 @@ class FormNovaAgenda(forms.ModelForm):
 
 class FormEditor(forms.Form):
     choices = Arquivo.objects.all()
-    choices = [(f"{settings.ALLOWED_HOSTS[0]}{file.file}",
-                f"{file.file}".split("/")[-1]) for file in choices]
+    choices = [(f"{settings.ALLOWED_HOSTS[-1]}{file.file}", f"{file.file}".split("/")[-1]) for file in choices]
+    #choices = [(f"{settings.ALLOWED_HOSTS[0]}{file.file}", f"{file.file}".split("/")[-1]) for file in choices]
     file_antigo = forms.CharField(
         widget=forms.Select(choices=choices))
     file_novo = forms.CharField(
