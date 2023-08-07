@@ -20,7 +20,22 @@
 {% endif %}
 
 <h1>dentro do editor</h1>
-{{form}}
+
+<div>
+    <select name="file_antigo" id="file_antigo">
+        <option value="">...</option>
+        {% for imagem in imagens %}
+            <option value="http://0.0.0.0:3000{{imagem.file}}">{{imagem}}</option>
+        {% endfor %}
+    </select>
+
+    <select name="file_novo" id="file_novo">
+        <option value="">...</option>
+        {% for imagem in imagens %}
+            <option value="http://0.0.0.0:3000/{{imagem.file}}">{{imagem}}</option>
+        {% endfor %}
+    </select>
+</div>
 
 
 <div class='container'>

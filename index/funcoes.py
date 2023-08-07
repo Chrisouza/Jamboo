@@ -75,7 +75,7 @@ def verifica_tipo_de_arquivo(tipo):
     if tipo in extensoes:
         if (tipo == "pdf"):
             tipo = "pdf"
-        elif (tipo == "laz" or tipo == "tiff" or tipo == "jpg" or tipo == "jpeg"):
+        elif (tipo == "laz" or tipo == "tiff" or tipo == "jpg" or tipo == "jpeg" or tipo == "png"):
             tipo = "imagens"
         elif (tipo == "mp4" or tipo == "wmv"):
             tipo = "videos"

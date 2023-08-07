@@ -89,7 +89,8 @@ class Arquivo(models.Model):
         ordering = ["-id"]
 
     def __str__(self) -> str:
-        return f"{self.file} | {self.editor} | {self.edicao}"
+        name = f"{self.file}".split("/")[-1]
+        return f"{name}"
 
 
 class Notificacoes(models.Model):

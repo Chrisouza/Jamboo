@@ -8,12 +8,12 @@ $(document).ready(() => {
         $('.slider-button').css('left', `calc(${sliderPos}% - 18px)`)
     });
 
-    $("#id_file_antigo").on("change", () => {
-        let path = $('#id_file_antigo').val()
+    $("#file_antigo").on("change", () => {
+        let path = $('#file_antigo').val()
         $('.background-img').css("background-image", `url(${path})`)
     });
-    $("#id_file_novo").on("change", () => {
-        let path = $('#id_file_novo').val()
+    $("#file_novo").on("change", () => {
+        let path = $('#file_novo').val()
         $('.foreground-img').css("background-image", `url(${path})`)
     });
 
