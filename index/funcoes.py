@@ -69,19 +69,23 @@ def apaga_arquivo(path):
 
 
 def verifica_tipo_de_arquivo(tipo):
-    ext_low = ["pdf", 'laz', 'tiff', 'jpg', 'jpeg', 'mp4', 'dwg', 'png']
-    ext_upper = [ext.upper() for ext in ext_low]
-    extensoes = ext_low + ext_upper
-    if tipo in extensoes:
-        if (tipo == "pdf"):
-            tipo = "pdf"
-        elif (tipo == "laz" or tipo == "tiff" or tipo == "jpg" or tipo == "jpeg" or tipo == "png"):
-            tipo = "imagens"
-        elif (tipo == "mp4" or tipo == "wmv"):
-            tipo = "videos"
+    imagens = ['tiff', 'jpg', 'jpeg', 'png', 'laz', 'dwg']
+    videos = ['mp4', 'wmv']
+    pdfs = ['pdf']
+
+    if tipo in imagens:
+        tipo = "imagens"
         return tipo
-    else:
-        return False
+    
+    if tipo in videos:
+        tipo = "videos"
+        return tipo
+    
+    if tipo in pdfs:
+        tipo = 'pdf'
+        return tipo
+    
+    return False
 
 
 def upload_function(arquivo, extensao, pasta, projeto):
